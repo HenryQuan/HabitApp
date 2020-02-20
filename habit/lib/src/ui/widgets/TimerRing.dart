@@ -15,9 +15,23 @@ class _TimerRingState extends State<TimerRing> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      size: Size.fromRadius(100),
-      painter: TimerPainter(percentage: 0.5),
+    return Stack(
+      children: <Widget>[
+        Align(
+          alignment: Alignment.center,
+          child: CustomPaint(
+            size: Size.fromRadius(100),
+            painter: TimerPainter(percentage: 0.5),
+          ),
+        ),
+        Align(
+          alignment: Alignment.center,
+          child: Text(
+            '60',
+            style: TextStyle(fontSize: 60),
+          ),
+        )
+      ],
     );
   }
 }
