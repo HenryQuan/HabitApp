@@ -12,10 +12,7 @@ class HomePage extends StatelessWidget {
         title: Text('HomePage')
       ),
       body: Center(
-        child: CustomPaint(
-          size: Size.fromRadius(100),
-          painter: TimerRing(percentage: 0.5),
-        ),
+        child: TimerRing()
       ),
     );
   }

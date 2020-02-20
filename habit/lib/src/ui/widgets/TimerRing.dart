@@ -2,13 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math';
 
-class TimerRing extends CustomPainter {
+/// TimerRing class
+class TimerRing extends StatefulWidget {
+  TimerRing({Key key}) : super(key: key);
+
+  @override
+  _TimerRingState createState() => _TimerRingState();
+}
+
+class _TimerRingState extends State<TimerRing> {
+  double percentage;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      size: Size.fromRadius(100),
+      painter: TimerPainter(percentage: 0.5),
+    );
+  }
+}
+
+
+class TimerPainter extends CustomPainter {
   double _percentage;
-  double getPercentage() => this._percentage;
 
   /// Ask for how many percent is done
   /// - percentage must be between `0 and 1`
-  TimerRing({percentage: double}) {
+  TimerPainter({percentage: double}) {
     this._percentage = percentage;
   }
 
@@ -35,8 +55,8 @@ class TimerRing extends CustomPainter {
   @override
   /// Only update if the percentage is different
   bool shouldRepaint(CustomPainter oldDelegate) {
-    if (oldDelegate is TimerRing) {
-      return oldDelegate.getPercentage() == this._percentage;
+    if (oldDelegate is TimerPainter) {
+      return oldDelegate._percentage == this._percentage;
     }
 
     return false;
