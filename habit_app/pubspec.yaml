@@ -1,5 +1,5 @@
 name: HabitApp
-description: Start a new habit just by doing it at least 1 minute everyday
+description: Start a new habit today
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,6 +19,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  # save some data locally
+  shared_preferences: ^0.5.6+1
+  # Ask users to write a review
+  url_launcher: ^5.4.1
+  # Render users with a notification everyday
+  flutter_local_notifications: ^1.1.6
+  # Share this app
+  share: ^0.6.3+5
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
