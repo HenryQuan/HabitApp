@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math';
@@ -11,7 +13,20 @@ class TimerRing extends StatefulWidget {
 }
 
 class _TimerRingState extends State<TimerRing> {
-  double percentage;
+  int time = 60;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    // Update timer every second
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      print(timer);
+      setState(() {
+        time = time == 0 ? 60 : time - 1;
+      });
+    });
+  }
 
   /// Always return the short side
   double _getBestWidth() {
@@ -23,20 +38,20 @@ class _TimerRingState extends State<TimerRing> {
   Widget build(BuildContext context) {
     // Get the width of the device
     final deviceWidth = this._getBestWidth();
-    
+
     return Stack(
       children: <Widget>[
         Align(
           alignment: Alignment.center,
           child: CustomPaint(
             size: Size.fromRadius(deviceWidth / 4),
-            painter: TimerPainter(percentage: 0.5),
+            painter: TimerPainter(percentage: time / 60),
           ),
         ),
         Align(
           alignment: Alignment.center,
           child: Text(
-            '60',
+            time.toString(),
             style: TextStyle(fontSize: deviceWidth / 6),
           ),
         )
