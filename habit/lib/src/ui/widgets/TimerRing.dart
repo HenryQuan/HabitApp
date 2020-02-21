@@ -12,20 +12,42 @@ class TimerRing extends StatefulWidget {
   _TimerRingState createState() => _TimerRingState();
 }
 
-class _TimerRingState extends State<TimerRing> {
-  int time = 60;
+class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMixin {
+  double time = 60;
+  AnimationController controller;
+  Animation<double> smoothPercentage;
 
   @override
   void initState() {
     super.initState();
-    
-    // Update timer every second
-    Timer.periodic(Duration(seconds: 1), (timer) {
-      print(timer);
-      setState(() {
-        time = time == 0 ? 60 : time - 1;
+
+    // Setup controller for an ultra smooth one minute animation
+    controller = AnimationController(duration: Duration(seconds: 60), vsync: this);
+    smoothPercentage = Tween(begin: 60.0, end: 0.0).animate(controller)
+      ..addListener(() {
+        setState(() => time = smoothPercentage.value);
       });
+
+    // Reset when it is done
+    controller.addStatusListener((status) {
+      // When it is done, reset and continue
+      if (status == AnimationStatus.completed) {
+        controller.reset();
+      } else if (status == AnimationStatus.dismissed) {
+        controller.forward();
+      }
     });
+
+    // Start animation
+    controller.forward();
+    
+    // Old method
+    // Update timer every second
+    // Timer.periodic(Duration(seconds: 1), (timer) {
+    //   setState(() {
+    //     time = time == 0 ? 60 : time - 1;
+    //   });
+    // });
   }
 
   /// Always return the short side
@@ -51,12 +73,19 @@ class _TimerRingState extends State<TimerRing> {
         Align(
           alignment: Alignment.center,
           child: Text(
-            time.toString(),
+            // The time should be a fixed number
+            time.toStringAsFixed(0),
             style: TextStyle(fontSize: deviceWidth / 6),
           ),
         )
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }
 
@@ -82,9 +111,14 @@ class TimerPainter extends CustomPainter {
       ..color = Colors.blue
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
+      ..isAntiAlias = true
       ..strokeWidth = 10;
 
+    // The moving arc
     canvas.drawArc(circle, this._degreeToRad(270), this._degreeToRad(360 * _percentage), false, painter);
+    // The stationary arc
+    painter.strokeWidth = 3;
+    canvas.drawArc(circle, this._degreeToRad(270), this._degreeToRad(360), false, painter);
   }
 
   /// Convert degree to rad
@@ -92,11 +126,7 @@ class TimerPainter extends CustomPainter {
 
   @override
   /// Only update if the percentage is different
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    if (oldDelegate is TimerPainter) {
-      return oldDelegate._percentage == this._percentage;
-    }
-
-    return false;
+  bool shouldRepaint(TimerPainter oldDelegate) {
+    return oldDelegate._percentage != this._percentage;
   }
 }
