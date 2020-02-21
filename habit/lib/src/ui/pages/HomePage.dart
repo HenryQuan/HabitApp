@@ -1,5 +1,5 @@
-import 'package:HabitApp/src/core/Utils.dart';
-import 'package:HabitApp/src/ui/widgets/TimerRing.dart';
+import 'package:Habit/src/core/Utils.dart';
+import 'package:Habit/src/ui/widgets/TimerRing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
