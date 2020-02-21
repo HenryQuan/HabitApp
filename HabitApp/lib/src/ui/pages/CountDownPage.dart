@@ -1,3 +1,4 @@
+import 'package:HabitApp/src/ui/widgets/TimerRing.dart';
 import 'package:flutter/material.dart';
 
 /// CountDownPage class
@@ -13,10 +14,9 @@ class _CountDownPageState extends State<CountDownPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('CountDownPage')
+      body: Center(
+        child: TimerRing(),
       ),
-      body: Container(),
     );
   }
 }

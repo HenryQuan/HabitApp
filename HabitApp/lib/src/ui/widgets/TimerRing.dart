@@ -32,7 +32,7 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
   /// Setup animation for the one minue timer
   void _setupTimerAnimation() {
     // Setup controller for an ultra smooth one minute animation
-    controller = AnimationController(duration: Duration(seconds: 3), vsync: this);
+    controller = AnimationController(duration: Duration(seconds: 60), vsync: this);
     smoothPercentage = Tween(begin: 60.0, end: 0.0).animate(controller)
       ..addListener(() {
         setState(() => time = smoothPercentage.value);
@@ -44,7 +44,7 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
       if (status == AnimationStatus.completed) {
         // Vibrate device
         if (await Vibration.hasVibrator()) {
-            Vibration.vibrate();
+          Vibration.vibrate();
         }
       }
     });

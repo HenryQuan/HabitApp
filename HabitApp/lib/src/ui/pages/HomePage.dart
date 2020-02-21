@@ -18,8 +18,51 @@ class HomePage extends StatelessWidget {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       child: Scaffold(
         body: Center(
-          child: TimerRing(),
-        ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'I want to start',
+                style: TextStyle(fontSize: 32),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: TextField(
+                  maxLines: 1,
+                  cursorColor: isDarkMode ? Colors.white : Colors.black,
+                  enableInteractiveSelection: false,
+                  style: TextStyle(fontSize: 32, fontStyle: FontStyle.italic),
+                  decoration: InputDecoration(
+                    hintText: 'a new habit',
+                    hintStyle: TextStyle(fontSize: 32, fontStyle: FontStyle.italic),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.transparent),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.transparent),
+                    ),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'for',
+                    style: TextStyle(fontSize: 32),
+                  ),
+                  DropdownButton(
+                    items: [],
+                    value: [], 
+                    onChanged: (value) {  },
+                    hint: Text('         '),
+                  )
+                ],
+              ) 
+            ],
+          ),
+        )
       ), 
       value: SystemUiOverlayStyle(
         // IOS, status bar brightness
