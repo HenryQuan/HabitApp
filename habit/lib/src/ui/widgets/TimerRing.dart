@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math';
 
+import 'package:wakelock/wakelock.dart';
+
 /// TimerRing class
 class TimerRing extends StatefulWidget {
   TimerRing({Key key}) : super(key: key);
@@ -20,6 +22,9 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
   @override
   void initState() {
     super.initState();
+
+    // Keep screen awake
+    Wakelock.enable();
 
     // Setup controller for an ultra smooth one minute animation
     controller = AnimationController(duration: Duration(seconds: 60), vsync: this);
@@ -86,6 +91,7 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
 
   @override
   void dispose() {
+    Wakelock.disable();
     controller.dispose();
     super.dispose();
   }
