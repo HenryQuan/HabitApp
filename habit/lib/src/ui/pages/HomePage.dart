@@ -30,7 +30,6 @@ class HomePage extends StatelessWidget {
         // Android only, navigation bar
         systemNavigationBarColor: adaptiveBarColour,
         systemNavigationBarIconBrightness: adaptiveBrightness,
-        systemNavigationBarDividerColor: isDarkMode ? Colors.white : Colors.black,
       ),
     );
   }

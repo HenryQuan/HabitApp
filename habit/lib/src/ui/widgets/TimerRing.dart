@@ -1,4 +1,6 @@
 import 'package:Habit/src/core/Utils.dart';
+import 'package:Habit/src/ui/widgets/Completed.dart';
+import 'package:Habit/src/core/Utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -25,7 +27,11 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
 
     // Keep screen awake
     Wakelock.enable();
+    this._setupTimerAnimation();
+  }
 
+  /// Setup animation for the one minue timer
+  void _setupTimerAnimation() {
     // Setup controller for an ultra smooth one minute animation
     controller = AnimationController(duration: Duration(seconds: 60), vsync: this);
     smoothPercentage = Tween(begin: 60.0, end: 0.0).animate(controller)
@@ -39,34 +45,18 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
       if (status == AnimationStatus.completed) {
         // Vibrate device
         HapticFeedback.vibrate();
-        controller.reset();
-      } else if (status == AnimationStatus.dismissed) {
-        controller.forward();
+        print(this.time);
       }
     });
 
     // Start animation
     controller.forward();
-    
-    // Old method
-    // Update timer every second
-    // Timer.periodic(Duration(seconds: 1), (timer) {
-    //   setState(() {
-    //     time = time == 0 ? 60 : time - 1;
-    //   });
-    // });
-  }
-
-  /// Always return the short side
-  double _getBestWidth() {
-    final size = MediaQuery.of(context).size;
-    return size.height < size.width ? size.height : size.width;
   }
 
   @override
   Widget build(BuildContext context) {
     // Get the width of the device
-    final deviceWidth = this._getBestWidth();
+    final deviceWidth = Utils.getBestWidth(context);
 
     return Stack(
       children: <Widget>[
@@ -84,7 +74,12 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
             time.toStringAsFixed(0),
             style: TextStyle(fontSize: deviceWidth / 6),
           ),
-        )
+        ),
+        Align(
+          // This does cover up the top two
+          alignment: Alignment.center,
+          child: Completed(),
+        ),
       ],
     );
   }
@@ -101,10 +96,10 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
 class TimerPainter extends CustomPainter {
   double _percentage;
   BuildContext _context;
-  /**
-   * Ask for how many percent is done
-   * - percentage must be between `0 and 1`
-   */
+  ///
+  /// Ask for how many percent is done
+  /// - percentage must be between `0 and 1`
+  ///
   TimerPainter({context: BuildContext, percentage: double}) {
     this._percentage = percentage;
     this._context = context;

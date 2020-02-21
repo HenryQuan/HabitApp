@@ -12,4 +12,10 @@ class Utils {
   static bool isDarkTheme(BuildContext context) {
     return Utils.getSystemBrightness(context) == Brightness.dark;
   }
+
+  /// Always return the short side
+  static double getBestWidth(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return size.height < size.width ? size.height : size.width;
+  }
 }
