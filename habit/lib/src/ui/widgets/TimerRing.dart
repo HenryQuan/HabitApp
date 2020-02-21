@@ -75,11 +75,11 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
             style: TextStyle(fontSize: deviceWidth / 6),
           ),
         ),
-        Align(
-          // This does cover up the top two
-          alignment: Alignment.center,
-          child: Completed(),
-        ),
+        // Align(
+        //   // This does cover up the top two
+        //   alignment: Alignment.center,
+        //   child: Completed(),
+        // ),
       ],
     );
   }

@@ -4,7 +4,8 @@ import 'package:flutter/services.dart';
 
 /// Completed class
 class Completed extends StatefulWidget {
-  Completed({Key key}) : super(key: key);
+  // Whether animation needs to be shown
+  Completed({Key key, @required bool animated}) : super(key: key);
 
   @override
   _CompletedState createState() => _CompletedState();
