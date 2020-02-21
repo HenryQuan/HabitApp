@@ -1,5 +1,4 @@
-import 'dart:async';
-
+import 'package:HabitApp/src/core/Utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math';
@@ -67,7 +66,7 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
           alignment: Alignment.center,
           child: CustomPaint(
             size: Size.fromRadius(deviceWidth / 4),
-            painter: TimerPainter(percentage: time / 60),
+            painter: TimerPainter(context: context, percentage: time / 60),
           ),
         ),
         Align(
@@ -92,11 +91,14 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
 
 class TimerPainter extends CustomPainter {
   double _percentage;
-
-  /// Ask for how many percent is done
-  /// - percentage must be between `0 and 1`
-  TimerPainter({percentage: double}) {
+  BuildContext _context;
+  /**
+   * Ask for how many percent is done
+   * - percentage must be between `0 and 1`
+   */
+  TimerPainter({context: BuildContext, percentage: double}) {
     this._percentage = percentage;
+    this._context = context;
   }
 
   @override
@@ -108,7 +110,7 @@ class TimerPainter extends CustomPainter {
 
     // Setup the painter
     Paint painter = Paint()
-      ..color = Colors.blue
+      ..color = Utils.isDarkTheme(this._context) ? Colors.white : Colors.black
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
       ..isAntiAlias = true

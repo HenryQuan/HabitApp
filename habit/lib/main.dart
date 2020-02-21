@@ -9,8 +9,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Henry''s Habit App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.white,
+        scaffoldBackgroundColor: Colors.white,
       ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: Colors.black,
+      ),
+      themeMode: ThemeMode.system,
       home: HomePage()
     );
   }
