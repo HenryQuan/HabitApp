@@ -1,5 +1,6 @@
 import 'package:HabitApp/src/core/Utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math';
 
@@ -31,6 +32,8 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
     controller.addStatusListener((status) {
       // When it is done, reset and continue
       if (status == AnimationStatus.completed) {
+        // Vibrate device
+        HapticFeedback.vibrate();
         controller.reset();
       } else if (status == AnimationStatus.dismissed) {
         controller.forward();

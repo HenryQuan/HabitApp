@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       child: Scaffold(
         body: Center(
-          child: TimerRing()
+          child: TimerRing(),
         ),
       ), 
       value: SystemUiOverlayStyle(
