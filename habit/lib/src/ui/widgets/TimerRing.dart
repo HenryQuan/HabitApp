@@ -13,14 +13,23 @@ class TimerRing extends StatefulWidget {
 class _TimerRingState extends State<TimerRing> {
   double percentage;
 
+  /// Always return the short side
+  double _getBestWidth() {
+    final size = MediaQuery.of(context).size;
+    return size.height < size.width ? size.height : size.width;
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Get the width of the device
+    final deviceWidth = this._getBestWidth();
+    
     return Stack(
       children: <Widget>[
         Align(
           alignment: Alignment.center,
           child: CustomPaint(
-            size: Size.fromRadius(100),
+            size: Size.fromRadius(deviceWidth / 4),
             painter: TimerPainter(percentage: 0.5),
           ),
         ),
@@ -28,7 +37,7 @@ class _TimerRingState extends State<TimerRing> {
           alignment: Alignment.center,
           child: Text(
             '60',
-            style: TextStyle(fontSize: 60),
+            style: TextStyle(fontSize: deviceWidth / 6),
           ),
         )
       ],
