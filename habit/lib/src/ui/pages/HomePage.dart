@@ -9,6 +9,12 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Utils.isDarkTheme(context);
+    // Dark -> Light, Light -> Dark
+    final adaptiveBrightness = isDarkMode ? Brightness.light : Brightness.dark;
+    // Dark -> Grey[900], Light -> Grey[100]
+    final adaptiveBarColour = isDarkMode ? Colors.grey[900] : Colors.grey[100];
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       child: Scaffold(
         body: Center(
@@ -16,8 +22,15 @@ class HomePage extends StatelessWidget {
         ),
       ), 
       value: SystemUiOverlayStyle(
-        // Set status bar brightness
-        statusBarColor:  Utils.isDarkTheme(context) ? Colors.white : Colors.black
+        // IOS, status bar brightness
+        statusBarBrightness: adaptiveBrightness,
+        // Android only, set status bar colour
+        statusBarColor: adaptiveBarColour,
+        statusBarIconBrightness: adaptiveBrightness,
+        // Android only, navigation bar
+        systemNavigationBarColor: adaptiveBarColour,
+        systemNavigationBarIconBrightness: adaptiveBrightness,
+        systemNavigationBarDividerColor: isDarkMode ? Colors.white : Colors.black,
       ),
     );
   }

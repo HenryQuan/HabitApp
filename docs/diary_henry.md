@@ -2,6 +2,11 @@
 ~~~
 # /02/2020
 ~~~
+
+# 21/02/2020
+Today, I was mainly focused on the one minute timer. The animation is quite smooth and it supports dark mode as well. 
+There aren't many screens and if possible, I want to make it as clean as possible. Pushing everything to the limit. 
+
 # 20/02/2020
 ## WoWs Info
 I want to take a break from WoWs Info. Charge or not, this is a hard question. 
