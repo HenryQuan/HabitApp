@@ -1,9 +1,8 @@
 import 'Package:HabitApp/src/core/Utils.dart';
-import 'Package:HabitApp/src/ui/widgets/Completed.dart';
 import 'Package:HabitApp/src/core/Utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:vibration/vibration.dart';
 import 'dart:math';
 
 import 'package:wakelock/wakelock.dart';
@@ -33,19 +32,20 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
   /// Setup animation for the one minue timer
   void _setupTimerAnimation() {
     // Setup controller for an ultra smooth one minute animation
-    controller = AnimationController(duration: Duration(seconds: 60), vsync: this);
+    controller = AnimationController(duration: Duration(seconds: 3), vsync: this);
     smoothPercentage = Tween(begin: 60.0, end: 0.0).animate(controller)
       ..addListener(() {
         setState(() => time = smoothPercentage.value);
       });
 
     // Reset when it is done
-    controller.addStatusListener((status) {
+    controller.addStatusListener((status) async {
       // When it is done, reset and continue
       if (status == AnimationStatus.completed) {
         // Vibrate device
-        HapticFeedback.vibrate();
-        print(this.time);
+        if (await Vibration.hasVibrator()) {
+            Vibration.vibrate();
+        }
       }
     });
 
