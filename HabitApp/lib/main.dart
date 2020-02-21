@@ -1,4 +1,4 @@
-import 'package:Habit/src/ui/pages/HomePage.dart';
+import 'Package:HabitApp/src/ui/pages/HomePage.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
