@@ -12,7 +12,35 @@ class Completed extends StatefulWidget {
 }
 
 
-class _CompletedState extends State<Completed> {
+class _CompletedState extends State<Completed> with TickerProviderStateMixin {
+  AnimationController controller;
+
+  Animation<double> containerHeight;
+  Animation<double> containerWidth;
+  Animation<double> containerRadius;
+
+  Animation<double> iconSize;
+  double textOpacity = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    this.setupAnimation();
+  }
+
+  /// Setup animation if it is necessary
+  void setupAnimation() {
+    setState(() {
+      textOpacity = 1;
+    });
+  }
+
+  @override
+  void dispose() {
+    if (controller != null) controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
@@ -32,7 +60,11 @@ class _CompletedState extends State<Completed> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Icon(Icons.check, size: deviceWidth / 2),
-            Text('Come back tomorrow :)'),
+            AnimatedOpacity(
+              child: Text('Come back tomorrow :)'),
+              duration: Duration(milliseconds: 300),
+              opacity: this.textOpacity,
+            ),
           ],
         ),
       ),

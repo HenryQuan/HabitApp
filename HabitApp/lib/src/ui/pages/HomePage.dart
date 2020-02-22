@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDarkMode = Utils.isDarkTheme(context);
     // Dark -> Light, Light -> Dark
-    final adaptiveBrightness = isDarkMode ? Brightness.light : Brightness.dark;
+    final adaptiveBrightness = isDarkMode ? Brightness.dark : Brightness.light;
     // Dark -> Grey[900], Light -> Grey[100]
     final adaptiveBarColour = isDarkMode ? Colors.grey[900] : Colors.grey[100];
 
