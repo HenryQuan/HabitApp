@@ -17,92 +17,57 @@ class Completed extends StatefulWidget {
 
 
 class _CompletedState extends State<Completed> with TickerProviderStateMixin {
-  AnimationController controller;
+  double containerHeight;
+  double containerWidth;
+  BorderRadius containerRadius;
 
-  Animation<double> containerHeight;
-  Animation<double> containerWidth;
-  Animation<BorderRadius> containerRadius;
-
-  Animation<double> iconSize;
   double textOpacity = 0.0;
+  double iconSize = 0.0;
   bool showIcon = false;
 
   @override
   void initState() {
     super.initState();
-    this.setupAnimation();
-  }
-
-  /// Setup animation if it is necessary
-  void setupAnimation() {
     if (widget.animated) {
-      controller = AnimationController(duration: Duration(milliseconds: 300), vsync: this);
-
-      containerHeight = Tween(begin: 0.0, end: 1000.0).animate(controller)
-      ..addListener(() {
-        setState(() {
-          // Update the tween value
-        });        
-      });
-
-      containerWidth = Tween(begin: 0.0, end: 1000.0).animate(controller)
-      ..addListener(() {
-        setState(() {
-          // Update the tween value
-        });        
-      });
-
-      containerRadius = BorderRadiusTween(begin: BorderRadius.circular(200), end: BorderRadius.circular(0)).animate(controller)
-      ..addListener(() {
-        setState(() {
-          // Update the tween value
-        });        
-      });
-
-      controller.addStatusListener((status) async {
-        // When it is done, toggle opacity animation
-        if (status == AnimationStatus.completed) {
-          // Vibrate device
-          if (await Vibration.hasVibrator()) {
-            Vibration.vibrate();
-          }
-
-          Future.delayed(Duration(seconds: 1)).then((value) {
-            setState(() {
-              showIcon = true;
-            });
-          });
-        }
-      });
-
-      controller.forward();
+      // Start from zero
+      containerWidth = 0.0;
+      containerHeight = 0.0;
+      containerRadius = BorderRadius.circular(200.0);
     } else {
-      // Only show the text animation
-      setState(() {
-        showIcon = true;
-      });
+      // Already good
     }
   }
 
   @override
-  void dispose() {
-    if (controller != null) controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    // Update container
+    Future.delayed(Duration.zero).then((_) {
+      final deviceSize = MediaQuery.of(context).size;
+      setState(() {
+        containerWidth = deviceSize.width;
+        containerHeight = deviceSize.height;
+        containerRadius = BorderRadius.circular(0.0);
+      });
+    });
+
+    // Show icon
+    Future.delayed(Duration(milliseconds: 600)).then((_) {
+      setState(() {
+        showIcon = true;
+      });
+    });
+
     // Update theme to be dark only here
     return AnnotatedRegion<SystemUiOverlayStyle>(
       child: AnimatedContainer(
-        height: containerHeight.value,
-        width: containerWidth.value,
+        height: containerHeight,
+        width: containerWidth,
         duration: Duration(milliseconds: 300),
         decoration: BoxDecoration(
           color: Colors.green[600],
-          borderRadius: containerRadius.value
+          borderRadius: containerRadius
         ),
-        curve: Curves.easeIn,
+        curve: Curves.linearToEaseOut,
         child: this.renderIcon(),
       ),
       value: SystemUiOverlayStyle(
@@ -119,20 +84,30 @@ class _CompletedState extends State<Completed> with TickerProviderStateMixin {
 
   Widget renderIcon() {
     if (this.showIcon) {
+      final deviceWidth = Utils.getBestWidth(context);
+      Future.delayed(Duration.zero).then((_) {
+        setState(() {
+          iconSize = deviceWidth / 2;
+        });
+      });
+
       Future.delayed(Duration(seconds: 1)).then((_) {
         setState(() {
           textOpacity = 1.0;
         });
       });
 
-      final deviceWidth = Utils.getBestWidth(context);
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Icon(
-            Icons.check, 
-            size: deviceWidth / 2,
-            color: Colors.white,
+          AnimatedSize(
+            duration: Duration(milliseconds: 300),
+            vsync: this,
+            child: Icon(
+              Icons.check, 
+              size: iconSize,
+              color: Colors.white,
+            ),
           ),
           AnimatedOpacity(
             duration: Duration(milliseconds: 300),
