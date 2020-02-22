@@ -106,10 +106,9 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
 class TimerPainter extends CustomPainter {
   double _percentage;
   BuildContext _context;
-  ///
+
   /// Ask for how many percent is done
   /// - percentage must be between `0 and 1`
-  ///
   TimerPainter({context: BuildContext, percentage: double}) {
     this._percentage = percentage;
     this._context = context;

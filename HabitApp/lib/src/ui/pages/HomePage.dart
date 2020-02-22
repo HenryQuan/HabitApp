@@ -11,7 +11,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDarkMode = Utils.isDarkTheme(context);
     // Dark -> Light, Light -> Dark
-    final adaptiveBrightness = isDarkMode ? Brightness.dark : Brightness.light;
+    final adaptiveBrightnessIOS = isDarkMode ? Brightness.dark : Brightness.light;
+    final adaptiveBrightnessAndroid = !isDarkMode ? Brightness.dark : Brightness.light;
     // Dark -> Grey[900], Light -> Grey[100]
     final adaptiveBarColour = isDarkMode ? Colors.grey[900] : Colors.grey[100];
 
@@ -75,13 +76,13 @@ class HomePage extends StatelessWidget {
       ), 
       value: SystemUiOverlayStyle(
         // IOS, status bar brightness
-        statusBarBrightness: adaptiveBrightness,
+        statusBarBrightness: adaptiveBrightnessIOS,
         // Android only, set status bar colour
         statusBarColor: adaptiveBarColour,
-        statusBarIconBrightness: adaptiveBrightness,
+        statusBarIconBrightness: adaptiveBrightnessAndroid,
         // Android only, navigation bar
         systemNavigationBarColor: adaptiveBarColour,
-        systemNavigationBarIconBrightness: adaptiveBrightness,
+        systemNavigationBarIconBrightness: adaptiveBrightnessAndroid,
       ),
     );
   }
