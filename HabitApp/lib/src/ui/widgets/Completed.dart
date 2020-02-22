@@ -1,5 +1,6 @@
 import 'Package:HabitApp/src/core/Utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:vibration/vibration.dart';
 
@@ -20,10 +21,11 @@ class _CompletedState extends State<Completed> with TickerProviderStateMixin {
 
   Animation<double> containerHeight;
   Animation<double> containerWidth;
-  Animation<double> containerRadius;
+  Animation<BorderRadius> containerRadius;
 
   Animation<double> iconSize;
   double textOpacity = 0.0;
+  bool showIcon = false;
 
   @override
   void initState() {
@@ -34,7 +36,28 @@ class _CompletedState extends State<Completed> with TickerProviderStateMixin {
   /// Setup animation if it is necessary
   void setupAnimation() {
     if (widget.animated) {
-      controller = AnimationController(duration: Duration(milliseconds: 1000), vsync: this);
+      controller = AnimationController(duration: Duration(milliseconds: 300), vsync: this);
+
+      containerHeight = Tween(begin: 0.0, end: 1000.0).animate(controller)
+      ..addListener(() {
+        setState(() {
+          // Update the tween value
+        });        
+      });
+
+      containerWidth = Tween(begin: 0.0, end: 1000.0).animate(controller)
+      ..addListener(() {
+        setState(() {
+          // Update the tween value
+        });        
+      });
+
+      containerRadius = BorderRadiusTween(begin: BorderRadius.circular(200), end: BorderRadius.circular(0)).animate(controller)
+      ..addListener(() {
+        setState(() {
+          // Update the tween value
+        });        
+      });
 
       controller.addStatusListener((status) async {
         // When it is done, toggle opacity animation
@@ -44,15 +67,19 @@ class _CompletedState extends State<Completed> with TickerProviderStateMixin {
             Vibration.vibrate();
           }
 
-          setState(() {
-            textOpacity = 1.0;
+          Future.delayed(Duration(seconds: 1)).then((value) {
+            setState(() {
+              showIcon = true;
+            });
           });
         }
       });
+
+      controller.forward();
     } else {
       // Only show the text animation
       setState(() {
-        textOpacity = 1.0;
+        showIcon = true;
       });
     }
   }
@@ -65,50 +92,60 @@ class _CompletedState extends State<Completed> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context).size;
-    final deviceWidth = Utils.getBestWidth(context);
-
     // Update theme to be dark only here
-    return Theme(
-      data: ThemeData(
-        brightness: Brightness.dark,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      child: AnimatedContainer(
+        height: containerHeight.value,
+        width: containerWidth.value,
+        duration: Duration(milliseconds: 300),
+        decoration: BoxDecoration(
+          color: Colors.green[600],
+          borderRadius: containerRadius.value
+        ),
+        curve: Curves.easeIn,
+        child: this.renderIcon(),
       ),
-      child: AnnotatedRegion<SystemUiOverlayStyle>(
-        child: Scaffold(
-          body: Center(
-            child: AnimatedContainer(
-              height: deviceSize.height,
-              width: deviceSize.width,
-              duration: Duration(milliseconds: 300),
-              decoration: BoxDecoration(
-                color: Colors.green[600],
-                borderRadius: BorderRadius.circular(0)
-              ),
-              curve: Curves.easeIn,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(Icons.check, size: deviceWidth / 2),
-                  AnimatedOpacity(
-                    duration: Duration(milliseconds: 300),
-                    opacity: textOpacity,
-                    child: Text('Come back tomorrow :)', style: TextStyle(fontSize: deviceWidth / 20)),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        value: SystemUiOverlayStyle(
-          // IOS, match current screen colour
-          statusBarBrightness: Brightness.dark,
-          // Android
-          statusBarColor: Colors.green[900],
-          statusBarIconBrightness: Brightness.light,
-          systemNavigationBarColor: Colors.green[900],
-          systemNavigationBarIconBrightness: Brightness.light,
-        ),
+      value: SystemUiOverlayStyle(
+        // IOS, match current screen colour
+        statusBarBrightness: Brightness.dark,
+        // Android
+        statusBarColor: Colors.green[900],
+        statusBarIconBrightness: Brightness.light,
+        systemNavigationBarColor: Colors.green[900],
+        systemNavigationBarIconBrightness: Brightness.light,
       ),
     );
+  }
+
+  Widget renderIcon() {
+    if (this.showIcon) {
+      Future.delayed(Duration(seconds: 1)).then((_) {
+        setState(() {
+          textOpacity = 1.0;
+        });
+      });
+
+      final deviceWidth = Utils.getBestWidth(context);
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            Icons.check, 
+            size: deviceWidth / 2,
+            color: Colors.white,
+          ),
+          AnimatedOpacity(
+            duration: Duration(milliseconds: 300),
+            opacity: textOpacity,
+            child: Text(
+              'Come back tomorrow :)',
+              style: TextStyle(fontSize: deviceWidth / 20, color: Colors.white),
+            ),
+          ),
+        ],
+      );
+    } else {
+      return SizedBox.shrink();
+    }
   }
 }

@@ -33,11 +33,11 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
     // Setup controller for an ultra smooth one minute animation
     controller = AnimationController(duration: Duration(seconds: 3), vsync: this);
     smoothPercentage = Tween(begin: 60.0, end: 0.0).animate(controller)
-      ..addListener(() {
-        setState(() {
-          // Update the tween value
-        });        
-      });
+    ..addListener(() {
+      setState(() {
+        // Update the tween value
+      });        
+    });
 
     controller.addStatusListener((status) async {
       // When it is done, vibrate
