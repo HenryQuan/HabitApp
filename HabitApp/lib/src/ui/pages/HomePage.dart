@@ -1,5 +1,5 @@
 import 'Package:HabitApp/src/core/Utils.dart';
-import 'Package:HabitApp/src/ui/widgets/TimerRing.dart';
+import 'package:HabitApp/src/ui/pages/CountDownPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -59,7 +59,16 @@ class HomePage extends StatelessWidget {
                     hint: Text('         '),
                   )
                 ],
-              ) 
+              ),
+              IconButton(
+                icon: Icon(Icons.arrow_forward),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => CountDownPage())
+                  );
+                },
+              ),
             ],
           ),
         )
