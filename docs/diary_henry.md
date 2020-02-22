@@ -1,7 +1,11 @@
 # Henry's Diary
 ~~~
+template data
 # /02/2020
 ~~~
+
+# 22/02/2020
+Animations were added today. After the timer reaches zero, a new screen will popup and the check icon will be shown, followed by the text. This is a simple app so the animation needs to be great and it will be the main focus of this app as well. It is about time to use more animations so that the app feels alive.
 
 # 21/02/2020
 Today, I was mainly focused on the one minute timer. The animation is quite smooth and it supports dark mode as well. 
