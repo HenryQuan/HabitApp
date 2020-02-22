@@ -1,6 +1,7 @@
 import 'Package:HabitApp/src/core/Utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:vibration/vibration.dart';
 
 /// Completed class
 class Completed extends StatefulWidget {
@@ -35,6 +36,19 @@ class _CompletedState extends State<Completed> with TickerProviderStateMixin {
     if (widget.animated) {
       controller = AnimationController(duration: Duration(milliseconds: 1000), vsync: this);
 
+      controller.addStatusListener((status) async {
+        // When it is done, toggle opacity animation
+        if (status == AnimationStatus.completed) {
+          // Vibrate device
+          if (await Vibration.hasVibrator()) {
+            Vibration.vibrate();
+          }
+
+          setState(() {
+            textOpacity = 1.0;
+          });
+        }
+      });
     } else {
       // Only show the text animation
       setState(() {

@@ -16,7 +16,6 @@ class TimerRing extends StatefulWidget {
 }
 
 class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMixin {
-  double time = 60;
   AnimationController controller;
   Animation<double> smoothPercentage;
 
@@ -32,15 +31,16 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
   /// Setup animation for the one minue timer
   void _setupTimerAnimation() {
     // Setup controller for an ultra smooth one minute animation
-    controller = AnimationController(duration: Duration(seconds: 60), vsync: this);
+    controller = AnimationController(duration: Duration(seconds: 3), vsync: this);
     smoothPercentage = Tween(begin: 60.0, end: 0.0).animate(controller)
       ..addListener(() {
-        setState(() => time = smoothPercentage.value);
+        setState(() {
+          // Update the tween value
+        });        
       });
 
-    // Reset when it is done
     controller.addStatusListener((status) async {
-      // When it is done, reset and continue
+      // When it is done, vibrate
       if (status == AnimationStatus.completed) {
         // Vibrate device
         if (await Vibration.hasVibrator()) {
@@ -57,6 +57,7 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
   Widget build(BuildContext context) {
     // Get the width of the device
     final deviceWidth = Utils.getBestWidth(context);
+    final time = smoothPercentage.value;
 
     return Stack(
       children: <Widget>[
@@ -75,13 +76,13 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
             style: TextStyle(fontSize: deviceWidth / 6),
           ),
         ),
-        this.renderComplete(),
+        this.renderComplete(time),
       ],
     );
   }
 
   // Render complete with fancy animation
-  Widget renderComplete() {
+  Widget renderComplete(double time) {
     if (time == 0) {
       return Align(
         // This does cover up the top two
