@@ -85,12 +85,14 @@ class _CompletedState extends State<Completed> with TickerProviderStateMixin {
   Widget renderIcon() {
     if (this.showIcon) {
       final deviceWidth = Utils.getBestWidth(context);
+      // Update icon size
       Future.delayed(Duration.zero).then((_) {
         setState(() {
           iconSize = deviceWidth / 2;
         });
       });
 
+      // Fade in text
       Future.delayed(Duration(seconds: 1)).then((_) {
         setState(() {
           textOpacity = 1.0;
