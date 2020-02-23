@@ -7,10 +7,12 @@ The structure is not complicated. There aren't that many data to save and it als
     "history": [
         {
             "name": "playing piano",
+            "percentage": 1.0,
             "completed": true
         },
         {
             "name": "drawing",
+            "percentage": 0.86,
             "completed": false
         }
     ],
@@ -18,7 +20,6 @@ The structure is not complicated. There aren't that many data to save and it als
         "name": "programming",
         "length": 60,
         "progress": 5,
-        // This date is used to check whether the user did the habit or not
         "date": "22/02/2020"
     }
 }
