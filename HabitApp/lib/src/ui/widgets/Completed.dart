@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'Package:HabitApp/src/core/Utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -24,6 +26,8 @@ class _CompletedState extends State<Completed> with TickerProviderStateMixin {
   double textOpacity = 0.0;
   double iconSize = 0.0;
   bool showIcon = false;
+
+  bool showFirstMsg = true;
 
   @override
   void initState() {
@@ -99,6 +103,12 @@ class _CompletedState extends State<Completed> with TickerProviderStateMixin {
         });
       });
 
+      Future.delayed(Duration(milliseconds: 2200)).then((_) {
+        setState(() {
+          showFirstMsg = false;
+        });
+      });
+
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -114,15 +124,27 @@ class _CompletedState extends State<Completed> with TickerProviderStateMixin {
           AnimatedOpacity(
             duration: Duration(milliseconds: 300),
             opacity: textOpacity,
-            child: Text(
-              'Come back tomorrow :)',
-              style: TextStyle(fontSize: deviceWidth / 20, color: Colors.white),
-            ),
+            child: AnimatedCrossFade(
+              firstCurve: Curves.elasticOut,
+              secondCurve: Curves.elasticOut,
+              duration: Duration(milliseconds: 200),
+              firstChild: renderText('All good', deviceWidth),
+              secondChild: renderText('Come back tomorrow :)', deviceWidth),
+              crossFadeState: showFirstMsg ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+            )
           ),
         ],
       );
     } else {
       return SizedBox.shrink();
     }
+  }
+
+  /// Render a text widget with msg and preset styles
+  Widget renderText(String msg, double width) {
+    return Text(
+      msg,
+      style: TextStyle(fontSize: width / 20, color: Colors.white),
+    );
   }
 }
