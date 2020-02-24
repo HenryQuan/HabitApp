@@ -1,7 +1,16 @@
 import 'Package:HabitApp/src/ui/pages/HomePage.dart';
+import 'package:HabitApp/src/core/LocalData.dart';
+import 'package:HabitApp/src/ui/pages/CountDownPage.dart';
+import 'package:HabitApp/src/ui/pages/HabitListPage.dart';
+import 'package:HabitApp/src/ui/pages/IntroPage.dart';
+import 'package:HabitApp/src/ui/pages/SettingsPage.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  LocalData().init().then((_) {
+    runApp(MyApp());
+  });
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -17,7 +26,14 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.black,
       ),
       themeMode: ThemeMode.system,
-      home: HomePage()
+      initialRoute: LocalData().getInitialRoute(),
+      routes: {
+        '/home': (context) => HomePage(),
+        '/intro': (context) => IntroPage(),
+        '/settings': (context) => SettingsPage(),
+        '/list': (context) => HabitListPage(),
+        '/timer': (context) => CountDownPage(),
+      },
     );
   }
 }
