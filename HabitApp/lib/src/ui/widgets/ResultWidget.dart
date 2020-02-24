@@ -75,6 +75,8 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
       });
     });
 
+    final completed = widget.mode == ResultMode.completed;
+
     // Update theme to be dark only here
     return AnnotatedRegion<SystemUiOverlayStyle>(
       child: AnimatedContainer(
@@ -82,7 +84,7 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
         width: containerWidth,
         duration: Duration(milliseconds: 300),
         decoration: BoxDecoration(
-          color: Colors.green[600],
+          color: completed ? Colors.green[600] : Colors.red[700],
           borderRadius: containerRadius
         ),
         curve: Curves.linearToEaseOut,
@@ -92,9 +94,9 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
         // IOS, match current screen colour
         statusBarBrightness: Brightness.dark,
         // Android
-        statusBarColor: Colors.green[900],
+        statusBarColor: completed ? Colors.green[900] : Colors.red[900],
         statusBarIconBrightness: Brightness.light,
-        systemNavigationBarColor: Colors.green[900],
+        systemNavigationBarColor: completed ? Colors.green[900] : Colors.red[900],
         systemNavigationBarIconBrightness: Brightness.light,
       ),
     );
@@ -129,28 +131,53 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
           AnimatedSize(
             duration: Duration(milliseconds: 300),
             vsync: this,
-            child: Icon(
-              Icons.check, 
-              size: iconSize,
-              color: Colors.white,
-            ),
+            child: this.renderIconWidget(),
           ),
           AnimatedOpacity(
             duration: Duration(milliseconds: 300),
             opacity: textOpacity,
-            child: AnimatedCrossFade(
-              firstCurve: Curves.elasticOut,
-              secondCurve: Curves.elasticOut,
-              duration: Duration(milliseconds: 200),
-              firstChild: renderText('All good', deviceWidth),
-              secondChild: renderText('Come back tomorrow :)', deviceWidth),
-              crossFadeState: showFirstMsg ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-            )
+            child: this.renderAccordingMode(),
           ),
         ],
       );
     } else {
       return SizedBox.shrink();
+    }
+  }
+
+  /// Render the correct icon depending on whether user completes or fails
+  Widget renderIconWidget() {
+    IconData icon = widget.mode == ResultMode.completed ? Icons.check : Icons.close;
+
+    return Icon(
+      icon, 
+      size: iconSize,
+      color: Colors.white,
+    );
+  }
+
+  /// Render cross fade text or just fade in a button
+  Widget renderAccordingMode() {
+    final deviceWidth = widget.deviceSize.width;
+    if (widget.mode == ResultMode.completed) {
+      return AnimatedCrossFade(
+        firstCurve: Curves.elasticOut,
+        secondCurve: Curves.elasticOut,
+        duration: Duration(milliseconds: 200),
+        firstChild: renderText('All good', deviceWidth),
+        secondChild: renderText('Come back tomorrow :)', deviceWidth),
+        crossFadeState: showFirstMsg ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+      );
+    } else {
+      return FlatButton.icon(
+        onPressed: () => null, 
+        icon: Icon(
+          Icons.refresh,
+          color: Colors.white,
+          size: deviceWidth / 15,
+        ), 
+        label: this.renderText('Try again', deviceWidth),
+      );
     }
   }
 

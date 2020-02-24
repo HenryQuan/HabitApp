@@ -90,7 +90,7 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
         child: ResultWidget(
           mode: ResultMode.completed, 
           deviceSize: MediaQuery.of(context).size, 
-          animated: false
+          animated: true
         ),
       );
     } else {
