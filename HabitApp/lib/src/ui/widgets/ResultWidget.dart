@@ -4,21 +4,28 @@ import 'Package:HabitApp/src/core/Utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:vibration/vibration.dart';
 
-/// Completed class
-class Completed extends StatefulWidget {
+/// There are two modes for this wiget
+enum ResultMode {
+  completed,
+  failed
+}
+
+/// ResultWidget class
+class ResultWidget extends StatefulWidget {
   final bool animated;
+  final ResultMode mode;
+  final Size deviceSize;
 
   // Whether animation needs to be shown
-  Completed({Key key, @required this.animated}) : super(key: key);
+  ResultWidget({Key key, @required this.mode, @required this.deviceSize, @required this.animated}) : super(key: key);
 
   @override
-  _CompletedState createState() => _CompletedState();
+  _ResultWidgetState createState() => _ResultWidgetState();
 }
 
 
-class _CompletedState extends State<Completed> with TickerProviderStateMixin {
+class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMixin {
   double containerHeight;
   double containerWidth;
   BorderRadius containerRadius;
@@ -39,6 +46,13 @@ class _CompletedState extends State<Completed> with TickerProviderStateMixin {
       containerRadius = BorderRadius.circular(200.0);
     } else {
       // Already good
+      containerWidth = widget.deviceSize.width;
+      containerHeight = widget.deviceSize.height;
+      containerRadius = BorderRadius.circular(0.0);
+      textOpacity = 1.0;
+      showIcon = true;
+      iconSize = widget.deviceSize.width / 2;
+      showFirstMsg = false;
     }
   }
 

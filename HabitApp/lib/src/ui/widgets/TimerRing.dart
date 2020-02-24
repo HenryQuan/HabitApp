@@ -1,5 +1,5 @@
 import 'Package:HabitApp/src/core/Utils.dart';
-import 'package:HabitApp/src/ui/widgets/Completed.dart';
+import 'package:HabitApp/src/ui/widgets/ResultWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vibration/vibration.dart';
@@ -87,7 +87,11 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
       return Align(
         // This does cover up the top two
         alignment: Alignment.center,
-        child: Completed(animated: true),
+        child: ResultWidget(
+          mode: ResultMode.completed, 
+          deviceSize: MediaQuery.of(context).size, 
+          animated: false
+        ),
       );
     } else {
       return SizedBox.shrink();

@@ -4,6 +4,9 @@ template data
 # /02/2020
 ~~~
 
+# 25/02/2020
+
+
 # 24/02/2020
 Nothing but thinking about local data. A boolean value should be added to indicate whether user passed the tutorial. 
 I think most designs are good and I have a clearer idea now. I will work on this more.
