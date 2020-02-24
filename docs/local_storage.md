@@ -21,6 +21,7 @@ The structure is not complicated. There aren't that many data to save and it als
         "length": 60,
         "progress": 5,
         "date": "22/02/2020"
-    }
+    },
+    "tutorial": true
 }
 ~~~
