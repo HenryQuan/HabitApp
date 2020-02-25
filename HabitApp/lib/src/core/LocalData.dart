@@ -1,4 +1,13 @@
+import 'package:HabitApp/src/core/models/Habit.dart';
+import 'package:HabitApp/src/core/models/History.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 class LocalData {
+  SharedPreferences _prefs;
+  bool _firstLaunch;
+
+  Habit _currHabit;
+  History _habitHistory;
 
     // Singleton pattern 
   LocalData._init();
@@ -11,11 +20,24 @@ class LocalData {
 
   /// Load data and do other things here before app starts
   Future init() async {
+    _prefs = await SharedPreferences.getInstance();
+    _firstLaunch = _prefs.getBool('firstLaunch') ?? true;
 
+    final savedHistory = _prefs.get('history');
+    if (savedHistory != null) {
+      _habitHistory = new History(savedHistory);
+    }
+
+    final habitNow = _prefs.get('current');
+    if (habitNow != null) {
+      _currHabit = new Habit.fromJson(habitNow);
+    }
   }
 
-  String getInitialRoute() {
-    return '/intro';
-  }
+  /// Update first launch
+  void updateFirstLaunch(bool value) => _prefs.setBool('firstLaunch', value);
+
+  /// If first launch, intro. Otherwise, home page
+  String getInitialRoute() => _firstLaunch ? '/intro' : '/home';
 
 }

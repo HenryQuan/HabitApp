@@ -20,6 +20,8 @@ class Habit {
     return 'Day $progress';
   }
 
+  Habit(this.name, this.length, this.progress, this.completed, this.date);
+
   Habit.fromJson(Map<String, dynamic> json)
       : name = json['name'],
         length = json['length'],

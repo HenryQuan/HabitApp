@@ -64,10 +64,7 @@ class HomePage extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.arrow_forward),
                 onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => CountDownPage())
-                  );
+                  Navigator.pushReplacementNamed(context, '/timer');
                 },
               ),
             ],

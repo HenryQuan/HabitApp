@@ -7,6 +7,7 @@ import 'package:HabitApp/src/ui/pages/SettingsPage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   LocalData().init().then((_) {
     runApp(MyApp());
   });
