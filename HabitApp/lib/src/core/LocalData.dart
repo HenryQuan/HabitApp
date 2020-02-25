@@ -42,6 +42,6 @@ class LocalData {
   void updateFirstLaunch(bool value) => _prefs.setBool('firstLaunch', value);
 
   /// If first launch, intro. Otherwise, home page
-  String getInitialRoute() => !_firstLaunch ? '/intro' : '/home';
+  String getInitialRoute() => _firstLaunch ? '/intro' : '/home';
 
 }

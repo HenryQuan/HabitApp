@@ -1,7 +1,6 @@
 import 'Package:HabitApp/src/core/Utils.dart';
-import 'package:HabitApp/src/ui/pages/CountDownPage.dart';
+import 'package:HabitApp/src/ui/widgets/ThemedWidget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 /// HomePage class
 class HomePage extends StatelessWidget {
@@ -10,13 +9,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Utils.isDarkTheme(context);
-    // Dark -> Light, Light -> Dark
-    final adaptiveBrightnessIOS = isDarkMode ? Brightness.dark : Brightness.light;
-    final adaptiveBrightnessAndroid = !isDarkMode ? Brightness.dark : Brightness.light;
-    // Dark -> Grey[900], Light -> Grey[100]
-    final adaptiveBarColour = isDarkMode ? Colors.grey[900] : Colors.grey[100];
 
-    return AnnotatedRegion<SystemUiOverlayStyle>(
+    return ThemedWidget(
       child: Scaffold(
         body: Stack(
           children: <Widget>[
@@ -57,16 +51,6 @@ class HomePage extends StatelessWidget {
           ],
         )
       ), 
-      value: SystemUiOverlayStyle(
-        // IOS, status bar brightness
-        statusBarBrightness: adaptiveBrightnessIOS,
-        // Android only, set status bar colour
-        statusBarColor: adaptiveBarColour,
-        statusBarIconBrightness: adaptiveBrightnessAndroid,
-        // Android only, navigation bar
-        systemNavigationBarColor: adaptiveBarColour,
-        systemNavigationBarIconBrightness: adaptiveBrightnessAndroid,
-      ),
     );
   }
 

@@ -1,5 +1,6 @@
 import 'package:HabitApp/src/core/LocalData.dart';
 import 'package:HabitApp/src/core/Utils.dart';
+import 'package:HabitApp/src/ui/widgets/ThemedWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -62,24 +63,8 @@ class _IntroPageState extends State<IntroPage> {
     });
 
     final deviceWidth = Utils.getBestWidth(context);
-    final isDarkMode = Utils.isDarkTheme(context);
-    // Dark -> Light, Light -> Dark
-    final adaptiveBrightnessIOS = isDarkMode ? Brightness.dark : Brightness.light;
-    final adaptiveBrightnessAndroid = !isDarkMode ? Brightness.dark : Brightness.light;
-    // Dark -> Grey[900], Light -> Grey[100]
-    final adaptiveBarColour = isDarkMode ? Colors.grey[900] : Colors.grey[100];
 
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
-        // IOS, status bar brightness
-        statusBarBrightness: adaptiveBrightnessIOS,
-        // Android only, set status bar colour
-        statusBarColor: adaptiveBarColour,
-        statusBarIconBrightness: adaptiveBrightnessAndroid,
-        // Android only, navigation bar
-        systemNavigationBarColor: adaptiveBarColour,
-        systemNavigationBarIconBrightness: adaptiveBrightnessAndroid,
-      ),
+    return ThemedWidget(
       child: Scaffold(
         body: SafeArea(
           child: Center(
