@@ -11,6 +11,8 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  TimeOfDay reminderTime;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,14 +23,18 @@ class _SettingsPageState extends State<SettingsPage> {
         children: <Widget>[
           ListTile(
             title: Text('Reminder'),
-            subtitle: Text('Choose a time'),
+            subtitle: Text(reminderTime != null ? reminderTime.format(context) : 'Choose a time'),
             onTap: () {
               Future<TimeOfDay> selectedTime = showTimePicker(
                 initialTime: TimeOfDay.now(),
                 context: context,
               );
 
-              selectedTime.then((value) => print(value));
+              selectedTime.then((value) {
+                setState(() {
+                  reminderTime = value;
+                });
+              });
             },
           ),
           Divider(),
