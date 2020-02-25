@@ -1,3 +1,4 @@
+import 'package:HabitApp/src/core/LocalData.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -16,35 +17,57 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
         title: Text('Settings')
       ),
-      body: ListView(
+      body: Column(
         children: <Widget>[
           ListTile(
-            title: Text('Feedback'),
-            subtitle: Text('Send an email to the developer'),
+            title: Text('Reminder'),
+            subtitle: Text('Choose a time'),
             onTap: () {
-              launch('mailto:development.henryquan@gmail.com?subject=[HabitApp 1.0.0]');
+              Future<TimeOfDay> selectedTime = showTimePicker(
+                initialTime: TimeOfDay.now(),
+                context: context,
+              );
+
+              selectedTime.then((value) => print(value));
             },
           ),
-          ListTile(
-            onTap: () {
-              launch('https://github.com/HenryQuan/HabitApp');
-            },
-            title: Text('Source code'),
-            subtitle: Text('Checkout the souce code hosting on GitHub'),
-          ),
-          ListTile(
-            title: Text('Licenses'),
-            subtitle: Text('Check all open source licenses'),
-            onTap: () {
-              showLicensePage(context: context);
-            },
-          ),
-          ListTile(
-            onTap: () {
-              launch('https://github.com/HenryQuan/HabitApp');
-            },
-            subtitle: Text('1.0.0'),
-          ),
+          Divider(),
+          Expanded(
+            child: ListView(
+              children: <Widget>[
+                ListTile(
+                  title: Text('Feedback'),
+                  subtitle: Text('Send an email to the developer'),
+                  onTap: () {
+                    launch('mailto:development.henryquan@gmail.com?subject=[HabitApp 1.0.0]');
+                  },
+                ),
+                ListTile(
+                  onTap: () {
+                    launch('https://github.com/HenryQuan/HabitApp');
+                  },
+                  title: Text('Source code'),
+                  subtitle: Text('Checkout the source code on GitHub'),
+                ),
+                ListTile(
+                  title: Text('Licenses'),
+                  subtitle: Text('Check all open source licenses'),
+                  onTap: () {
+                    showLicensePage(
+                      context: context,
+                      applicationName: "Henry's Habit App",
+                      applicationVersion: LocalData.appVersion,
+                      applicationLegalese: 'Start a new habit today'
+                    );
+                  },
+                ),
+                ListTile(
+                  title: Text('Version'),
+                  subtitle: Text(LocalData.appVersion),
+                )
+              ],
+            ),
+          )
         ],
       )
     );

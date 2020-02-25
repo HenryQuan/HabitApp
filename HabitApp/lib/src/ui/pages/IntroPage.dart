@@ -10,7 +10,6 @@ class IntroPage extends StatefulWidget {
   _IntroPageState createState() => _IntroPageState();
 }
 
-
 class _IntroPageState extends State<IntroPage> {
   double opacity1 = 0.0;
   double opacity2 = 0.0;

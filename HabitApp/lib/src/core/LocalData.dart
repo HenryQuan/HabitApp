@@ -3,6 +3,10 @@ import 'package:HabitApp/src/core/models/History.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalData {
+
+  // Constants
+  static const String appVersion = '1.0.0';
+
   SharedPreferences _prefs;
   bool _firstLaunch;
 
