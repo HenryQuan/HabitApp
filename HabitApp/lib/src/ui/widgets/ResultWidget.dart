@@ -113,6 +113,8 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
   Widget renderIcon() {
     if (this.showIcon) {
       final deviceWidth = Utils.getBestWidth(context);
+      final completed = widget.mode == ResultMode.completed;
+  
       // Update icon size
       Future.delayed(Duration.zero).then((_) {
         setState(() {
@@ -148,32 +150,19 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
                 AnimatedSize(
                   duration: Duration(milliseconds: 300),
                   vsync: this,
-                  child: this.renderIconWidget(),
+                  child: this.renderIconWidget(completed),
                 ),
                 AnimatedOpacity(
                   duration: Duration(milliseconds: 300),
                   opacity: textOpacity,
-                  child: this.renderAccordingMode(),
+                  child: this.renderAccordingMode(completed),
                 ),
               ],
             ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: AnimatedOpacity(
-              duration: Duration(milliseconds: 300),
-              opacity: shareOpacity,
-              child: Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: FlatButton.icon(
-                  onPressed: () {
-                    Share.share('Hello World');
-                  }, 
-                  icon: Icon(Icons.share, color: Colors.white), 
-                  label: Text('Share with friends', style: TextStyle(color: Colors.white))
-                ),
-              ),
-            ),
+            child: this.renderShare(completed)
           )
         ],
       );
@@ -183,8 +172,8 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
   }
 
   /// Render the correct icon depending on whether user completes or fails
-  Widget renderIconWidget() {
-    IconData icon = widget.mode == ResultMode.completed ? Icons.check : Icons.close;
+  Widget renderIconWidget(bool completed) {
+    IconData icon = completed ? Icons.check : Icons.close;
 
     return Icon(
       icon, 
@@ -193,9 +182,34 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
     );
   }
 
+  /// Only render share button if completed
+  Widget renderShare(bool completed) {
+    if (completed) {
+      return AnimatedOpacity(
+        duration: Duration(milliseconds: 300),
+        opacity: shareOpacity,
+        child: Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: SizedBox(
+            width: double.infinity,
+            child: FlatButton.icon(
+              onPressed: () {
+                Share.share('Hello World');
+              }, 
+              icon: Icon(Icons.share, color: Colors.white), 
+              label: Text('Share with friends', style: TextStyle(color: Colors.white))
+            ),
+          ),
+        ),
+      );
+    } else {
+      return SizedBox.shrink();
+    }
+  }
+
   /// Render cross fade text or just fade in a button
-  Widget renderAccordingMode() {
-    if (widget.mode == ResultMode.completed) {
+  Widget renderAccordingMode(bool completed) {
+    if (completed) {
       return AnimatedCrossFade(
         firstCurve: Curves.elasticOut,
         secondCurve: Curves.elasticOut,

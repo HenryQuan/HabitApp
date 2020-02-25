@@ -18,7 +18,6 @@ class HomePage extends StatelessWidget {
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         body: Stack(
           children: <Widget>[
             AppBar(
@@ -38,18 +37,23 @@ class HomePage extends StatelessWidget {
                 ),
               ],
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                this.renderNewHabit(isDarkMode),
-                IconButton(
-                  icon: Icon(Icons.arrow_forward),
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/timer');
-                  },
+            this.renderNewHabit(isDarkMode),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(32.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: FlatButton.icon(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, '/timer');
+                    },
+                    icon: Icon(Icons.play_arrow), 
+                    label: Text('START NOW')
+                  ),
                 ),
-              ],
-            )
+              ),
+            ),
           ],
         )
       ), 
@@ -71,11 +75,11 @@ class HomePage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
-          'I want to',
+          'I want to start',
           style: TextStyle(fontSize: 32),
         ),
         Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(0.0),
           child: TextField(
             maxLines: 1,
             cursorColor: isDarkMode ? Colors.white : Colors.black,

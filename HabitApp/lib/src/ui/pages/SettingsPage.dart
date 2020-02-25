@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// SettingsPage class
 class SettingsPage extends StatefulWidget {
@@ -16,7 +17,37 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
         title: Text('Settings')
       ),
-      body: Container(),
+      body: ListView(
+        children: <Widget>[
+          ListTile(
+            title: Text('Feedback'),
+            subtitle: Text('Send an email to the developer'),
+            onTap: () {
+              showLicensePage(context: context);
+            },
+          ),
+          ListTile(
+            onTap: () {
+              launch('https://github.com/HenryQuan/HabitApp');
+            },
+            title: Text('Source code'),
+            subtitle: Text('Checkout the souce code hosting on GitHub'),
+          ),
+          ListTile(
+            title: Text('Licenses'),
+            subtitle: Text('Check all open source licenses'),
+            onTap: () {
+              showLicensePage(context: context);
+            },
+          ),
+          ListTile(
+            onTap: () {
+              launch('https://github.com/HenryQuan/HabitApp');
+            },
+            subtitle: Text('1.0.0'),
+          ),
+        ],
+      )
     );
   }
 }

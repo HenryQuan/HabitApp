@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
-        scaffoldBackgroundColor: Colors.black,
+        // scaffoldBackgroundColor: Colors.black,
       ),
       themeMode: ThemeMode.system,
       initialRoute: LocalData().getInitialRoute(),
