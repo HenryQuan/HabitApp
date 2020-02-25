@@ -5,7 +5,12 @@ template data
 ~~~
 
 # 25/02/2020
-
+`Intro` is now done but haven't tested on Android. `Settings` has been updated and a share button has been added to the `ResultWidget`. 
+Both `Completed` and `Failed` were removed because they are no longer necessary. The start button has been replaced with `START NOW`. 
+Some models have been created and `LocalDate` will be used to manage data. This project has been quite smooth so far. 
+Now, only `HomePage` and `HabitListPage` left. How the user should interact with the input is still a big issue. 
+I want to push to `HabitListPage` when a new habit is done. Then, a new item will popup and it will push to `HomePage` again. 
+It should be the same for failed state as well. I need more testings so probably I will use this app myself for at least a month. 
 
 # 24/02/2020
 Nothing but thinking about local data. A boolean value should be added to indicate whether user passed the tutorial. 

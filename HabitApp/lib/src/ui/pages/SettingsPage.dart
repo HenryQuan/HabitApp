@@ -9,7 +9,6 @@ class SettingsPage extends StatefulWidget {
   _SettingsPageState createState() => _SettingsPageState();
 }
 
-
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,7 @@ class _SettingsPageState extends State<SettingsPage> {
             title: Text('Feedback'),
             subtitle: Text('Send an email to the developer'),
             onTap: () {
-              showLicensePage(context: context);
+              launch('mailto:development.henryquan@gmail.com?subject=[HabitApp 1.0.0]');
             },
           ),
           ListTile(
