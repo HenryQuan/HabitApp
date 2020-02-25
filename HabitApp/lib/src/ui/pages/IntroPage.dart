@@ -20,19 +20,22 @@ class _IntroPageState extends State<IntroPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Generally, 1000ms to 1500ms for each label
+    // However, if it is too long, give it a bit more time
+    
     Future.delayed(Duration(seconds: 1)).then((_) {
       setState(() {
         opacity1 = 1.0;
       });
     });
 
-    Future.delayed(Duration(seconds: 3)).then((_) {
+    Future.delayed(Duration(milliseconds: 2500)).then((_) {
       setState(() {
         opacity2 = 1.0;
       });
     });
 
-    Future.delayed(Duration(seconds: 5)).then((_) {
+    Future.delayed(Duration(seconds: 4)).then((_) {
       setState(() {
         opacity3 = 1.0;
       });
@@ -44,7 +47,7 @@ class _IntroPageState extends State<IntroPage> {
       });
     });
 
-    Future.delayed(Duration(seconds: 10)).then((_) {
+    Future.delayed(Duration(milliseconds: 8500)).then((_) {
       setState(() {
         opacity5 = 1.0;
       });
@@ -61,10 +64,10 @@ class _IntroPageState extends State<IntroPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 SizedBox.shrink(),
-                this.renderFadeText('Hello World', opacity1, deviceWidth),
-                this.renderFadeText('Hello World', opacity2, deviceWidth),
-                this.renderFadeText('Hello World', opacity3, deviceWidth),
-                this.renderFadeText('Hello World', opacity4, deviceWidth),
+                this.renderFadeText('One minute', opacity1, deviceWidth),
+                this.renderFadeText('We all have one minute', opacity2, deviceWidth),
+                this.renderFadeText('We all have one minute', opacity3, deviceWidth),
+                this.renderFadeText('So... Why not ...', opacity4, deviceWidth),
                 AnimatedOpacity(
                   duration: Duration(milliseconds: 300),
                   opacity: opacity5,
@@ -78,7 +81,7 @@ class _IntroPageState extends State<IntroPage> {
                         // Set first launch to false
                         LocalData().updateFirstLaunch(false);
                       }, 
-                      label: Text('Start a new habit'),
+                      label: Text('Start a new habit now!'),
                     ),
                   ),
                 ),
@@ -96,6 +99,7 @@ class _IntroPageState extends State<IntroPage> {
       opacity: opacity,
       child: Text(
         msg,
+        textAlign: TextAlign.center,
         style: TextStyle(fontSize: width / 20),
       ),
     );
