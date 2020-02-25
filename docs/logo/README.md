@@ -1,0 +1,1 @@
+[app-icon](https://github.com/dwmkerr/app-icon) is used for generating icons.

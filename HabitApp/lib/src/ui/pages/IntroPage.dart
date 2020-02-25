@@ -69,7 +69,7 @@ class _IntroPageState extends State<IntroPage> {
         body: SafeArea(
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),  
               child: Column(
                 // Put the button at the button
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
