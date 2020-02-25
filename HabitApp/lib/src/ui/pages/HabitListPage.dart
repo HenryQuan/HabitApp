@@ -14,7 +14,7 @@ class _HabitListPageState extends State<HabitListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('HabitListPage')
+        title: Text('History')
       ),
       body: Container(),
     );

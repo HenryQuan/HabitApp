@@ -14,7 +14,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('SettingsPage')
+        title: Text('Settings')
       ),
       body: Container(),
     );

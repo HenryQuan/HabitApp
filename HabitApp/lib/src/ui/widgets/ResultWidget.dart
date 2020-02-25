@@ -4,6 +4,7 @@ import 'Package:HabitApp/src/core/Utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:share/share.dart';
 
 /// There are two modes for this wiget
 enum ResultMode {
@@ -35,10 +36,17 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
   bool showIcon = false;
 
   bool showFirstMsg = true;
+  double shareOpacity = 0.0;
+
+  double deviceWidth;
 
   @override
   void initState() {
     super.initState();
+  
+    final size = widget.deviceSize;
+    deviceWidth = size.height > size.width ? size.width : size.height;
+
     if (widget.animated) {
       // Start from zero
       containerWidth = 0.0;
@@ -51,7 +59,7 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
       containerRadius = BorderRadius.circular(0.0);
       textOpacity = 1.0;
       showIcon = true;
-      iconSize = widget.deviceSize.width / 2;
+      iconSize = deviceWidth / 2;
       showFirstMsg = false;
     }
   }
@@ -125,19 +133,48 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
         });
       });
 
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      Future.delayed(Duration(milliseconds: 3500)).then((_) {
+        setState(() {
+          shareOpacity = 1.0;
+        });
+      });
+
+      return Stack(
         children: <Widget>[
-          AnimatedSize(
-            duration: Duration(milliseconds: 300),
-            vsync: this,
-            child: this.renderIconWidget(),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                AnimatedSize(
+                  duration: Duration(milliseconds: 300),
+                  vsync: this,
+                  child: this.renderIconWidget(),
+                ),
+                AnimatedOpacity(
+                  duration: Duration(milliseconds: 300),
+                  opacity: textOpacity,
+                  child: this.renderAccordingMode(),
+                ),
+              ],
+            ),
           ),
-          AnimatedOpacity(
-            duration: Duration(milliseconds: 300),
-            opacity: textOpacity,
-            child: this.renderAccordingMode(),
-          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: AnimatedOpacity(
+              duration: Duration(milliseconds: 300),
+              opacity: shareOpacity,
+              child: Padding(
+                padding: const EdgeInsets.all(32.0),
+                child: FlatButton.icon(
+                  onPressed: () {
+                    Share.share('Hello World');
+                  }, 
+                  icon: Icon(Icons.share, color: Colors.white), 
+                  label: Text('Share with friends', style: TextStyle(color: Colors.white))
+                ),
+              ),
+            ),
+          )
         ],
       );
     } else {
@@ -158,7 +195,6 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
 
   /// Render cross fade text or just fade in a button
   Widget renderAccordingMode() {
-    final deviceWidth = widget.deviceSize.width;
     if (widget.mode == ResultMode.completed) {
       return AnimatedCrossFade(
         firstCurve: Curves.elasticOut,

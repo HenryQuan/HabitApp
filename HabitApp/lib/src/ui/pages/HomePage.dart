@@ -18,57 +18,39 @@ class HomePage extends StatelessWidget {
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       child: Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'I want to start',
-                style: TextStyle(fontSize: 32),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: TextField(
-                  maxLines: 1,
-                  cursorColor: isDarkMode ? Colors.white : Colors.black,
-                  enableInteractiveSelection: false,
-                  style: TextStyle(fontSize: 32, fontStyle: FontStyle.italic),
-                  decoration: InputDecoration(
-                    hintText: 'a new habit',
-                    hintStyle: TextStyle(fontSize: 32, fontStyle: FontStyle.italic),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.transparent),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.transparent),
-                    ),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'for',
-                    style: TextStyle(fontSize: 32),
-                  ),
-                  DropdownButton(
-                    items: [],
-                    value: [], 
-                    onChanged: (value) {  },
-                    hint: Text('         '),
-                  )
-                ],
-              ),
-              IconButton(
-                icon: Icon(Icons.arrow_forward),
+        resizeToAvoidBottomInset: false,
+        body: Stack(
+          children: <Widget>[
+            AppBar(
+              title: Text("Day 1 of 60"),
+              leading: IconButton(
+                icon: Icon(Icons.history),
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/timer');
+                  Navigator.pushNamed(context, '/list');
                 },
               ),
-            ],
-          ),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.settings),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/settings');
+                  },
+                ),
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                this.renderNewHabit(isDarkMode),
+                IconButton(
+                  icon: Icon(Icons.arrow_forward),
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, '/timer');
+                  },
+                ),
+              ],
+            )
+          ],
         )
       ), 
       value: SystemUiOverlayStyle(
@@ -81,6 +63,53 @@ class HomePage extends StatelessWidget {
         systemNavigationBarColor: adaptiveBarColour,
         systemNavigationBarIconBrightness: adaptiveBrightnessAndroid,
       ),
+    );
+  }
+
+  Widget renderNewHabit(bool isDarkMode) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          'I want to',
+          style: TextStyle(fontSize: 32),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: TextField(
+            maxLines: 1,
+            cursorColor: isDarkMode ? Colors.white : Colors.black,
+            enableInteractiveSelection: false,
+            style: TextStyle(fontSize: 32, fontStyle: FontStyle.italic),
+            decoration: InputDecoration(
+              hintText: 'a new habit',
+              hintStyle: TextStyle(fontSize: 32, fontStyle: FontStyle.italic),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.transparent),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.transparent),
+              ),
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'for',
+              style: TextStyle(fontSize: 32),
+            ),
+            DropdownButton(
+              items: [],
+              value: [], 
+              onChanged: (value) {  },
+              hint: Text(' how long? ', style: TextStyle(fontSize: 32)),
+            )
+          ],
+        ),
+      ],
     );
   }
 }
