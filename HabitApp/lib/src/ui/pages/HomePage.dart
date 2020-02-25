@@ -75,7 +75,7 @@ class HomePage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
-          'I want to start',
+          'I want to',
           style: TextStyle(fontSize: 32),
         ),
         Padding(
