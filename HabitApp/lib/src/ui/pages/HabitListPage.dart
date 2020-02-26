@@ -1,3 +1,4 @@
+import 'package:HabitApp/src/ui/widgets/HistoryTile.dart';
 import 'package:flutter/material.dart';
 
 /// HabitListPage class
@@ -16,7 +17,12 @@ class _HabitListPageState extends State<HabitListPage> {
       appBar: AppBar(
         title: Text('History')
       ),
-      body: Container(),
+      body: AnimatedList(
+        itemBuilder: (BuildContext context, int index, Animation<double> animation) { 
+          return HistoryTile();
+        },
+        initialItemCount: 5,
+      ),
     );
   }
 }
