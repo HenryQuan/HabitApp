@@ -1,8 +1,14 @@
 # Henry's Diary
 ~~~
-template data
+template
 # /02/2020
 ~~~
+
+# 26/02/2020
+Logo has been added but it is rather blurry for some reasons. I will update it so that it is more hd. 
+I will not probably work on this today. It is close to the end now and shaun might help me with English. 
+Now, how to choose the date might be a big issue. Then, you have the history and IAP for Android. 
+I don't know what to do about it yet but I think I should solve it soon. 
 
 # 25/02/2020
 `Intro` is now done but haven't tested on Android. `Settings` has been updated and a share button has been added to the `ResultWidget`. 
