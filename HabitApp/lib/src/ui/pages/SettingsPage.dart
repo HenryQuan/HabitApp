@@ -61,14 +61,14 @@ class _SettingsPageState extends State<SettingsPage> {
                   onTap: () {
                     showLicensePage(
                       context: context,
-                      applicationName: "Henry's Habit App",
+                      applicationName: LocalData.appName,
                       applicationVersion: LocalData.appVersion,
                       applicationLegalese: 'Start a new habit today'
                     );
                   },
                 ),
                 ListTile(
-                  title: Text('Version'),
+                  title: Text(LocalData.appName),
                   subtitle: Text(LocalData.appVersion),
                 )
               ],

@@ -18,43 +18,46 @@ class _HomePageState extends State<HomePage> {
 
     return ThemedWidget(
       child: Scaffold(
-        body: Stack(
-          children: <Widget>[
-            AppBar(
-              title: Text("Day 1 of 60"),
-              leading: IconButton(
-                icon: Icon(Icons.history),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/list');
-                },
-              ),
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.settings),
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              AppBar(
+                title: Text("Day 1 of 60"),
+                leading: IconButton(
+                  icon: Icon(Icons.history),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/settings');
+                    Navigator.pushNamed(context, '/list');
                   },
                 ),
-              ],
-            ),
-            this.renderNewHabit(isDarkMode),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: FlatButton.icon(
+                actions: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.settings),
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, '/timer');
+                      Navigator.pushNamed(context, '/settings');
                     },
-                    icon: Icon(Icons.play_arrow), 
-                    label: Text('START NOW')
+                  ),
+                ],
+              ),
+              this.renderNewHabit(isDarkMode),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: FlatButton.icon(
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(context, '/timer');
+                      },
+                      icon: Icon(Icons.play_arrow), 
+                      label: Text('START NOW')
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         )
       ), 
     );
