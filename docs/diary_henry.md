@@ -4,6 +4,11 @@ template
 # /02/2020
 ~~~
 
+# 27/02/2020
+Theme in `HomePage` is now working properly. It was broken because `Stack` and `AppBar`. 
+I am still stuck on the home page now. Using an `AppBar` isn't bad and the design is also fine. 
+However, I am not sure that the habit entering part. It might take a bit more time I think. 
+
 # 26/02/2020
 Logo has been added but it is rather blurry for some reasons. I will update it so that it is more hd. 
 I will not probably work on this today. It is close to the end now and shaun might help me with English. 
