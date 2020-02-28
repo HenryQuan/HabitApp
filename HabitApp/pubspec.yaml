@@ -34,8 +34,6 @@ dependencies:
   vibration: ^1.2.4
   # In-app purchase only for Android
   in_app_purchase: ^0.3.1+1
-  # Add a done button on top of the keyboard
-  keyboard_actions: ^3.2.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
