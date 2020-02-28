@@ -78,7 +78,7 @@ class _IntroPageState extends State<IntroPage> {
                   SizedBox.shrink(),
                   this.renderFadeText('One minute...', opacity1, deviceWidth),
                   this.renderFadeText('Just one minute everyday...', opacity2, deviceWidth),
-                  this.renderFadeText('Yes, it is that easy to\nstart a new habit...', opacity3, deviceWidth),
+                  this.renderFadeText('It is that easy to\nstart a new habit...', opacity3, deviceWidth),
                   this.renderFadeText('So... Why not ...', opacity4, deviceWidth),
                   AnimatedOpacity(
                     duration: Duration(milliseconds: 300),
@@ -89,9 +89,9 @@ class _IntroPageState extends State<IntroPage> {
                         icon: Icon(Icons.arrow_forward),
                         onPressed: () {
                           if (opacity5 == 0) return;
-                          Navigator.pushReplacementNamed(context, '/home');
                           // Set first launch to false
                           LocalData().updateFirstLaunch(false);
+                          Navigator.pushReplacementNamed(context, '/home');
                         }, 
                         label: Text(
                           'Start a new habit now',

@@ -1,3 +1,4 @@
+import 'package:HabitApp/src/core/models/Habit.dart';
 import 'package:HabitApp/src/ui/widgets/HistoryTile.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,8 @@ class HabitListPage extends StatefulWidget {
 
 
 class _HabitListPageState extends State<HabitListPage> {
+  List<Habit> habits = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
