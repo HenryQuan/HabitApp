@@ -30,47 +30,44 @@ class _HomePageState extends State<HomePage> {
 
     return ThemedWidget(
       child: Scaffold(
+        appBar: AppBar(
+          title: Text('Day 1'),
+          leading: IconButton(
+            icon: Icon(Icons.history),
+            onPressed: () {
+              Navigator.pushNamed(context, '/list');
+            },
+          ),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                Navigator.pushNamed(context, '/settings');
+              },
+            ),
+          ],
+        ),
         body: SafeArea(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              AppBar(
-                title: Text('Day 1'),
-                leading: IconButton(
-                  icon: Icon(Icons.history),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/list');
-                  },
-                ),
-                actions: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.settings),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/settings');
-                    },
-                  ),
-                ],
-              ),
               this.renderNewHabit(isDarkMode, deviceWidth),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: AnimatedOpacity(
-                      opacity: this.showStartButton ? 1.0 : 0.0,
-                      duration: Duration(milliseconds: 300),
-                      child: FlatButton.icon(
-                        onPressed: () {
-                          // Prevent user from pressing this button randomly
-                          if (this.showStartButton) {
-                            Navigator.pushReplacementNamed(context, '/timer');
-                          }
-                        },
-                        icon: Icon(Icons.play_arrow), 
-                        label: Text('START NOW')
-                      ),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: AnimatedOpacity(
+                    opacity: this.showStartButton ? 1.0 : 0.0,
+                    duration: Duration(milliseconds: 300),
+                    child: FlatButton.icon(
+                      onPressed: () {
+                        // Prevent user from pressing this button randomly
+                        if (this.showStartButton) {
+                          Navigator.pushReplacementNamed(context, '/timer');
+                        }
+                      },
+                      icon: Icon(Icons.play_arrow), 
+                      label: Text('START NOW')
                     ),
                   ),
                 ),
@@ -85,6 +82,7 @@ class _HomePageState extends State<HomePage> {
   Widget renderNewHabit(bool isDarkMode, double deviceWidth) {
     final fontSize = deviceWidth / 14;
     final fontSizeHabit = deviceWidth / 10;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -93,6 +91,9 @@ class _HomePageState extends State<HomePage> {
           controller: inputController,
           onChanged: (value) {
             // Update current text
+            setState(() {
+              showStartButton = this.shouldShowStartButton();
+            });
           },
           autocorrect: false,
           cursorColor: isDarkMode ? Colors.white : Colors.black,
@@ -119,6 +120,13 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           onPressed: () {
+            // Dismiss keyboard
+            FocusScopeNode currentFocus = FocusScope.of(context);
+            if (!currentFocus.hasPrimaryFocus) {
+              // Unfocus and dismiss keyboard
+              currentFocus.unfocus();
+            }
+
             final now = DateTime.now();
             // At least, 5 days...
             final firstDate = DateTime(now.year, now.month, now.day).add(Duration(days: 5));
@@ -132,6 +140,7 @@ class _HomePageState extends State<HomePage> {
             ).then((value) {
               setState(() {
                 howManyDays = this.convertDateToDays(value);
+                showStartButton = this.shouldShowStartButton();
               });
             });
           },
@@ -143,7 +152,7 @@ class _HomePageState extends State<HomePage> {
   /// Whether the start button should be shown
   /// - Only show if all entries have been entered
   bool shouldShowStartButton() {
-    return this.howManyDays > 0;
+    return this.howManyDays > 0 && this.inputController.text.length > 0;
   }
 
   /// Convert date time into how many days
