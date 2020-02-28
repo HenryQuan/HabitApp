@@ -56,20 +56,16 @@ class _SettingsPageState extends State<SettingsPage> {
                   subtitle: Text('Checkout the source code on GitHub'),
                 ),
                 ListTile(
-                  title: Text('Licenses'),
-                  subtitle: Text('Check all open source licenses'),
+                  title: Text(LocalData.appName),
+                  subtitle: Text(LocalData.appVersion),
                   onTap: () {
-                    showLicensePage(
+                    showAboutDialog(
                       context: context,
                       applicationName: LocalData.appName,
                       applicationVersion: LocalData.appVersion,
-                      applicationLegalese: 'Start a new habit today'
+                      applicationLegalese: 'Put about here'
                     );
                   },
-                ),
-                ListTile(
-                  title: Text(LocalData.appName),
-                  subtitle: Text(LocalData.appVersion),
                 )
               ],
             ),
