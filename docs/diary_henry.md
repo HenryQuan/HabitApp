@@ -4,6 +4,14 @@ template
 # /02/2020
 ~~~
 
+# 28/02/2020
+Some more designs were done today on my iPad. Now, time is selected via `DatePicker`. It is more fun and easier for users to see. 
+Other than simply typing in a boring number. I think home screen is now all good. The field should only be changable on Day 1. 
+Now, only `History` left. I am still thinking about it and I don't know how to add it yet. 
+When a habit ends, it should push to `History` and add `curr` to `history`. 
+`curr` becomes null and `History` should push to `Home` to start a new habit. However, the user has done one. 
+Maybe it is better to wait for the next day?
+
 # 27/02/2020
 Theme in `HomePage` is now working properly. It was broken because `Stack` and `AppBar`. 
 I am still stuck on the home page now. Using an `AppBar` isn't bad and the design is also fine. 

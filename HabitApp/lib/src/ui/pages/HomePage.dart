@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               AppBar(
-                title: Text("Day 1 of 60"),
+                title: Text('Day 1'),
                 leading: IconButton(
                   icon: Icon(Icons.history),
                   onPressed: () {
