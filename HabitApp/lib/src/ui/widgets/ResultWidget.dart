@@ -194,7 +194,9 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
             width: double.infinity,
             child: FlatButton.icon(
               onPressed: () {
-                Share.share('Hello World');
+                if (shareOpacity >= 0.9) {
+                  Share.share('Hello World');
+                }
               }, 
               icon: Icon(Icons.share, color: Colors.white), 
               label: Text('Share with friends', style: TextStyle(color: Colors.white))
