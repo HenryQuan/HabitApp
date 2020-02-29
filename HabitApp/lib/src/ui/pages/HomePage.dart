@@ -37,7 +37,6 @@ class _HomePageState extends State<HomePage> {
 
     final deviceWidth = Utils.getBestWidth(context);
     this.habit = local.getCurrentHabit();
-    print(habit);
     if (habit != null) {
       showStartButton = true;
       howManyDays = habit.length;
@@ -76,14 +75,12 @@ class _HomePageState extends State<HomePage> {
                     opacity: this.showStartButton ? 1.0 : 0.0,
                     duration: Duration(milliseconds: 300),
                     child: FlatButton.icon(
-                      onPressed: () {
+                      onPressed: this.showStartButton ? () {
                         // Prevent user from pressing this button randomly
-                        if (this.showStartButton) {
-                          Navigator.pushReplacementNamed(context, '/timer');
-                          // Update current habit
-                          local.updateCurrHabit(Habit(inputController.text, this.howManyDays));
-                        }
-                      },
+                        Navigator.pushReplacementNamed(context, '/timer');
+                        // Update current habit
+                        local.updateCurrHabit(newHabit: Habit(inputController.text, this.howManyDays));
+                      } : null,
                       icon: Icon(Icons.play_arrow), 
                       label: Text('START NOW')
                     ),
@@ -104,7 +101,7 @@ class _HomePageState extends State<HomePage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        TextField(
+        habit == null ? TextField(
           enabled: habit == null,
           maxLines: 1,
           controller: inputController,
@@ -129,6 +126,9 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           textAlign: TextAlign.center,
+        ) : Text(
+          habit.name,
+          style: TextStyle(fontSize: fontSizeHabit, fontStyle: FontStyle.italic),
         ),
         FlatButton(
           child: Text(
@@ -139,7 +139,7 @@ class _HomePageState extends State<HomePage> {
               decoration: howManyDays == 0 ? TextDecoration.underline : null,
             ),
           ),
-          onPressed: () {
+          onPressed: habit == null ? () {
             // Dismiss keyboard
             FocusScopeNode currentFocus = FocusScope.of(context);
             if (!currentFocus.hasPrimaryFocus) {
@@ -163,7 +163,7 @@ class _HomePageState extends State<HomePage> {
                 showStartButton = this.shouldShowStartButton();
               });
             });
-          },
+          } : null,
         ),
       ],
     );

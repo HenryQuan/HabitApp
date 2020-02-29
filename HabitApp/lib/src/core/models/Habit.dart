@@ -35,7 +35,8 @@ class Habit {
 
   /// for example, Day 1
   String getProgressText() {
-    return 'Day $progress';
+    // Add one to show the correct date
+    return 'Day ${progress + 1}';
   }
 
   /// Only call this after the timer has ended
@@ -57,9 +58,10 @@ class Habit {
   Habit.fromJson(Map<String, dynamic> json)
       : name = json['name'],
         length = json['length'],
-        progress = json['progress'],
+        // somehow, 0 is treated as null
+        progress = json['process'],
         completed = json['completed'],
-        date = json['date'];
+        date = DateTime.parse(json['date']);
 
   Map<String, dynamic> toJson() =>
   {
@@ -67,7 +69,7 @@ class Habit {
     'length': length,
     'process': progress,
     'completed': completed,
-    'date': date,
+    'date': date.toIso8601String(),
   };
 
   @override

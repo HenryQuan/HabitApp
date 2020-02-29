@@ -1,4 +1,5 @@
 import 'Package:HabitApp/src/core/Utils.dart';
+import 'package:HabitApp/src/core/LocalData.dart';
 import 'package:HabitApp/src/ui/widgets/ResultWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -84,11 +85,13 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
   // Render complete with fancy animation
   Widget renderComplete(double time) {
     if (time == 0) {
+      final local = LocalData();
+      local.updateCurrHabit();
       return Align(
         // This does cover up the top two
         alignment: Alignment.center,
         child: ResultWidget(
-          mode: ResultMode.completed, 
+          mode: local.getCorrectMode(), 
           deviceSize: MediaQuery.of(context).size, 
           animated: true
         ),

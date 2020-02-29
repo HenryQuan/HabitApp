@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:HabitApp/src/core/models/Habit.dart';
 import 'package:HabitApp/src/core/models/History.dart';
+import 'package:HabitApp/src/ui/widgets/ResultWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalData {
@@ -18,18 +19,22 @@ class LocalData {
   Habit _currHabit;
   Habit getCurrentHabit() => _currHabit;
   /// Update current habit and save it to storage
-  void updateCurrHabit(Habit newHabit) {
-    if (this._currHabit == null) {
-      // Set it as a new habit
-      this._currHabit = newHabit;
-    } else {
+  void updateCurrHabit({Habit newHabit}) {
+    if (newHabit == null){
       // Update current habit
       this._currHabit.updateHabit();
+    } else if (this._currHabit == null) {
+      // Set it as a new habit
+      this._currHabit = newHabit;
     }
 
     // Write it into loca storage
-    print(newHabit);
-    _prefs.setString('current', jsonEncode(newHabit));
+    _prefs.setString('current', jsonEncode(this._currHabit));
+  }
+
+  /// Get appropriate ResultMode depending on whether habit has ended or not
+  ResultMode getCorrectMode() {
+    return _currHabit.completed ? ResultMode.ended : ResultMode.completed;
   }
 
   // Habit history
@@ -58,7 +63,11 @@ class LocalData {
     print(habitNow);
     if (habitNow != null) {
       Map habitJson = jsonDecode(habitNow);
-      _currHabit = new Habit.fromJson(habitJson);
+      // If the saved data is null
+      if (habitJson != null) {
+        _currHabit = new Habit.fromJson(habitJson);
+        print(_currHabit);
+      }
     }
   }
 
