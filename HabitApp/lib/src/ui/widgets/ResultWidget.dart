@@ -44,10 +44,13 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
   double shareOpacity = 0.0;
 
   double deviceWidth;
+  ResultMode mode;
 
   @override
   void initState() {
     super.initState();
+
+    this.mode = widget.mode;
   
     final size = widget.deviceSize;
     deviceWidth = size.height > size.width ? size.width : size.height;
@@ -88,7 +91,23 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
       });
     });
 
-    final completed = widget.mode == ResultMode.completed;
+    Color backgroundColor, androidColor;
+    // Get correct colour base on mode
+    switch (mode) {
+      case ResultMode.completed:
+        backgroundColor = Colors.green[600];
+        androidColor = Colors.green[900];
+        break;
+      case ResultMode.ended:
+        backgroundColor = Colors.blue[500];
+        androidColor = Colors.blue[900];
+        break;
+      case ResultMode.failed:
+        backgroundColor = Colors.red[700];
+        androidColor = Colors.red[900];
+        break;
+    }
+
 
     // Update theme to be dark only here
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -97,7 +116,7 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
         width: containerWidth,
         duration: Duration(milliseconds: 300),
         decoration: BoxDecoration(
-          color: completed ? Colors.green[600] : Colors.red[700],
+          color: backgroundColor,
           borderRadius: containerRadius
         ),
         curve: Curves.linearToEaseOut,
@@ -107,9 +126,9 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
         // IOS, match current screen colour
         statusBarBrightness: Brightness.dark,
         // Android
-        statusBarColor: completed ? Colors.green[900] : Colors.red[900],
+        statusBarColor: androidColor,
         statusBarIconBrightness: Brightness.light,
-        systemNavigationBarColor: completed ? Colors.green[900] : Colors.red[900],
+        systemNavigationBarColor: androidColor,
         systemNavigationBarIconBrightness: Brightness.light,
       ),
     );
@@ -118,7 +137,7 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
   Widget renderIcon() {
     if (this.showIcon) {
       final deviceWidth = Utils.getBestWidth(context);
-      final completed = widget.mode == ResultMode.completed;
+      final completed = widget.mode != ResultMode.failed;
   
       // Update icon size
       Future.delayed(Duration.zero).then((_) {
@@ -155,19 +174,19 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
                 AnimatedSize(
                   duration: Duration(milliseconds: 300),
                   vsync: this,
-                  child: this.renderIconWidget(completed),
+                  child: this.renderIconWidget(mode),
                 ),
                 AnimatedOpacity(
                   duration: Duration(milliseconds: 300),
                   opacity: textOpacity,
-                  child: this.renderAccordingMode(completed),
+                  child: this.renderAccordingMode(mode),
                 ),
               ],
             ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: this.renderShare(completed)
+            child: this.renderShare(mode)
           )
         ],
       );
@@ -177,8 +196,19 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
   }
 
   /// Render the correct icon depending on whether user completes or fails
-  Widget renderIconWidget(bool completed) {
-    IconData icon = completed ? Icons.check : Icons.close;
+  Widget renderIconWidget(ResultMode mode) {
+    IconData icon;
+    switch (mode) {
+      case ResultMode.completed:
+        icon = Icons.check;
+        break;
+      case ResultMode.ended:
+        icon = Icons.thumb_up;
+        break;
+      case ResultMode.failed:
+        icon = Icons.close;
+        break;
+    }
 
     return Icon(
       icon, 
@@ -188,8 +218,8 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
   }
 
   /// Only render share button if completed
-  Widget renderShare(bool completed) {
-    if (completed) {
+  Widget renderShare(ResultMode mode) {
+    if (mode != ResultMode.failed) {
       return AnimatedOpacity(
         duration: Duration(milliseconds: 300),
         opacity: shareOpacity,
@@ -215,14 +245,25 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
   }
 
   /// Render cross fade text or just fade in a button
-  Widget renderAccordingMode(bool completed) {
-    if (completed) {
+  Widget renderAccordingMode(ResultMode mode) {
+    if (mode != ResultMode.failed) {
+      String first, second;
+
+      // TODO: need some adjustment here
+      if (mode == ResultMode.completed) {
+        first = 'All good';
+        second = 'See you tomorrow :)';
+      } else {
+        first = 'Amazing';
+        second = 'You did it :)';
+      }
+
       return AnimatedCrossFade(
         firstCurve: Curves.elasticOut,
         secondCurve: Curves.elasticOut,
         duration: Duration(milliseconds: 200),
-        firstChild: renderText('All good', deviceWidth),
-        secondChild: renderText('Come back tomorrow :)', deviceWidth),
+        firstChild: renderText(first, deviceWidth),
+        secondChild: renderText(second, deviceWidth),
         crossFadeState: showFirstMsg ? CrossFadeState.showFirst : CrossFadeState.showSecond,
       );
     } else {
