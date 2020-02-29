@@ -95,7 +95,7 @@ class _IntroPageState extends State<IntroPage> {
                         }, 
                         label: Text(
                           'Start a new habit now',
-                          style: TextStyle(fontSize: deviceWidth / 22),
+                          style: TextStyle(fontSize: deviceWidth / LocalData.widthDivider),
                         ),
                       ),
                     ),
@@ -116,7 +116,7 @@ class _IntroPageState extends State<IntroPage> {
       child: Text(
         msg,
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: width / 22),
+        style: TextStyle(fontSize: width / LocalData.widthDivider),
       ),
     );
   }

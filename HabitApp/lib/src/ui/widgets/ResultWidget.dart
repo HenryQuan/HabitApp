@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'Package:HabitApp/src/core/Utils.dart';
+import 'package:HabitApp/src/core/LocalData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -8,8 +9,12 @@ import 'package:share/share.dart';
 
 /// There are two modes for this wiget
 enum ResultMode {
+  /// Completed for today
   completed,
-  failed
+  /// The habit ends today
+  ended,
+  /// Didn't do it yesterday
+  failed,
 }
 
 /// ResultWidget class
@@ -237,7 +242,7 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
   Widget renderText(String msg, double width) {
     return Text(
       msg,
-      style: TextStyle(fontSize: width / 20, color: Colors.white),
+      style: TextStyle(fontSize: width / LocalData.widthDivider, color: Colors.white),
     );
   }
 }

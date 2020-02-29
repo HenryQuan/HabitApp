@@ -9,10 +9,10 @@ class LocalData {
   // Constants
   static const String appVersion = '1.0.0';
   static const String appName = "Henry's Habit App";
+  static const int widthDivider = 22;
 
   SharedPreferences _prefs;
   bool _firstLaunch;
-
 
   // Current habit 
   Habit _currHabit;

@@ -2,6 +2,7 @@ import 'Package:HabitApp/src/core/Utils.dart';
 import 'package:HabitApp/src/core/LocalData.dart';
 import 'package:HabitApp/src/ui/widgets/ThemedWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// HomePage class
 class HomePage extends StatefulWidget {
@@ -27,11 +28,17 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Utils.isDarkTheme(context);
+    // Somehow, AppBar overrides it...
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: isDarkMode ? Colors.grey[900] : Colors.grey[100]
+    ));
+
     final deviceWidth = Utils.getBestWidth(context);
 
     return ThemedWidget(
       child: Scaffold(
         appBar: AppBar(
+          brightness: isDarkMode ? Brightness.dark : Brightness.light,
           title: Text('Day 1'),
           leading: IconButton(
             icon: Icon(Icons.history),
@@ -81,8 +88,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget renderNewHabit(bool isDarkMode, double deviceWidth) {
-    final fontSize = deviceWidth / 14;
-    final fontSizeHabit = deviceWidth / 10;
+    final fontSize = deviceWidth / 18;
+    final fontSizeHabit = deviceWidth / 12;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -117,6 +124,7 @@ class _HomePageState extends State<HomePage> {
             howManyDays == 0 ? 'everyday until when?' : 'everyday for $howManyDays days',
             style: TextStyle(
               fontSize: fontSize,
+              fontWeight: FontWeight.w300,
               decoration: howManyDays == 0 ? TextDecoration.underline : null,
             ),
           ),
