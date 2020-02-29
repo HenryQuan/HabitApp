@@ -10,7 +10,9 @@ Other than simply typing in a boring number. I think home screen is now all good
 Now, only `History` left. I am still thinking about it and I don't know how to add it yet. 
 When a habit ends, it should push to `History` and add `curr` to `history`. 
 `curr` becomes null and `History` should push to `Home` to start a new habit. However, the user has done one. 
-Maybe it is better to wait for the next day?
+Maybe it is better to wait for the next day? Yes, I have decided to let the user wait for one day. The habit will be added to `History` 
+if the user uses the app the next day or after that. Animation will be shown and current habit will be added to history. 
+I will leave it for tomorrow because I have done enough today. 
 
 # 27/02/2020
 Theme in `HomePage` is now working properly. It was broken because `Stack` and `AppBar`. 
