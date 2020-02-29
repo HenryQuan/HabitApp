@@ -1,5 +1,6 @@
 import 'Package:HabitApp/src/core/Utils.dart';
 import 'package:HabitApp/src/core/LocalData.dart';
+import 'package:HabitApp/src/core/models/Habit.dart';
 import 'package:HabitApp/src/ui/widgets/ThemedWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   bool showStartButton = false;
   final inputController = TextEditingController();
   final local = LocalData();
+  Habit habit;
 
   @override
   void dispose() {
@@ -34,12 +36,18 @@ class _HomePageState extends State<HomePage> {
     ));
 
     final deviceWidth = Utils.getBestWidth(context);
+    this.habit = local.getCurrentHabit();
+    print(habit);
+    if (habit != null) {
+      showStartButton = true;
+      howManyDays = habit.length;
+    }
 
     return ThemedWidget(
       child: Scaffold(
         appBar: AppBar(
           brightness: isDarkMode ? Brightness.dark : Brightness.light,
-          title: Text('Day 1'),
+          title: Text(habit?.getProgressText() ?? 'Day 1' ),
           leading: IconButton(
             icon: Icon(Icons.history),
             onPressed: () {
@@ -72,6 +80,8 @@ class _HomePageState extends State<HomePage> {
                         // Prevent user from pressing this button randomly
                         if (this.showStartButton) {
                           Navigator.pushReplacementNamed(context, '/timer');
+                          // Update current habit
+                          local.updateCurrHabit(Habit(inputController.text, this.howManyDays));
                         }
                       },
                       icon: Icon(Icons.play_arrow), 
@@ -95,6 +105,7 @@ class _HomePageState extends State<HomePage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         TextField(
+          enabled: habit == null,
           maxLines: 1,
           controller: inputController,
           onChanged: (value) {

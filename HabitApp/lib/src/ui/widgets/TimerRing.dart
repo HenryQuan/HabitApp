@@ -88,7 +88,7 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
         // This does cover up the top two
         alignment: Alignment.center,
         child: ResultWidget(
-          mode: ResultMode.ended, 
+          mode: ResultMode.completed, 
           deviceSize: MediaQuery.of(context).size, 
           animated: true
         ),

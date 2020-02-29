@@ -219,7 +219,7 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
 
   /// Only render share button if completed
   Widget renderShare(ResultMode mode) {
-    if (mode != ResultMode.failed) {
+    if (mode == ResultMode.completed) {
       return AnimatedOpacity(
         duration: Duration(milliseconds: 300),
         opacity: shareOpacity,

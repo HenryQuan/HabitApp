@@ -4,7 +4,7 @@ class Habit {
   /// How long is this habit in days
   int length;
   /// How many days in, start from 1
-  int progress = 1;
+  int progress = 0;
   /// Whether this is completed
   bool completed = false;
   /// The time of completion
@@ -44,7 +44,7 @@ class Habit {
     progress += 1;
 
     // we start with 1 so even if progress equals length, it is still the last day
-    if (progress > length) {
+    if (progress >= length) {
       this.completed = true;
     }
 
@@ -69,4 +69,9 @@ class Habit {
     'completed': completed,
     'date': date,
   };
+
+  @override
+  String toString() {
+    return 'name: $name, length: $length, process: $progress, completed: $completed, date: $date';
+  }
 }

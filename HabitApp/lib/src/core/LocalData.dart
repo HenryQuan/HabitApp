@@ -19,7 +19,16 @@ class LocalData {
   Habit getCurrentHabit() => _currHabit;
   /// Update current habit and save it to storage
   void updateCurrHabit(Habit newHabit) {
-    this._currHabit = newHabit;
+    if (this._currHabit == null) {
+      // Set it as a new habit
+      this._currHabit = newHabit;
+    } else {
+      // Update current habit
+      this._currHabit.updateHabit();
+    }
+
+    // Write it into loca storage
+    print(newHabit);
     _prefs.setString('current', jsonEncode(newHabit));
   }
 
@@ -46,6 +55,7 @@ class LocalData {
     }
 
     final habitNow = _prefs.get('current');
+    print(habitNow);
     if (habitNow != null) {
       Map habitJson = jsonDecode(habitNow);
       _currHabit = new Habit.fromJson(habitJson);
