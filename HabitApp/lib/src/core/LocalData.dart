@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:HabitApp/src/core/models/Habit.dart';
 import 'package:HabitApp/src/core/models/History.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,10 +13,20 @@ class LocalData {
   SharedPreferences _prefs;
   bool _firstLaunch;
 
+
+  // Current habit 
   Habit _currHabit;
+  Habit getCurrentHabit() => _currHabit;
+  /// Update current habit and save it to storage
+  void updateCurrHabit(Habit newHabit) {
+    this._currHabit = newHabit;
+    _prefs.setString('current', jsonEncode(newHabit));
+  }
+
+  // Habit history
   History _habitHistory;
 
-    // Singleton pattern 
+  // Singleton pattern 
   LocalData._init();
   static final LocalData _instance = new LocalData._init();
 
@@ -35,7 +47,8 @@ class LocalData {
 
     final habitNow = _prefs.get('current');
     if (habitNow != null) {
-      _currHabit = new Habit.fromJson(habitNow);
+      Map habitJson = jsonDecode(habitNow);
+      _currHabit = new Habit.fromJson(habitJson);
     }
   }
 

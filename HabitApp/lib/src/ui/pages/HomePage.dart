@@ -1,7 +1,7 @@
 import 'Package:HabitApp/src/core/Utils.dart';
+import 'package:HabitApp/src/core/LocalData.dart';
 import 'package:HabitApp/src/ui/widgets/ThemedWidget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 /// HomePage class
 class HomePage extends StatefulWidget {
@@ -16,6 +16,7 @@ class _HomePageState extends State<HomePage> {
   int howManyDays = 0;
   bool showStartButton = false;
   final inputController = TextEditingController();
+  final local = LocalData();
 
   @override
   void dispose() {
