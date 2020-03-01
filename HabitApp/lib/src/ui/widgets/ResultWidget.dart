@@ -74,6 +74,14 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
   }
 
   @override
+  void setState(fn) {
+    // Somehow, it sets state after disposed
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     // Update container
     Future.delayed(Duration.zero).then((_) {
@@ -277,7 +285,11 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
       );
     } else {
       return FlatButton.icon(
-        onPressed: () => null, 
+        onPressed: () {
+          // Add it history
+          LocalData().addHabitToHistoryIfNeeded(force: true);
+          Navigator.pushReplacementNamed(context, '/home');
+        }, 
         icon: Icon(
           Icons.refresh,
           color: Colors.white,

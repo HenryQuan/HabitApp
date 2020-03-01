@@ -70,7 +70,13 @@ class Habit {
   String getCompletedDateHumanString() {
     final monthPad = date.month.toString().padLeft(2, '0');
     final dayPad = date.day.toString().padLeft(2, '0');
-    return 'Completed on ${date.year}-$monthPad-$dayPad';
+    final timeString = '${date.year}-$monthPad-$dayPad';
+    // For failed habits, a different description will be used
+    if (completed) {
+      return 'Completed on $timeString';
+    } else {
+      return 'Stopped on $timeString';
+    }
   }
 
   /// A readable string for how long the habit was, `20 days`

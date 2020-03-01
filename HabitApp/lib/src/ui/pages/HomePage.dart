@@ -144,14 +144,17 @@ class _HomePageState extends State<HomePage> {
   /// - you didn't do it yersterday
   Widget renderResult(Size size) {
     ResultMode mode;
-    if (!this.habit.stillOK()) mode = ResultMode.failed;
-    else if (this.habit.completed) mode = ResultMode.ended;
+    bool animated = false;
+    if (!this.habit.stillOK()) {
+      mode = ResultMode.failed;
+      animated = true;
+    } else if (this.habit.completed) mode = ResultMode.ended;
     else mode = ResultMode.completed;
 
     return ResultWidget(
-      mode: mode, 
+      mode: ResultMode.failed, 
       deviceSize: size,
-      animated: false
+      animated: true
     );
   }
 

@@ -69,14 +69,16 @@ class LocalData {
       // If the saved data is null
       if (habitJson != null) {
         _currHabit = Habit.fromJson(habitJson);
-        this._addHabitToHistoryIfNeeded();
+        this.addHabitToHistoryIfNeeded();
       }
     }
   }
 
   /// Check if it is a new day and the status of the habit is completed
-  void _addHabitToHistoryIfNeeded() {
-    if (this._currHabit.isNewDay() && this._currHabit.completed) {
+  /// - force, for failed habits only
+  void addHabitToHistoryIfNeeded({bool force = false}) {
+    // Force mode for failed habits
+    if (force || (this._currHabit.isNewDay() && this._currHabit.completed)) {
       _habitHistory.addToHistory(this._currHabit);
       // Save this
       _prefs.setString('history', jsonEncode(this._habitHistory));
