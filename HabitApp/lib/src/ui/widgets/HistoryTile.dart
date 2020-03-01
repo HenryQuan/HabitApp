@@ -1,3 +1,4 @@
+import 'package:HabitApp/src/core/LocalData.dart';
 import 'package:HabitApp/src/core/models/Habit.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,10 @@ class HistoryTile extends StatefulWidget {
 class _HistoryTileState extends State<HistoryTile> {
   @override
   Widget build(BuildContext context) {
-    return Text('HistoryTile');
+    return ListTile(
+      title: Text(widget.habit.name),
+      subtitle: Text(widget.habit.getCompletedDateHumanString()),
+      trailing: Text(widget.habit.getLengthHumanString()),
+    );
   }
 }

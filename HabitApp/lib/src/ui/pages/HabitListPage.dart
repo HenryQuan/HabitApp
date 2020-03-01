@@ -1,3 +1,4 @@
+import 'package:HabitApp/src/core/LocalData.dart';
 import 'package:HabitApp/src/core/models/Habit.dart';
 import 'package:HabitApp/src/ui/widgets/HistoryTile.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class HabitListPage extends StatefulWidget {
 
 
 class _HabitListPageState extends State<HabitListPage> {
-  List<Habit> habits = [];
+  final habits = LocalData().getHistory().history;
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +21,12 @@ class _HabitListPageState extends State<HabitListPage> {
       appBar: AppBar(
         title: Text('History')
       ),
-      body: AnimatedList(
-        itemBuilder: (BuildContext context, int index, Animation<double> animation) { 
-          return HistoryTile();
-        },
-        initialItemCount: 5,
-      ),
+      body: ListView.builder(
+        itemCount: habits.length,
+        itemBuilder: (context, index) {
+          return HistoryTile(habit: habits[index]);
+        }
+      )
     );
   }
 }

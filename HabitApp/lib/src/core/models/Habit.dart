@@ -31,6 +31,15 @@ class Habit {
       && date.year == now.year);
   }
 
+  /// Check if it is the next day
+  bool isNewDay() {
+    // If you did it at 8am, you still have 16 hours to go to pass that day
+    final timeLeftToday = 24 - date.hour;
+    final now = DateTime.now();
+    // Check if the difference is more that time left for today
+    return now.difference(date).inHours > timeLeftToday;
+  }
+
   // Whether `ResultWidget` should be rendered
   bool shouldRenderResult() {
     return this.completed || this.goodToday() || !this.stillOK();
@@ -51,6 +60,18 @@ class Habit {
   String getProgressText() {
     // Add one to show the correct date
     return 'Day ${progress + 1}';
+  }
+
+  /// Convert date to something like `Completed on 2020-1-30`
+  String getCompletedDateHumanString() {
+    final monthPad = date.month.toString().padLeft(2, '0');
+    final dayPad = date.day.toString().padLeft(2, '0');
+    return 'Completed on ${date.year}-$monthPad-$dayPad';
+  }
+
+  /// A readable string for how long the habit was, `20 days`
+  String getLengthHumanString() {
+    return '$length days';
   }
 
   /// Only call this after the timer has ended

@@ -38,7 +38,8 @@ class LocalData {
   }
 
   // Habit history
-  History _habitHistory;
+  History _habitHistory = History();
+  History getHistory() => _habitHistory;
 
   // Singleton pattern 
   LocalData._init();
@@ -55,19 +56,34 @@ class LocalData {
     _firstLaunch = _prefs.getBool('firstLaunch') ?? true;
 
     final savedHistory = _prefs.get('history');
+    print('History: $savedHistory');
     if (savedHistory != null) {
-      _habitHistory = new History(savedHistory);
+      Map historyJson = jsonDecode(savedHistory);
+      _habitHistory = History.fromJson(historyJson);
     }
 
     final habitNow = _prefs.get('current');
-    print(habitNow);
+    print('Habit: $habitNow');
     if (habitNow != null) {
       Map habitJson = jsonDecode(habitNow);
       // If the saved data is null
       if (habitJson != null) {
-        _currHabit = new Habit.fromJson(habitJson);
-        print(_currHabit);
+        _currHabit = Habit.fromJson(habitJson);
+        this._addHabitToHistoryIfNeeded();
       }
+    }
+  }
+
+  /// Check if it is a new day and the status of the habit is completed
+  void _addHabitToHistoryIfNeeded() {
+    if (this._currHabit.isNewDay() && this._currHabit.completed) {
+      _habitHistory.addToHistory(this._currHabit);
+      // Save this
+      _prefs.setString('history', jsonEncode(this._currHabit));
+
+      // Reset current habit
+      this._currHabit = null;
+      _prefs.setString('current', jsonEncode(this._currHabit));
     }
   }
 
