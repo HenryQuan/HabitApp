@@ -4,6 +4,8 @@ template
 # /03/2020
 ~~~
 
+# 02/03/2020
+
 # 01/03/2020
 `History` has been implemented and it is ready for alpha testing. It is quite smooth on my phone. 
 I will do some more optimization development on IOS and I think it should be ready to be published. 

@@ -79,9 +79,9 @@ class Habit {
     }
   }
 
-  /// A readable string for how long the habit was, `20 days`
+  /// A readable string for how long the habit was, `20d`
   String getLengthHumanString() {
-    return '$progress days';
+    return '$progress' + 'd';
   }
 
   /// Only call this after the timer has ended

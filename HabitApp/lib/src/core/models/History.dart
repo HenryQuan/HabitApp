@@ -5,9 +5,10 @@ import 'package:HabitApp/src/core/models/Habit.dart';
 class History {
   List<Habit> history = [];
   List<Habit> getHistory() => history;
-  void addToHistory(Habit ended) => history.add(ended);
+  /// Insert new habit to first (so latest first)
+  void addToHistory(Habit ended) => history.insert(0, ended);
   /// Get total days spent with Henry's Habit App
-  String totalDaysHumanString() => '${history.fold(0, (pre, curr) => pre + curr.progress)} days';
+  String totalDaysHumanString() => '${history.fold(0, (pre, curr) => pre + curr.progress)}d';
   
   History();
 
