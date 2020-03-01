@@ -1,6 +1,7 @@
 import 'Package:HabitApp/src/core/Utils.dart';
 import 'package:HabitApp/src/core/LocalData.dart';
 import 'package:HabitApp/src/core/models/Habit.dart';
+import 'package:HabitApp/src/ui/widgets/ResultWidget.dart';
 import 'package:HabitApp/src/ui/widgets/ThemedWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -42,8 +43,16 @@ class _HomePageState extends State<HomePage> {
       howManyDays = habit.length;
     }
 
+    // Not ok, if no habit, it is ok
+    bool isFailed = !(this.habit?.stillOK() ?? true);
+
     return ThemedWidget(
-      child: Scaffold(
+      child: isFailed ? 
+      Center(
+        // Render failed if failed
+        child: this.renderResult(MediaQuery.of(context).size)
+      ) : 
+      Scaffold(
         appBar: AppBar(
           brightness: isDarkMode ? Brightness.dark : Brightness.light,
           title: Text(habit?.getProgressText() ?? 'Day 1' ),
@@ -89,8 +98,16 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
-        )
+        ),
       ), 
+    );
+  }
+
+  Widget renderResult(Size size) {
+    return ResultWidget(
+      mode: ResultMode.failed, 
+      deviceSize: size, 
+      animated: true
     );
   }
 
