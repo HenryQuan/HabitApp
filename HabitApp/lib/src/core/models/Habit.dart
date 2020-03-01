@@ -45,6 +45,7 @@ class Habit {
 
   // Whether `ResultWidget` should be rendered
   bool shouldRenderResult() {
+    print('Completed - $completed\nGoodToday - ${goodToday()}\nNot OK - ${!stillOK()}');
     return this.completed || this.goodToday() || !this.stillOK();
   }
 
@@ -74,7 +75,7 @@ class Habit {
 
   /// A readable string for how long the habit was, `20 days`
   String getLengthHumanString() {
-    return '$length days';
+    return '$progress days';
   }
 
   /// Only call this after the timer has ended

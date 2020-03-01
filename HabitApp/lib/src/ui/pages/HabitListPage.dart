@@ -18,15 +18,16 @@ class _HabitListPageState extends State<HabitListPage> {
   @override
   Widget build(BuildContext context) {
     final habits = history.getHistory();
+    final vertical = MediaQuery.of(context).orientation == Orientation.portrait;
     return Scaffold(
       appBar: AppBar(
         title: Text('History'),
         actions: <Widget>[
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(history.totalDaysHumanString()),
-            )
+          Padding(
+            padding: EdgeInsets.all(vertical ? 16.0 : 0.0),
+            child: Center(
+              child: Text(history.totalDaysHumanString())
+            ),
           ),
         ],
       ),

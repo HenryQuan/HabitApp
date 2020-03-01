@@ -17,6 +17,7 @@ class _HistoryTileState extends State<HistoryTile> {
     return ListTile(
       title: Text(widget.habit.name),
       subtitle: Text(widget.habit.getCompletedDateHumanString()),
+      leading: Icon(Icons.check, size: 36),
       trailing: Text(widget.habit.getLengthHumanString()),
       onTap: () {},
     );

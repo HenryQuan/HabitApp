@@ -46,6 +46,7 @@ class _HomePageState extends State<HomePage> {
 
     // failed or completed
     bool renderResult = this.habit?.shouldRenderResult() ?? false;
+    print('renderResult is $renderResult');
 
     return ThemedWidget(
       child: renderResult && habit != null ? 

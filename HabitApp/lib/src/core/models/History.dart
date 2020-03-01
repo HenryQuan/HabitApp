@@ -7,13 +7,12 @@ class History {
   List<Habit> getHistory() => history;
   void addToHistory(Habit ended) => history.add(ended);
   /// Get total days spent with Henry's Habit App
-  String totalDaysHumanString() => '${history.fold(0, (pre, curr) => pre + curr.length)} days';
+  String totalDaysHumanString() => '${history.fold(0, (pre, curr) => pre + curr.progress)} days';
   
   History();
 
   History.fromJson(Map<String, dynamic> json) {
     final list = json['history'] as List;
-    print(list);
     // Read everything back
     list.forEach((element) {
       this.history.add(Habit.fromJson(element));
