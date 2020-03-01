@@ -79,7 +79,7 @@ class LocalData {
     if (this._currHabit.isNewDay() && this._currHabit.completed) {
       _habitHistory.addToHistory(this._currHabit);
       // Save this
-      _prefs.setString('history', jsonEncode(this._currHabit));
+      _prefs.setString('history', jsonEncode(this._habitHistory));
 
       // Reset current habit
       this._currHabit = null;

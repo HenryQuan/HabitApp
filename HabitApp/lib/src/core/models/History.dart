@@ -10,13 +10,18 @@ class History {
   History();
 
   History.fromJson(Map<String, dynamic> json) {
-    print(json);
-    this.history = json['history'];
+    final list = json['history'] as List;
+    print(list);
+    // Read everything back
+    list.forEach((element) {
+      this.history.add(Habit.fromJson(element));
+    });
   }
 
   Map<String, dynamic> toJson() =>
   {
-    'history': jsonEncode(history)
+    // Convert history into a habit list
+    'history': history.map((element) => element.toJson()).toList(),
   };
 
   @override

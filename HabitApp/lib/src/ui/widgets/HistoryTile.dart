@@ -19,6 +19,7 @@ class _HistoryTileState extends State<HistoryTile> {
       title: Text(widget.habit.name),
       subtitle: Text(widget.habit.getCompletedDateHumanString()),
       trailing: Text(widget.habit.getLengthHumanString()),
+      onTap: () {},
     );
   }
 }
