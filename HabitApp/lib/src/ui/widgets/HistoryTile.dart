@@ -14,10 +14,15 @@ class HistoryTile extends StatefulWidget {
 class _HistoryTileState extends State<HistoryTile> {
   @override
   Widget build(BuildContext context) {
+    final completed = widget.habit.completed;
     return ListTile(
-      title: Text(widget.habit.name),
-      subtitle: Text(widget.habit.getCompletedDateHumanString()),
-      leading: Icon(Icons.check, size: 36),
+      title: Text(widget.habit.name, maxLines: 1),
+      subtitle: Text(widget.habit.getCompletedDateHumanString(), maxLines: 1),
+      leading: Icon(
+        completed ? Icons.check : Icons.close, 
+        size: 36,
+        color: completed ? Colors.green[500] : Colors.red[500],
+      ),
       trailing: Text(widget.habit.getLengthHumanString()),
       onTap: () {},
     );
