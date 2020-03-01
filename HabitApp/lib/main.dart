@@ -1,6 +1,5 @@
 import 'Package:HabitApp/src/ui/pages/HomePage.dart';
 import 'package:HabitApp/src/core/LocalData.dart';
-import 'package:HabitApp/src/ui/pages/CountDownPage.dart';
 import 'package:HabitApp/src/ui/pages/HabitListPage.dart';
 import 'package:HabitApp/src/ui/pages/IntroPage.dart';
 import 'package:HabitApp/src/ui/pages/SettingsPage.dart';

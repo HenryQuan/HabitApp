@@ -2,7 +2,6 @@ import 'package:HabitApp/src/core/LocalData.dart';
 import 'package:HabitApp/src/core/Utils.dart';
 import 'package:HabitApp/src/ui/widgets/ThemedWidget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 /// IntroPage class
 class IntroPage extends StatefulWidget {
