@@ -43,14 +43,16 @@ class _HomePageState extends State<HomePage> {
       howManyDays = habit.length;
     }
 
-    // Not ok, if no habit, it is ok
-    bool isFailed = !(this.habit?.stillOK() ?? true);
+    // failed or completed
+    bool renderResult = this.habit?.shouldRenderResult() ?? false;
 
     return ThemedWidget(
-      child: isFailed ? 
-      Center(
-        // Render failed if failed
-        child: this.renderResult(MediaQuery.of(context).size)
+      child: renderResult ? 
+      Scaffold(
+        body: Center(
+          // Render failed if failed
+          child: this.renderResult(MediaQuery.of(context).size),
+        ),
       ) : 
       Scaffold(
         appBar: AppBar(
@@ -103,11 +105,20 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  /// Render `ResultWidget` if
+  /// - you did it today (completed)
+  /// - the habit ends
+  /// - you didn't do it yersterday
   Widget renderResult(Size size) {
+    ResultMode mode;
+    if (!this.habit.stillOK()) mode = ResultMode.failed;
+    else if (this.habit.completed) mode = ResultMode.ended;
+    else mode = ResultMode.completed;
+
     return ResultWidget(
-      mode: ResultMode.failed, 
-      deviceSize: size, 
-      animated: true
+      mode: mode, 
+      deviceSize: size,
+      animated: false
     );
   }
 

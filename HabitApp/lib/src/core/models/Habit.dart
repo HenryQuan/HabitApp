@@ -22,6 +22,20 @@ class Habit {
     return diffHours < timeLeft;
   }
 
+  /// Check if this habit has been done today
+  /// - Check if now is the same as saed date
+  bool goodToday() {
+    final now = DateTime.now();
+    return (date.day == now.day 
+      && date.month == now.month 
+      && date.year == now.year);
+  }
+
+  // Whether `ResultWidget` should be rendered
+  bool shouldRenderResult() {
+    return this.completed || this.goodToday() || !this.stillOK();
+  }
+
   /// Get current percentage of completion
   double getPercentage() {
     return progress.toDouble() / length.toDouble();
