@@ -59,6 +59,7 @@ class _HomePageState extends State<HomePage> {
           brightness: isDarkMode ? Brightness.dark : Brightness.light,
           title: Text(habit?.getProgressText() ?? 'Day 1' ),
           leading: IconButton(
+            tooltip: 'History',
             icon: Icon(Icons.history),
             onPressed: () {
               Navigator.pushNamed(context, '/list');
@@ -66,6 +67,32 @@ class _HomePageState extends State<HomePage> {
           ),
           actions: <Widget>[
             IconButton(
+              tooltip: 'How does it work?',
+              icon: Icon(Icons.help_outline),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text('How does it work?'),
+                      content: Text(
+                        'Enter...'
+                      ),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text('OK'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+            IconButton(
+              tooltip: 'Settings',
               icon: Icon(Icons.settings),
               onPressed: () {
                 Navigator.pushNamed(context, '/settings');
