@@ -7,6 +7,7 @@ template
 # 01/03/2020
 `History` has been implemented and it is ready for alpha testing. It is quite smooth on my phone. 
 I will do some more optimization development on IOS and I think it should be ready to be published. 
+Failed habits can now be added and new habit can start again. I will publish 0.0.2 version later.
 
 # 29/02/2020
 Somehow, this wasn't committed. It was mainly about `HomePage` and `ResultWidget`. Only `History` left now.
