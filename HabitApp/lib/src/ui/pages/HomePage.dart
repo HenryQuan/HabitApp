@@ -152,9 +152,9 @@ class _HomePageState extends State<HomePage> {
     else mode = ResultMode.completed;
 
     return ResultWidget(
-      mode: ResultMode.failed, 
+      mode: mode, 
       deviceSize: size,
-      animated: true
+      animated: animated
     );
   }
 

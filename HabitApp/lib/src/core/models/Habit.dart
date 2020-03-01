@@ -101,7 +101,12 @@ class Habit {
     this.date = DateTime.now();
   }
 
-  Habit(this.name, this.length);
+  /// From https://stackoverflow.com/a/29629135
+  String _capitalize(String name) => name[0].toUpperCase() + name.substring(1);
+
+  Habit(String name, this.length) {
+    this.name = _capitalize(name);
+  }
 
   Habit.fromJson(Map<String, dynamic> json)
       : name = json['name'],
