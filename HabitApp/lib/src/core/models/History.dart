@@ -4,8 +4,10 @@ import 'package:HabitApp/src/core/models/Habit.dart';
 
 class History {
   List<Habit> history = [];
-  getHistory() => history;
-  addToHistory(Habit ended) => history.add(ended);
+  List<Habit> getHistory() => history;
+  void addToHistory(Habit ended) => history.add(ended);
+  /// Get total days spent with Henry's Habit App
+  String totalDaysHumanString() => '${history.fold(0, (pre, curr) => pre + curr.length)} days';
   
   History();
 

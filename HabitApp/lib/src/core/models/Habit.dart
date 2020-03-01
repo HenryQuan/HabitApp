@@ -26,7 +26,10 @@ class Habit {
   /// - Check if now is the same as saed date
   bool goodToday() {
     final now = DateTime.now();
-    return (date.day == now.day 
+    // For the first time, date is set to today by default, 
+    // so you need to check if process is actually greater than 0. 
+    // Otherwise, it will say see you tomorrow even if you haven't done anything
+    return progress > 0 && (date.day == now.day 
       && date.month == now.month 
       && date.year == now.year);
   }

@@ -13,13 +13,22 @@ class HabitListPage extends StatefulWidget {
 
 
 class _HabitListPageState extends State<HabitListPage> {
-  final habits = LocalData().getHistory().history;
+  final history = LocalData().getHistory();
 
   @override
   Widget build(BuildContext context) {
+    final habits = history.getHistory();
     return Scaffold(
       appBar: AppBar(
-        title: Text('History')
+        title: Text('History'),
+        actions: <Widget>[
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(history.totalDaysHumanString()),
+            )
+          ),
+        ],
       ),
       body: ListView.builder(
         itemCount: habits.length,

@@ -1,6 +1,7 @@
 import 'Package:HabitApp/src/core/Utils.dart';
 import 'package:HabitApp/src/core/LocalData.dart';
 import 'package:HabitApp/src/core/models/Habit.dart';
+import 'package:HabitApp/src/ui/pages/CountDownPage.dart';
 import 'package:HabitApp/src/ui/widgets/ResultWidget.dart';
 import 'package:HabitApp/src/ui/widgets/ThemedWidget.dart';
 import 'package:flutter/material.dart';
@@ -113,9 +114,13 @@ class _HomePageState extends State<HomePage> {
                     opacity: this.showStartButton ? 1.0 : 0.0,
                     duration: Duration(milliseconds: 300),
                     child: FlatButton.icon(
+                      // Prevent user from pressing this button randomly
                       onPressed: this.showStartButton ? () {
-                        // Prevent user from pressing this button randomly
-                        Navigator.pushReplacementNamed(context, '/timer');
+                        // Show a fullscreen dialog on both systems
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => CountDownPage(), fullscreenDialog: true)
+                        );
+
                         // Update current habit
                         local.updateCurrHabit(newHabit: Habit(inputController.text, this.howManyDays));
                       } : null,
@@ -185,40 +190,43 @@ class _HomePageState extends State<HomePage> {
           habit.name,
           style: TextStyle(fontSize: fontSizeHabit, fontStyle: FontStyle.italic),
         ),
-        FlatButton(
-          child: Text(
-            howManyDays == 0 ? 'everyday until when?' : 'everyday for $howManyDays days',
-            style: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.w300,
-              decoration: howManyDays == 0 ? TextDecoration.underline : null,
+        Tooltip(
+          message: 'Select a date here',
+          child: FlatButton(
+            child: Text(
+              howManyDays == 0 ? 'everyday until when?' : 'everyday for $howManyDays days',
+              style: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.w300,
+                decoration: howManyDays == 0 ? TextDecoration.underline : null,
+              ),
             ),
-          ),
-          onPressed: habit == null ? () {
-            // Dismiss keyboard
-            FocusScopeNode currentFocus = FocusScope.of(context);
-            if (!currentFocus.hasPrimaryFocus) {
-              // Unfocus and dismiss keyboard
-              currentFocus.unfocus();
-            }
+            onPressed: habit == null ? () {
+              // Dismiss keyboard
+              FocusScopeNode currentFocus = FocusScope.of(context);
+              if (!currentFocus.hasPrimaryFocus) {
+                // Unfocus and dismiss keyboard
+                currentFocus.unfocus();
+              }
 
-            final now = DateTime.now();
-            // At least, 5 days...
-            final firstDate = DateTime(now.year, now.month, now.day).add(Duration(days: 5));
-            // At most, 100 days!
-            final lastDate = firstDate.add(Duration(days: 96));
-            showDatePicker(
-              context: context, 
-              initialDate: firstDate,
-              firstDate: firstDate,
-              lastDate: lastDate,
-            ).then((value) {
-              setState(() {
-                howManyDays = this.convertDateToDays(value);
-                showStartButton = this.shouldShowStartButton();
+              final now = DateTime.now();
+              // At least, 5 days...
+              final firstDate = DateTime(now.year, now.month, now.day).add(Duration(days: 5));
+              // At most, 100 days!
+              final lastDate = firstDate.add(Duration(days: 96));
+              showDatePicker(
+                context: context, 
+                initialDate: firstDate,
+                firstDate: firstDate,
+                lastDate: lastDate,
+              ).then((value) {
+                setState(() {
+                  howManyDays = this.convertDateToDays(value);
+                  showStartButton = this.shouldShowStartButton();
+                });
               });
-            });
-          } : null,
+            } : null,
+          ),
         ),
       ],
     );

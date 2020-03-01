@@ -33,7 +33,6 @@ class MyApp extends StatelessWidget {
         '/intro': (context) => IntroPage(),
         '/settings': (context) => SettingsPage(),
         '/list': (context) => HabitListPage(),
-        '/timer': (context) => CountDownPage(),
       },
     );
   }
