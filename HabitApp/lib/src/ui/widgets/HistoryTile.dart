@@ -1,4 +1,3 @@
-import 'package:HabitApp/src/core/LocalData.dart';
 import 'package:HabitApp/src/core/models/Habit.dart';
 import 'package:flutter/material.dart';
 
