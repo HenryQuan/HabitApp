@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
     bool renderResult = this.habit?.shouldRenderResult() ?? false;
 
     return ThemedWidget(
-      child: renderResult ? 
+      child: renderResult && habit != null ? 
       Scaffold(
         body: Center(
           // Render failed if failed
