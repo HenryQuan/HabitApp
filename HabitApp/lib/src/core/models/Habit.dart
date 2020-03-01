@@ -80,8 +80,11 @@ class Habit {
 
   /// Only call this after the timer has ended
   void updateHabit() {
-    // add one to progress
-    progress += 1;
+    // add one to progress if it is a new day, 
+    // It should be impossible to add more than one everyday,
+    // unless it is day 0
+    if (progress == 0) progress = 1;
+    if (isNewDay()) progress += 1;
 
     // we start with 1 so even if progress equals length, it is still the last day
     if (progress >= length) {

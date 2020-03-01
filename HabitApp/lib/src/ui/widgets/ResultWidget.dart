@@ -137,7 +137,6 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
   Widget renderIcon() {
     if (this.showIcon) {
       final deviceWidth = Utils.getBestWidth(context);
-      final completed = widget.mode != ResultMode.failed;
   
       // Update icon size
       Future.delayed(Duration.zero).then((_) {
@@ -233,8 +232,15 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
                   Share.share('Hello World');
                 }
               }, 
-              icon: Icon(Icons.share, color: Colors.white), 
-              label: Text('Share with friends', style: TextStyle(color: Colors.white))
+              icon: Icon(
+                Icons.share, 
+                color: Colors.white,
+                size: deviceWidth / LocalData.widthDivider * 1.2,
+              ), 
+              label: Text(
+                'Share with friends', 
+                style: TextStyle(color: Colors.white, fontSize: deviceWidth / LocalData.widthDivider / 1.2),
+              )
             ),
           ),
         ),
