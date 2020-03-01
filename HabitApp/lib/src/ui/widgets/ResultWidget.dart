@@ -69,6 +69,7 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
       showIcon = true;
       iconSize = deviceWidth / 2;
       showFirstMsg = false;
+      shareOpacity = 1.0;
     }
   }
 
@@ -138,31 +139,33 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
     if (this.showIcon) {
       final deviceWidth = Utils.getBestWidth(context);
   
-      // Update icon size
-      Future.delayed(Duration.zero).then((_) {
-        setState(() {
-          iconSize = deviceWidth / 2;
+      if (widget.animated) {
+        // Update icon size
+        Future.delayed(Duration.zero).then((_) {
+          setState(() {
+            iconSize = deviceWidth / 2;
+          });
         });
-      });
 
-      // Fade in text
-      Future.delayed(Duration(seconds: 1)).then((_) {
-        setState(() {
-          textOpacity = 1.0;
+        // Fade in text
+        Future.delayed(Duration(seconds: 1)).then((_) {
+          setState(() {
+            textOpacity = 1.0;
+          });
         });
-      });
 
-      Future.delayed(Duration(milliseconds: 2200)).then((_) {
-        setState(() {
-          showFirstMsg = false;
+        Future.delayed(Duration(milliseconds: 2200)).then((_) {
+          setState(() {
+            showFirstMsg = false;
+          });
         });
-      });
 
-      Future.delayed(Duration(milliseconds: 3500)).then((_) {
-        setState(() {
-          shareOpacity = 1.0;
-        });
+        Future.delayed(Duration(milliseconds: 3500)).then((_) {
+          setState(() {
+            shareOpacity = 1.0;
+          });
       });
+      }
 
       return Stack(
         children: <Widget>[
