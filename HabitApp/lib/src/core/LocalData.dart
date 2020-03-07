@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:HabitApp/src/core/models/Habit.dart';
 import 'package:HabitApp/src/core/models/History.dart';
 import 'package:HabitApp/src/ui/widgets/ResultWidget.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalData {
@@ -41,6 +42,16 @@ class LocalData {
   History _habitHistory = History();
   History getHistory() => _habitHistory;
 
+  // Notification time
+  TimeOfDay _notificationTime;
+  TimeOfDay getNotificationTime() => _notificationTime;
+  void updateNotificationTime(TimeOfDay newTime) {
+    // Write it into loca storage
+    _notificationTime = newTime;
+    String saved = '${newTime.hour},${newTime.minute}';
+    _prefs.setString('notification', saved);
+  }
+
   // Singleton pattern 
   LocalData._init();
   static final LocalData _instance = new LocalData._init();
@@ -55,6 +66,7 @@ class LocalData {
     _prefs = await SharedPreferences.getInstance();
     _firstLaunch = _prefs.getBool('firstLaunch') ?? true;
 
+    // Get history
     final savedHistory = _prefs.get('history');
     print('History: $savedHistory');
     if (savedHistory != null) {
@@ -62,6 +74,7 @@ class LocalData {
       _habitHistory = History.fromJson(historyJson);
     }
 
+    // Get curent habit
     final habitNow = _prefs.get('current');
     print('Habit: $habitNow');
     if (habitNow != null) {
@@ -70,6 +83,22 @@ class LocalData {
       if (habitJson != null) {
         _currHabit = Habit.fromJson(habitJson);
         this.addHabitToHistoryIfNeeded();
+      }
+    }
+
+    // Get notification time for display
+    final time = _prefs.getString('notification');
+    print('Notification: $time');
+    if (time != null) {
+      // Make sure it is valid
+      final timeList = time.split(',');
+      final h = int.tryParse(timeList[0]);
+      final min = int.tryParse(timeList[1]);
+      if (h != null && min != null) {
+          _notificationTime = TimeOfDay(
+          hour: h, 
+          minute: min
+        );
       }
     }
   }
