@@ -4,7 +4,10 @@ template
 # /03/2020
 ~~~
 
-# 02/03/2020
+# 07/03/2020
+Testing phrase 1 was done and everything is working. The main issue here is that users don't know how this app works. 
+I need to write a good `about this app` and `how it works`. The purpose of this app is to start something. 
+That's why one minute is sufficient for it. I will probably publish it or do a beta testing at the end of this month. 
 
 # 01/03/2020
 `History` has been implemented and it is ready for alpha testing. It is quite smooth on my phone. 
