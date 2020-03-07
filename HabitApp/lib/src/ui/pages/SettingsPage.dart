@@ -64,10 +64,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 );
 
                 await this.notifcation.showDailyAtTime(
-                  0, 
+                  1, 
                   "Henry's Habit App", 
                   "Don't forget about your habit", 
-                  Time(value.hour, value.minute, 30), 
+                  Time(value.hour, value.minute, 10), 
                   platformDetails
                 );
               });
