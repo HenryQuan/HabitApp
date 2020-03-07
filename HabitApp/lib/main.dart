@@ -4,6 +4,7 @@ import 'package:HabitApp/src/ui/pages/HabitListPage.dart';
 import 'package:HabitApp/src/ui/pages/IntroPage.dart';
 import 'package:HabitApp/src/ui/pages/SettingsPage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,6 +14,22 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  MyApp() {
+    // Setup notification
+    final notification = FlutterLocalNotificationsPlugin();
+    // TODO: remember to update the app logo
+    final android = AndroidInitializationSettings('app_icon');
+    final ios = IOSInitializationSettings();
+    final initializationSettings = InitializationSettings(android, ios);
+    notification.initialize(initializationSettings, onSelectNotification: onSelectNotification);
+  }
+
+  /// Simply print the payload
+  Future onSelectNotification(String payload) {
+    debugPrint("Notification payload: " + payload);
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
