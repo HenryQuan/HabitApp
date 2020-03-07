@@ -52,7 +52,11 @@ class _SettingsPageState extends State<SettingsPage> {
 
                 // Update notification time
                 final ios = IOSNotificationDetails(presentBadge: true, presentAlert: true, badgeNumber: 0, presentSound: true);
-                final android = AndroidNotificationDetails('habit', 'habit_app', 'daily reminder');
+                final android = AndroidNotificationDetails(
+                  'habit', 'habit_app', 'daily reminder', 
+                  importance: Importance.High, priority: Priority.High
+                );
+
                 final platformDetails = NotificationDetails(android, ios);
                 // Update new notifications (2 of them)
                 await this.notifcation.showDailyAtTime(

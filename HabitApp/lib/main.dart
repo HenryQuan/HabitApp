@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     // Setup notification
     final notification = FlutterLocalNotificationsPlugin();
     // TODO: remember to update the app logo
-    final android = AndroidInitializationSettings('app_icon');
+    final android = AndroidInitializationSettings('notification');
     final ios = IOSInitializationSettings();
     final initializationSettings = InitializationSettings(android, ios);
     notification.initialize(initializationSettings, onSelectNotification: onSelectNotification);
