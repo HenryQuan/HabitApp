@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(Icons.help_outline),
               onPressed: () {
                 showDialog(
-                  barrierDismissible:  false,
+                  barrierDismissible: false,
                   context: context,
                   builder: (context) {
                     return AlertDialog(

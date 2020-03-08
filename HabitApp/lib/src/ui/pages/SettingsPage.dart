@@ -54,7 +54,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 final ios = IOSNotificationDetails(presentBadge: true, presentAlert: true, badgeNumber: 0, presentSound: true);
                 final android = AndroidNotificationDetails(
                   'habit', 'habit_app', 'daily reminder', 
-                  importance: Importance.High, priority: Priority.High
+                  importance: Importance.Max, priority: Priority.High
                 );
 
                 final platformDetails = NotificationDetails(android, ios);
