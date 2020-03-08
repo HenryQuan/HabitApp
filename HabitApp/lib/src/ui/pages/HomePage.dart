@@ -73,16 +73,15 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(Icons.help_outline),
               onPressed: () {
                 showDialog(
+                  barrierDismissible:  false,
                   context: context,
                   builder: (context) {
                     return AlertDialog(
                       title: Text('How does it work?'),
-                      content: Text(
-                        'Enter...'
-                      ),
+                      content: Text(LocalData.howToUse),
                       actions: <Widget>[
                         FlatButton(
-                          child: Text('OK'),
+                          child: Text('Close'),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },

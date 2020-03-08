@@ -103,7 +103,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       context: context,
                       applicationName: LocalData.appName,
                       applicationVersion: LocalData.appVersion,
-                      applicationLegalese: 'Put about here'
+                      applicationLegalese: LocalData.aboutApp
                     );
                   },
                 )

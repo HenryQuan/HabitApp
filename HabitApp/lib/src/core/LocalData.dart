@@ -9,8 +9,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LocalData {
 
   // Constants
-  static const String appVersion = '0.0.2';
+  static const String appVersion = '0.0.3';
   static const String appName = "Henry's Habit App";
+  static const String aboutApp = '';
+  static const String howToUse = 'This app aims to help you to start a new habit or simply do something';
   static const int widthDivider = 22;
 
   SharedPreferences _prefs;

@@ -16,7 +16,6 @@ class _HabitListPageState extends State<HabitListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final habits = history.getHistory();
     final vertical = MediaQuery.of(context).orientation == Orientation.portrait;
     return Scaffold(
       appBar: AppBar(
@@ -30,12 +29,26 @@ class _HabitListPageState extends State<HabitListPage> {
           ),
         ],
       ),
-      body: ListView.builder(
+      body: renderBody(),
+    );
+  }
+
+  Widget renderBody() {
+    final habits = history.getHistory();
+    if (habits.length == 0) {
+      return Center(
+        child: FlatButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text('No history found'),
+        )
+      );
+    } else {
+      return ListView.builder(
         itemCount: habits.length,
         itemBuilder: (context, index) {
           return HistoryTile(habit: habits[index]);
         }
-      )
-    );
+      );
+    }
   }
 }
