@@ -4,6 +4,9 @@ template
 # /03/2020
 ~~~
 
+# 10/03/2020
+Notification is working but only once somehow. I might need to study more about Android notifications.
+
 # 07/03/2020
 Testing phrase 1 was done and everything is working. The main issue here is that users don't know how this app works. 
 I need to write a good `about this app` and `how it works`. The purpose of this app is to start something. 

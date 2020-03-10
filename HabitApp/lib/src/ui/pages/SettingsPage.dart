@@ -54,7 +54,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 final ios = IOSNotificationDetails(presentBadge: true, presentAlert: true, badgeNumber: 0, presentSound: true);
                 final android = AndroidNotificationDetails(
                   'habit', 'habit_app', 'daily reminder', 
-                  importance: Importance.Max, priority: Priority.High
+                  importance: Importance.Max, priority: Priority.High,
                 );
 
                 final platformDetails = NotificationDetails(android, ios);
@@ -64,14 +64,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   "Henry's Habit App", 
                   "Don't forget about your habit", 
                   Time(value.hour, value.minute, 0), 
-                  platformDetails
-                );
-
-                await this.notifcation.showDailyAtTime(
-                  1, 
-                  "Henry's Habit App", 
-                  "Don't forget about your habit", 
-                  Time(value.hour, value.minute, 10), 
                   platformDetails
                 );
               });
