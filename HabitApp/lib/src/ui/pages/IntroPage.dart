@@ -65,42 +65,40 @@ class _IntroPageState extends State<IntroPage> {
 
     return ThemedWidget(
       child: Scaffold(
-        body: SafeArea(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),  
-              child: Column(
-                // Put the button at the button
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  // Use this as a margin
-                  SizedBox.shrink(),
-                  this.renderFadeText('One minute...', opacity1, deviceWidth),
-                  this.renderFadeText('Just one minute everyday...', opacity2, deviceWidth),
-                  this.renderFadeText('It is that easy to\nstart a new habit...', opacity3, deviceWidth),
-                  this.renderFadeText('So... Why not ...', opacity4, deviceWidth),
-                  AnimatedOpacity(
-                    duration: Duration(milliseconds: 300),
-                    opacity: opacity5,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: FlatButton.icon(
-                        icon: Icon(Icons.arrow_forward),
-                        onPressed: () {
-                          if (opacity5 == 0) return;
-                          // Set first launch to false
-                          LocalData().updateFirstLaunch(false);
-                          Navigator.pushReplacementNamed(context, '/home');
-                        }, 
-                        label: Text(
-                          'Start a new habit now',
-                          style: TextStyle(fontSize: deviceWidth / LocalData.widthDivider),
-                        ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),  
+            child: Column(
+              // Put the button at the button
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                // Use this as a margin
+                SizedBox.shrink(),
+                this.renderFadeText('One minute...', opacity1, deviceWidth),
+                this.renderFadeText('Just one minute everyday...', opacity2, deviceWidth),
+                this.renderFadeText('It is that easy to\nstart a new habit...', opacity3, deviceWidth),
+                this.renderFadeText('So... Why not ...', opacity4, deviceWidth),
+                AnimatedOpacity(
+                  duration: Duration(milliseconds: 300),
+                  opacity: opacity5,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: FlatButton.icon(
+                      icon: Icon(Icons.arrow_forward),
+                      onPressed: () {
+                        if (opacity5 == 0) return;
+                        // Set first launch to false
+                        LocalData().updateFirstLaunch(false);
+                        Navigator.pushReplacementNamed(context, '/home');
+                      }, 
+                      label: Text(
+                        'Start a new habit now',
+                        style: TextStyle(fontSize: deviceWidth / LocalData.widthDivider),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         )

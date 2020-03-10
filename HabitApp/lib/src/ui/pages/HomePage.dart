@@ -46,15 +46,15 @@ class _HomePageState extends State<HomePage> {
     bool renderResult = this.habit?.shouldRenderResult() ?? false;
     print('renderResult is $renderResult');
 
-    return ThemedWidget(
-      child: renderResult && habit != null ? 
-      Scaffold(
+    if (renderResult && habit != null) {
+      return Scaffold(
         body: Center(
           // Render failed if failed
           child: this.renderResult(MediaQuery.of(context).size),
         ),
-      ) : 
-      Scaffold(
+      );
+    } else {
+      return Scaffold(
         appBar: AppBar(
           brightness: isDarkMode ? Brightness.dark : Brightness.light,
           title: Text(habit?.getProgressText() ?? 'Day 1' ),
@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        body: SafeArea(
+        body: ThemedWidget(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
@@ -131,8 +131,8 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-      ), 
-    );
+      );
+    }
   }
 
   /// Render `ResultWidget` if

@@ -28,7 +28,9 @@ class ThemedWidget extends StatelessWidget {
         systemNavigationBarColor: adaptiveBarColour,
         systemNavigationBarIconBrightness: adaptiveBrightnessAndroid,
       ),
-      child: this.child,
+      child: SafeArea(
+        child: this.child,
+      ),
     );
   }
 }
