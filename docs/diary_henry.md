@@ -5,7 +5,9 @@ template
 ~~~
 
 # 10/03/2020
-Notification is working but only once somehow. I might need to study more about Android notifications.
+Notification is working but only once somehow. I might need to study more about Android notifications. 
+Version 0.0.3 is out for internal testing. I have added a settings button for `ResultWidget` to update reminder. 
+I still need to polish this app with more suggestions and ideas if possible. About and how to use are also really important I think. 
 
 # 07/03/2020
 Testing phrase 1 was done and everything is working. The main issue here is that users don't know how this app works. 
