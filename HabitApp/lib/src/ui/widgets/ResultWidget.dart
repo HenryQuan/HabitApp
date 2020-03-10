@@ -175,30 +175,49 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
       });
       }
 
-      return Stack(
-        children: <Widget>[
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                AnimatedSize(
-                  duration: Duration(milliseconds: 300),
-                  vsync: this,
-                  child: this.renderIconWidget(mode),
-                ),
-                AnimatedOpacity(
-                  duration: Duration(milliseconds: 300),
-                  opacity: textOpacity,
-                  child: this.renderAccordingMode(mode),
-                ),
-              ],
+      return SafeArea(
+        child: Stack(
+          children: <Widget>[
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  AnimatedSize(
+                    duration: Duration(milliseconds: 300),
+                    vsync: this,
+                    child: this.renderIconWidget(mode),
+                  ),
+                  AnimatedOpacity(
+                    duration: Duration(milliseconds: 300),
+                    opacity: textOpacity,
+                    child: this.renderAccordingMode(mode),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: this.renderShare(mode)
-          )
-        ],
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: this.renderShare(mode)
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: AnimatedOpacity(
+                  opacity: shareOpacity,
+                  duration: Duration(milliseconds: 300),
+                  child: IconButton(
+                    icon: Icon(Icons.settings),
+                    color: Colors.white,
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/settings');
+                    },
+                  ),
+                ),
+              )
+            ),
+          ],
+        ),
       );
     } else {
       return SizedBox.shrink();

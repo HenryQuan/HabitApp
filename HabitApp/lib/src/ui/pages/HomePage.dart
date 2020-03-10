@@ -33,9 +33,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final isDarkMode = Utils.isDarkTheme(context);
     // Somehow, AppBar overrides it...
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: isDarkMode ? Colors.grey[900] : Colors.grey[100]
-    ));
+    Utils.setStatusBarColour(context);
 
     final deviceWidth = Utils.getBestWidth(context);
     this.habit = local.getCurrentHabit();

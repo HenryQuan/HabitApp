@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 class Utils {
@@ -17,5 +19,18 @@ class Utils {
   static double getBestWidth(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return size.height < size.width ? size.height : size.width;
+  }
+
+  // Get the right colour based on mode
+  static Color getStatusBarColour(bool isDarkMode) {
+    return isDarkMode ? Colors.grey[900] : Colors.grey[100];
+  }
+
+  /// Set adaptive status bar colour
+  static void setStatusBarColour(BuildContext context) {
+    final isDarkMode = Utils.isDarkTheme(context);
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Utils.getStatusBarColour(isDarkMode)
+    ));
   }
 }

@@ -1,5 +1,8 @@
 import 'package:HabitApp/src/core/LocalData.dart';
+import 'package:HabitApp/src/core/Utils.dart';
+import 'package:HabitApp/src/ui/widgets/ThemedWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -26,6 +29,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     return Scaffold(
       appBar: AppBar(
         title: Text('Settings')
