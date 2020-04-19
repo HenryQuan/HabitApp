@@ -19,6 +19,7 @@ class TimerRing extends StatefulWidget {
 class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMixin {
   AnimationController controller;
   Animation<double> smoothPercentage;
+  final local = LocalData.shared;
 
   @override
   void initState() {
@@ -32,21 +33,18 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
   /// Setup animation for the one minue timer
   void _setupTimerAnimation() {
     // Setup controller for an ultra smooth one minute animation
-    controller = AnimationController(duration: Duration(seconds: 60), vsync: this);
+    // TODO: change the date back
+    controller = AnimationController(duration: Duration(seconds: 5), vsync: this);
     smoothPercentage = Tween(begin: 60.0, end: 0.0).animate(controller)
     ..addListener(() {
-      setState(() {
-        // Update the tween value
-      });        
+      setState(() { /** Update the tween value **/ });        
     });
 
     controller.addStatusListener((status) async {
       // When it is done, vibrate
       if (status == AnimationStatus.completed) {
         // Vibrate device
-        if (await Vibration.hasVibrator()) {
-          Vibration.vibrate();
-        }
+        if (await Vibration.hasVibrator()) Vibration.vibrate();
       }
     });
 
@@ -85,7 +83,6 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
   // Render complete with fancy animation
   Widget renderComplete(double time) {
     if (time == 0) {
-      final local = LocalData.shared;
       local.updateCurrHabit();
       return Align(
         // This does cover up the top two
@@ -109,7 +106,7 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
   }
 }
 
-
+/// This paints the timer arc
 class TimerPainter extends CustomPainter {
   double _percentage;
   BuildContext _context;

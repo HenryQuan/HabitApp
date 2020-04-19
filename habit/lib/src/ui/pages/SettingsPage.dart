@@ -29,87 +29,85 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ThemedWidget(
-      child: Center(
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text('Settings')
-          ),
-          body: Column(
-            children: <Widget>[
-              ListTile(
-                title: Text('Reminder'),
-                subtitle: Text(reminderTime != null ? reminderTime.format(context) : 'Choose a time'),
-                onTap: () async {
-                  Future<TimeOfDay> selectedTime = showTimePicker(
-                    initialTime: TimeOfDay.now(),
-                    context: context,
+    return Center(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Settings')
+        ),
+        body: Column(
+          children: <Widget>[
+            ListTile(
+              title: Text('Reminder'),
+              subtitle: Text(reminderTime != null ? reminderTime.format(context) : 'Choose a time'),
+              onTap: () async {
+                Future<TimeOfDay> selectedTime = showTimePicker(
+                  initialTime: TimeOfDay.now(),
+                  context: context,
+                );
+
+                selectedTime.then((value) async {
+                  // Cancel current notification
+                  this.notifcation.cancelAll();
+                  // Save notification time
+                  this.local.updateNotificationTime(value);
+                  setState(() {
+                    reminderTime = value;
+                  });
+
+                  // Update notification time
+                  final ios = IOSNotificationDetails(presentBadge: true, presentAlert: true, badgeNumber: 0, presentSound: true);
+                  final android = AndroidNotificationDetails(
+                    'habit', 'habit_app', 'daily reminder', 
+                    importance: Importance.Max, priority: Priority.High,
                   );
 
-                  selectedTime.then((value) async {
-                    // Cancel current notification
-                    this.notifcation.cancelAll();
-                    // Save notification time
-                    this.local.updateNotificationTime(value);
-                    setState(() {
-                      reminderTime = value;
-                    });
-
-                    // Update notification time
-                    final ios = IOSNotificationDetails(presentBadge: true, presentAlert: true, badgeNumber: 0, presentSound: true);
-                    final android = AndroidNotificationDetails(
-                      'habit', 'habit_app', 'daily reminder', 
-                      importance: Importance.Max, priority: Priority.High,
-                    );
-
-                    final platformDetails = NotificationDetails(android, ios);
-                    // Update new notifications (2 of them)
-                    await this.notifcation.showDailyAtTime(
-                      0, 
-                      "Henry's Habit App", 
-                      "Don't forget about your habit", 
-                      Time(value.hour, value.minute, 0), 
-                      platformDetails
-                    );
-                  });
-                },
+                  final platformDetails = NotificationDetails(android, ios);
+                  // Update new notifications (2 of them)
+                  await this.notifcation.showDailyAtTime(
+                    0, 
+                    "Henry's Habit App", 
+                    "Don't forget about your habit", 
+                    Time(value.hour, value.minute, 0), 
+                    platformDetails
+                  );
+                });
+              },
+            ),
+            Divider(),
+            Expanded(
+              child: ListView(
+                children: <Widget>[
+                  ListTile(
+                    title: Text('Feedback'),
+                    subtitle: Text('Send an email to the developer'),
+                    onTap: () {
+                      launch('mailto:development.henryquan@gmail.com?subject=[HabitApp 1.0.0]');
+                    },
+                  ),
+                  ListTile(
+                    onTap: () {
+                      launch('https://github.com/HenryQuan/HabitApp');
+                    },
+                    title: Text('Source code'),
+                    subtitle: Text('Checkout the source code on GitHub'),
+                  ),
+                  ListTile(
+                    title: Text(LocalData.appName),
+                    subtitle: Text(LocalData.appVersion),
+                    onTap: () {
+                      showAboutDialog(
+                        context: context,
+                        applicationName: LocalData.appName,
+                        applicationVersion: LocalData.appVersion,
+                        applicationLegalese: LocalData.aboutApp
+                      );
+                    },
+                  )
+                ],
               ),
-              Divider(),
-              Expanded(
-                child: ListView(
-                  children: <Widget>[
-                    ListTile(
-                      title: Text('Feedback'),
-                      subtitle: Text('Send an email to the developer'),
-                      onTap: () {
-                        launch('mailto:development.henryquan@gmail.com?subject=[HabitApp 1.0.0]');
-                      },
-                    ),
-                    ListTile(
-                      onTap: () {
-                        launch('https://github.com/HenryQuan/HabitApp');
-                      },
-                      title: Text('Source code'),
-                      subtitle: Text('Checkout the source code on GitHub'),
-                    ),
-                    ListTile(
-                      title: Text(LocalData.appName),
-                      subtitle: Text(LocalData.appVersion),
-                      onTap: () {
-                        showAboutDialog(
-                          context: context,
-                          applicationName: LocalData.appName,
-                          applicationVersion: LocalData.appVersion,
-                          applicationLegalese: LocalData.aboutApp
-                        );
-                      },
-                    )
-                  ],
-                ),
-              )
-            ],
-          )
-        ),
+            )
+          ],
+        )
       ),
     );
   }

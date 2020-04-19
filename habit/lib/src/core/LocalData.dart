@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LocalData {
 
   // Constants
-  static const String appVersion = '0.0.4';
+  static const String appVersion = '0.0.5';
   static const String appName = "Henry's Habit App";
   static const String aboutApp = '';
   static const String howToUse = '';

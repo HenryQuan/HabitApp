@@ -76,9 +76,7 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
   @override
   void setState(fn) {
     // Somehow, it sets state after disposed
-    if (mounted) {
-      super.setState(fn);
-    }
+    if (mounted) super.setState(fn);
   }
 
   @override
@@ -178,50 +176,62 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
       return SafeArea(
         child: Stack(
           children: <Widget>[
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  AnimatedSize(
-                    duration: Duration(milliseconds: 300),
-                    vsync: this,
-                    child: this.renderIconWidget(mode),
-                  ),
-                  AnimatedOpacity(
-                    duration: Duration(milliseconds: 300),
-                    opacity: textOpacity,
-                    child: this.renderAccordingMode(mode),
-                  ),
-                ],
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: this.renderShare(mode)
-            ),
-            Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: AnimatedOpacity(
-                  opacity: shareOpacity,
-                  duration: Duration(milliseconds: 300),
-                  child: IconButton(
-                    icon: Icon(Icons.settings),
-                    color: Colors.white,
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/settings');
-                    },
-                  ),
-                ),
-              )
-            ),
+            buildResult(),
+            buildShareButton(),
+            buildSettingButton(),
           ],
         ),
       );
     } else {
       return SizedBox.shrink();
     }
+  }
+
+  Center buildResult() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          AnimatedSize(
+            duration: Duration(milliseconds: 300),
+            vsync: this,
+            child: this.renderIconWidget(mode),
+          ),
+          AnimatedOpacity(
+            duration: Duration(milliseconds: 300),
+            opacity: textOpacity,
+            child: this.renderAccordingMode(mode),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Align buildShareButton() {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: this.renderShare(mode)
+    );
+  }
+
+  Align buildSettingButton() {
+    return Align(
+      alignment: Alignment.topRight,
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: AnimatedOpacity(
+          opacity: shareOpacity,
+          duration: Duration(milliseconds: 300),
+          child: IconButton(
+            icon: Icon(Icons.settings),
+            color: Colors.white,
+            onPressed: () {
+              Navigator.pushNamed(context, '/settings');
+            },
+          ),
+        ),
+      )
+    );
   }
 
   /// Render the correct icon depending on whether user completes or fails
@@ -248,7 +258,8 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
 
   /// Only render share button if completed
   Widget renderShare(ResultMode mode) {
-    if (mode == ResultMode.completed) {
+    if (mode != ResultMode.failed) {
+      // Senpai asked me to add share button for completed as well
       return AnimatedOpacity(
         duration: Duration(milliseconds: 300),
         opacity: shareOpacity,
@@ -258,9 +269,7 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
             width: double.infinity,
             child: FlatButton.icon(
               onPressed: () {
-                if (shareOpacity >= 0.9) {
-                  Share.share('Hello World');
-                }
+                if (shareOpacity >= 0.9) Share.share('Hello World');
               }, 
               icon: Icon(
                 Icons.share, 
@@ -294,29 +303,37 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
         second = 'You did it :)';
       }
 
-      return AnimatedCrossFade(
-        firstCurve: Curves.elasticOut,
-        secondCurve: Curves.elasticOut,
-        duration: Duration(milliseconds: 200),
-        firstChild: renderText(first, deviceWidth),
-        secondChild: renderText(second, deviceWidth),
-        crossFadeState: showFirstMsg ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-      );
+      return buildSuccessMode(first, second);
     } else {
-      return FlatButton.icon(
-        onPressed: () {
-          // Add it history
-          LocalData.shared.addHabitToHistoryIfNeeded(force: true);
-          Navigator.pushReplacementNamed(context, '/home');
-        }, 
-        icon: Icon(
-          Icons.refresh,
-          color: Colors.white,
-          size: deviceWidth / 15,
-        ), 
-        label: this.renderText('Try again', deviceWidth),
-      );
+      return buildFailure();
     }
+  }
+
+  FlatButton buildFailure() {
+    return FlatButton.icon(
+      onPressed: () {
+        // Add it history
+        LocalData.shared.addHabitToHistoryIfNeeded(force: true);
+        Navigator.pushReplacementNamed(context, '/home');
+      }, 
+      icon: Icon(
+        Icons.refresh,
+        color: Colors.white,
+        size: deviceWidth / 15,
+      ), 
+      label: this.renderText('Try again', deviceWidth),
+    );
+  }
+
+  AnimatedCrossFade buildSuccessMode(String first, String second) {
+    return AnimatedCrossFade(
+      firstCurve: Curves.elasticOut,
+      secondCurve: Curves.elasticOut,
+      duration: Duration(milliseconds: 200),
+      firstChild: renderText(first, deviceWidth),
+      secondChild: renderText(second, deviceWidth),
+      crossFadeState: showFirstMsg ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+    );
   }
 
   /// Render a text widget with msg and preset styles

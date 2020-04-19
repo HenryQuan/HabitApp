@@ -65,37 +65,8 @@ class _HomePageState extends State<HomePage> {
             },
           ),
           actions: <Widget>[
-            IconButton(
-              tooltip: 'How does it work?',
-              icon: Icon(Icons.help_outline),
-              onPressed: () {
-                showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: Text('How does it work?'),
-                      content: Text(LocalData.howToUse),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Text('Close'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-            ),
-            IconButton(
-              tooltip: 'Settings',
-              icon: Icon(Icons.settings),
-              onPressed: () {
-                Navigator.pushNamed(context, '/settings');
-              },
-            ),
+            buildInfoButton(context),
+            buildSettingsButton(context),
           ],
         ),
         body: ThemedWidget(
@@ -134,6 +105,43 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  IconButton buildInfoButton(BuildContext context) {
+    return IconButton(
+      tooltip: 'How does it work?',
+      icon: Icon(Icons.help_outline),
+      onPressed: () {
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('How does it work?'),
+              content: Text(LocalData.howToUse),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Close'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  IconButton buildSettingsButton(BuildContext context) {
+    return IconButton(
+      tooltip: 'Settings',
+      icon: Icon(Icons.settings),
+      onPressed: () {
+        Navigator.pushNamed(context, '/settings');
+      },
+    );
+  }
+
   /// Render `ResultWidget` if
   /// - you did it today (completed)
   /// - the habit ends
@@ -161,74 +169,88 @@ class _HomePageState extends State<HomePage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        habit == null ? TextField(
-          enabled: habit == null,
-          maxLines: 1,
-          controller: inputController,
-          onChanged: (value) {
-            // Update current text
+        habit == null 
+        ? buildTextInput(isDarkMode, fontSizeHabit) 
+        : buildHabitText(fontSizeHabit),
+        buildDateSelection(fontSize),
+      ],
+    );
+  }
+
+  Text buildHabitText(double fontSizeHabit) {
+    return Text(
+        habit.name,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: fontSizeHabit, fontStyle: FontStyle.italic),
+      );
+  }
+
+  TextField buildTextInput(bool isDarkMode, double fontSizeHabit) {
+    return TextField(
+      enabled: habit == null,
+      controller: inputController,
+      onChanged: (value) {
+        // Update current text
+        setState(() {
+          showStartButton = this.shouldShowStartButton();
+        });
+      },
+      autocorrect: false,
+      cursorColor: isDarkMode ? Colors.white : Colors.black,
+      enableInteractiveSelection: false,
+      style: TextStyle(fontSize: fontSizeHabit, fontStyle: FontStyle.italic),
+      decoration: InputDecoration(
+        hintText: 'a new habit',
+        hintStyle: TextStyle(fontSize: fontSizeHabit, fontStyle: FontStyle.italic),
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.transparent),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.transparent),
+        ),
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  Tooltip buildDateSelection(double fontSize) {
+    return Tooltip(
+      message: 'Select a date here',
+      child: FlatButton(
+        child: Text(
+          howManyDays == 0 ? 'everyday until when?' : 'everyday for $howManyDays days',
+          style: TextStyle(
+            fontSize: fontSize,
+            fontWeight: FontWeight.w300,
+            decoration: howManyDays == 0 ? TextDecoration.underline : null,
+          ),
+        ),
+        onPressed: habit == null ? () {
+          // Dismiss keyboard
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            // Unfocus and dismiss keyboard
+            currentFocus.unfocus();
+          }
+
+          final now = DateTime.now();
+          // At least, 5 days...
+          final firstDate = DateTime(now.year, now.month, now.day).add(Duration(days: 5));
+          // At most, 100 days!
+          final lastDate = firstDate.add(Duration(days: 96));
+          showDatePicker(
+            context: context, 
+            initialDate: firstDate,
+            firstDate: firstDate,
+            lastDate: lastDate,
+          ).then((value) {
             setState(() {
+              howManyDays = this.convertDateToDays(value);
               showStartButton = this.shouldShowStartButton();
             });
-          },
-          autocorrect: false,
-          cursorColor: isDarkMode ? Colors.white : Colors.black,
-          enableInteractiveSelection: false,
-          style: TextStyle(fontSize: fontSizeHabit, fontStyle: FontStyle.italic),
-          decoration: InputDecoration(
-            hintText: 'a new habit',
-            hintStyle: TextStyle(fontSize: fontSizeHabit, fontStyle: FontStyle.italic),
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.transparent),
-            ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.transparent),
-            ),
-          ),
-          textAlign: TextAlign.center,
-        ) : Text(
-          habit.name,
-          style: TextStyle(fontSize: fontSizeHabit, fontStyle: FontStyle.italic),
-        ),
-        Tooltip(
-          message: 'Select a date here',
-          child: FlatButton(
-            child: Text(
-              howManyDays == 0 ? 'everyday until when?' : 'everyday for $howManyDays days',
-              style: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.w300,
-                decoration: howManyDays == 0 ? TextDecoration.underline : null,
-              ),
-            ),
-            onPressed: habit == null ? () {
-              // Dismiss keyboard
-              FocusScopeNode currentFocus = FocusScope.of(context);
-              if (!currentFocus.hasPrimaryFocus) {
-                // Unfocus and dismiss keyboard
-                currentFocus.unfocus();
-              }
-
-              final now = DateTime.now();
-              // At least, 5 days...
-              final firstDate = DateTime(now.year, now.month, now.day).add(Duration(days: 5));
-              // At most, 100 days!
-              final lastDate = firstDate.add(Duration(days: 96));
-              showDatePicker(
-                context: context, 
-                initialDate: firstDate,
-                firstDate: firstDate,
-                lastDate: lastDate,
-              ).then((value) {
-                setState(() {
-                  howManyDays = this.convertDateToDays(value);
-                  showStartButton = this.shouldShowStartButton();
-                });
-              });
-            } : null,
-          ),
-        ),
-      ],
+          });
+        } : null,
+      ),
     );
   }
 

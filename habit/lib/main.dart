@@ -6,9 +6,11 @@ import 'package:habit/src/ui/pages/SettingsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+final local = LocalData.shared;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await LocalData.shared.init();
+  await local.init();
   runApp(MyApp());
 }
 
@@ -41,7 +43,7 @@ class MyApp extends StatelessWidget {
         // scaffoldBackgroundColor: Colors.black,
       ),
       themeMode: ThemeMode.system,
-      initialRoute: LocalData.shared.getInitialRoute(),
+      initialRoute: local.getInitialRoute(),
       routes: {
         '/home': (context) => HomePage(),
         '/intro': (context) => IntroPage(),
