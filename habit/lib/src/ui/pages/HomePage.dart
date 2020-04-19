@@ -18,9 +18,25 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int howManyDays = 0;
   bool showStartButton = false;
+
   final inputController = TextEditingController();
   final local = LocalData.shared;
+
   Habit habit;
+  bool showResult;
+
+  @override
+  void initState() {
+    super.initState();
+
+    this.habit = local.getCurrentHabit();
+    if (habit != null) {
+      this.showStartButton = true;
+      this.howManyDays = habit.length;
+    }
+
+    this.showResult = this.habit?.shouldRenderResult() ?? false;
+  }
 
   @override
   void dispose() {
@@ -40,40 +56,33 @@ class _HomePageState extends State<HomePage> {
     util.setStatusBarColour();
 
     final deviceWidth = util.getBestWidth();
-    this.habit = local.getCurrentHabit();
-    if (habit != null) {
-      showStartButton = true;
-      howManyDays = habit.length;
-    }
-
     // failed or completed
-    bool renderResult = this.habit?.shouldRenderResult() ?? false;
-    print('renderResult is $renderResult');
-
-    // if (renderResult && habit != null) return buildResult(context);
-    return Scaffold(
-      appBar: AppBar(
-        brightness: isDarkMode ? Brightness.dark : Brightness.light,
-        title: Text(habit?.getProgressText() ?? 'Day 1' ),
-        leading: IconButton(
-          tooltip: 'History',
-          icon: Icon(Icons.history),
-          onPressed: () {
-            Navigator.pushNamed(context, '/list');
-          },
-        ),
-        actions: <Widget>[
-          buildInfoButton(context),
-          buildSettingsButton(context),
-        ],
-      ),
-      body: ThemedWidget(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            this.renderNewHabit(isDarkMode, deviceWidth),
-            this.buildStartButton(context),
+    if (showResult && habit != null) return buildResult(context);
+    return ThemedWidget(
+      child: Scaffold(
+        appBar: AppBar(
+          brightness: isDarkMode ? Brightness.dark : Brightness.light,
+          title: Text(habit?.getProgressText() ?? 'Day 1' ),
+          leading: IconButton(
+            tooltip: 'History',
+            icon: Icon(Icons.history),
+            onPressed: () {
+              Navigator.pushNamed(context, '/list');
+            },
+          ),
+          actions: <Widget>[
+            buildInfoButton(context),
+            buildSettingsButton(context),
           ],
+        ),
+        body: ThemedWidget(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              this.renderNewHabit(isDarkMode, deviceWidth),
+              this.buildStartButton(context),
+            ],
+          ),
         ),
       ),
     );

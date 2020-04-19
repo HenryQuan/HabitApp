@@ -20,17 +20,9 @@ class _IntroPageState extends State<IntroPage> {
   double opacity5 = 0.0;
 
   @override
-  void setState(fn) {
-    // Somehow, it sets state after disposed
-    if (mounted) super.setState(fn);
-  }
+  void initState() {
+    super.initState();
 
-  @override
-  Widget build(BuildContext context) {
-    if (!Utils.of(context).isTablet()) {
-      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    }
-    
     // Generally, 1000ms to 1500ms for each label
     // However, if it is too long, give it a bit more time
     
@@ -63,9 +55,21 @@ class _IntroPageState extends State<IntroPage> {
         opacity5 = 1.0;
       });
     });
+  }
+
+  @override
+  void setState(fn) {
+    // Somehow, it sets state after disposed
+    if (mounted) super.setState(fn);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!Utils.of(context).isTablet()) {
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    }
 
     final deviceWidth = Utils.of(context).getBestWidth();
-
     return Scaffold(
       body: Center(
         child: Padding(

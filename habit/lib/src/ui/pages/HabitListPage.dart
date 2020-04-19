@@ -3,16 +3,9 @@ import 'package:habit/src/ui/widgets/HistoryTile.dart';
 import 'package:flutter/material.dart';
 
 /// HabitListPage class
-class HabitListPage extends StatefulWidget {
-  HabitListPage({Key key}) : super(key: key);
-
-  @override
-  _HabitListPageState createState() => _HabitListPageState();
-}
-
-
-class _HabitListPageState extends State<HabitListPage> {
+class HabitListPage extends StatelessWidget {
   final history = LocalData.shared.getHistory();
+  HabitListPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +22,11 @@ class _HabitListPageState extends State<HabitListPage> {
           ),
         ],
       ),
-      body: renderBody(),
+      body: renderBody(context),
     );
   }
 
-  Widget renderBody() {
+  Widget renderBody(BuildContext context) {
     final habits = history.getHistory();
     if (habits.length == 0) {
       return Center(

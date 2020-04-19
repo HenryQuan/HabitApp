@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
+        accentColor: Colors.blue,
         // scaffoldBackgroundColor: Colors.black,
       ),
       themeMode: ThemeMode.system,
