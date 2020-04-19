@@ -38,7 +38,7 @@ class Utils {
     ));
   }
 
-    /// From https://stackoverflow.com/a/53912090
+  /// From https://stackoverflow.com/a/53912090
   bool isTablet() {
     var size = MediaQuery.of(context).size;
     var diagonal = sqrt(

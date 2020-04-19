@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:habit/src/core/LocalData.dart';
 import 'package:habit/src/core/Utils.dart';
 import 'package:habit/src/ui/widgets/ThemedWidget.dart';
@@ -26,6 +27,10 @@ class _IntroPageState extends State<IntroPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (!Utils.of(context).isTablet()) {
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    }
+    
     // Generally, 1000ms to 1500ms for each label
     // However, if it is too long, give it a bit more time
     

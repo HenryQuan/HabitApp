@@ -31,6 +31,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final util = Utils.of(context);
+    if (!util.isTablet()) {
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    }
+    
     final isDarkMode = util.isDarkTheme();
     // Somehow, AppBar overrides it...
     util.setStatusBarColour();
