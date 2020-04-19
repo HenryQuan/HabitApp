@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
     bool renderResult = this.habit?.shouldRenderResult() ?? false;
     print('renderResult is $renderResult');
 
-    if (renderResult && habit != null) return buildResult(context);
+    // if (renderResult && habit != null) return buildResult(context);
     return Scaffold(
       appBar: AppBar(
         brightness: isDarkMode ? Brightness.dark : Brightness.light,
@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage> {
 
   IconButton buildInfoButton(BuildContext context) {
     return IconButton(
-      tooltip: 'How does it work?',
+      tooltip: 'Information about how to use this app',
       icon: Icon(Icons.help_outline),
       onPressed: () {
         showDialog(
@@ -125,7 +125,7 @@ class _HomePageState extends State<HomePage> {
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: Text('How does it work?'),
+              title: Text('How to use?'),
               content: Text(LocalData.howToUse),
               actions: <Widget>[
                 FlatButton(

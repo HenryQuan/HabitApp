@@ -16,7 +16,7 @@ class _HistoryTileState extends State<HistoryTile> {
   Widget build(BuildContext context) {
     final completed = widget.habit.completed;
     return ListTile(
-      title: Text(widget.habit.name, maxLines: 1),
+      title: Text(widget.habit.name, maxLines: 1, overflow: TextOverflow.ellipsis),
       subtitle: Text(widget.habit.getCompletedDateHumanString(), maxLines: 1),
       leading: Icon(
         completed ? Icons.check : Icons.close, 
