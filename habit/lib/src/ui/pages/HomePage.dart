@@ -255,10 +255,12 @@ class _HomePageState extends State<HomePage> {
             firstDate: firstDate,
             lastDate: lastDate,
           ).then((value) {
-            setState(() {
-              howManyDays = this.convertDateToDays(value);
-              showStartButton = this.shouldShowStartButton();
-            });
+            if (value != null) {
+              setState(() {
+                howManyDays = this.convertDateToDays(value);
+                showStartButton = this.shouldShowStartButton();
+              });
+            }
           });
         } : null,
       ),
