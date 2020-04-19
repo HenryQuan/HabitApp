@@ -6,6 +6,8 @@ template
 
 # 19/04/2020
 The app works if you follow it but it is so hard for me to follow my own app. I just waste my time and escape from it. I wasn't like this. I guess I get more weaknesses when I grow up. It shouldn't be like this. You should be better than this. 
+***
+Many issues are fixed. It should be ready for a beta release on Google Play. I might work on it soon. 
 
 # 10/03/2020
 Notification is working but only once somehow. I might need to study more about Android notifications. 
