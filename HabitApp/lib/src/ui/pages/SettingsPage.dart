@@ -23,7 +23,7 @@ class _SettingsPageState extends State<SettingsPage> {
   void initState() {
     super.initState();
     this.notifcation = FlutterLocalNotificationsPlugin();
-    this.local = LocalData();
+    this.local = LocalData.shared;
     this.reminderTime = local.getNotificationTime();
   }
 

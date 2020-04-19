@@ -1,8 +1,11 @@
 # Henry's Diary
 ~~~
 template
-# /03/2020
+# /04/2020
 ~~~
+
+# 19/04/2020
+The app works if you follow it but it is so hard for me to follow my own app. I just waste my time and escape from it. I wasn't like this. I guess I get more weaknesses when I grow up. It shouldn't be like this. You should be better than this. 
 
 # 10/03/2020
 Notification is working but only once somehow. I might need to study more about Android notifications. 

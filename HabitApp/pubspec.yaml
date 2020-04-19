@@ -14,7 +14,7 @@ description: Start a new habit today
 version: 0.0.4+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
   flutter:

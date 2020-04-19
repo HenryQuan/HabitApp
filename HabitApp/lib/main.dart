@@ -6,18 +6,17 @@ import 'package:HabitApp/src/ui/pages/SettingsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  LocalData().init().then((_) {
-    runApp(MyApp());
-  });
+  await LocalData.shared.init();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   MyApp() {
     // Setup notification
     final notification = FlutterLocalNotificationsPlugin();
-    // TODO: remember to update the app logo
+    // TODO: remember to update the app logo for android
     final android = AndroidInitializationSettings('notification');
     final ios = IOSInitializationSettings();
     final initializationSettings = InitializationSettings(android, ios);
@@ -43,7 +42,7 @@ class MyApp extends StatelessWidget {
         // scaffoldBackgroundColor: Colors.black,
       ),
       themeMode: ThemeMode.system,
-      initialRoute: LocalData().getInitialRoute(),
+      initialRoute: LocalData.shared.getInitialRoute(),
       routes: {
         '/home': (context) => HomePage(),
         '/intro': (context) => IntroPage(),

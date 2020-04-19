@@ -12,7 +12,7 @@ class HabitListPage extends StatefulWidget {
 
 
 class _HabitListPageState extends State<HabitListPage> {
-  final history = LocalData().getHistory();
+  final history = LocalData.shared.getHistory();
 
   @override
   Widget build(BuildContext context) {

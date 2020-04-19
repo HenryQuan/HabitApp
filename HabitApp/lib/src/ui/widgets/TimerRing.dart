@@ -85,7 +85,7 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
   // Render complete with fancy animation
   Widget renderComplete(double time) {
     if (time == 0) {
-      final local = LocalData();
+      final local = LocalData.shared;
       local.updateCurrHabit();
       return Align(
         // This does cover up the top two

@@ -88,7 +88,7 @@ class _IntroPageState extends State<IntroPage> {
                       onPressed: () {
                         if (opacity5 == 0) return;
                         // Set first launch to false
-                        LocalData().updateFirstLaunch(false);
+                        LocalData.shared.updateFirstLaunch(false);
                         Navigator.pushReplacementNamed(context, '/home');
                       }, 
                       label: Text(

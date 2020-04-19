@@ -306,7 +306,7 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
       return FlatButton.icon(
         onPressed: () {
           // Add it history
-          LocalData().addHabitToHistoryIfNeeded(force: true);
+          LocalData.shared.addHabitToHistoryIfNeeded(force: true);
           Navigator.pushReplacementNamed(context, '/home');
         }, 
         icon: Icon(

@@ -15,12 +15,11 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-
 class _HomePageState extends State<HomePage> {
   int howManyDays = 0;
   bool showStartButton = false;
   final inputController = TextEditingController();
-  final local = LocalData();
+  final local = LocalData.shared;
   Habit habit;
 
   @override
