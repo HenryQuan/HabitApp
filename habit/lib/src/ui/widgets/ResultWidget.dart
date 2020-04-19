@@ -115,7 +115,6 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
         break;
     }
 
-
     // Update theme to be dark only here
     return AnnotatedRegion<SystemUiOverlayStyle>(
       child: AnimatedContainer(

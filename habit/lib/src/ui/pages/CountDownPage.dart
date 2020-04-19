@@ -1,4 +1,3 @@
-import 'package:habit/src/ui/widgets/ThemedWidget.dart';
 import 'package:habit/src/ui/widgets/TimerRing.dart';
 import 'package:flutter/material.dart';
 
@@ -9,11 +8,7 @@ class CountDownPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ThemedWidget(
-        child: Center(
-          child: TimerRing(),
-        ),
-      ),
+      body: TimerRing(),
     );
   }
 }

@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
     if (!util.isTablet()) {
       SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     }
-    
+
     final isDarkMode = util.isDarkTheme();
     // Somehow, AppBar overrides it...
     util.setStatusBarColour();
@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
     bool renderResult = this.habit?.shouldRenderResult() ?? false;
     print('renderResult is $renderResult');
 
-    if (renderResult && habit != null) return buildResult(context);
+    // if (renderResult && habit != null) return buildResult(context);
     return Scaffold(
       appBar: AppBar(
         brightness: isDarkMode ? Brightness.dark : Brightness.light,
