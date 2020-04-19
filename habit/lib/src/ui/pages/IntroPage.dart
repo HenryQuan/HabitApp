@@ -59,7 +59,7 @@ class _IntroPageState extends State<IntroPage> {
       });
     });
 
-    final deviceWidth = Utils.getBestWidth(context);
+    final deviceWidth = Utils.of(context).getBestWidth();
 
     return Scaffold(
       body: Center(

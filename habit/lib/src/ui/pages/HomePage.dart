@@ -30,11 +30,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = Utils.isDarkTheme(context);
+    final util = Utils.of(context);
+    final isDarkMode = util.isDarkTheme();
     // Somehow, AppBar overrides it...
-    Utils.setStatusBarColour(context);
+    util.setStatusBarColour();
 
-    final deviceWidth = Utils.getBestWidth(context);
+    final deviceWidth = util.getBestWidth();
     this.habit = local.getCurrentHabit();
     if (habit != null) {
       showStartButton = true;
@@ -45,64 +46,66 @@ class _HomePageState extends State<HomePage> {
     bool renderResult = this.habit?.shouldRenderResult() ?? false;
     print('renderResult is $renderResult');
 
-    if (renderResult && habit != null) {
-      return Scaffold(
-        body: Center(
-          // Render failed if failed
-          child: this.renderResult(MediaQuery.of(context).size),
+    if (renderResult && habit != null) return buildResult(context);
+    return Scaffold(
+      appBar: AppBar(
+        brightness: isDarkMode ? Brightness.dark : Brightness.light,
+        title: Text(habit?.getProgressText() ?? 'Day 1' ),
+        leading: IconButton(
+          tooltip: 'History',
+          icon: Icon(Icons.history),
+          onPressed: () {
+            Navigator.pushNamed(context, '/list');
+          },
         ),
-      );
-    } else {
-      return Scaffold(
-        appBar: AppBar(
-          brightness: isDarkMode ? Brightness.dark : Brightness.light,
-          title: Text(habit?.getProgressText() ?? 'Day 1' ),
-          leading: IconButton(
-            tooltip: 'History',
-            icon: Icon(Icons.history),
-            onPressed: () {
-              Navigator.pushNamed(context, '/list');
-            },
-          ),
-          actions: <Widget>[
-            buildInfoButton(context),
-            buildSettingsButton(context),
+        actions: <Widget>[
+          buildInfoButton(context),
+          buildSettingsButton(context),
+        ],
+      ),
+      body: ThemedWidget(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            this.renderNewHabit(isDarkMode, deviceWidth),
+            this.buildStartButton(context),
           ],
         ),
-        body: ThemedWidget(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              this.renderNewHabit(isDarkMode, deviceWidth),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  width: double.infinity,
-                  child: AnimatedOpacity(
-                    opacity: this.showStartButton ? 1.0 : 0.0,
-                    duration: Duration(milliseconds: 300),
-                    child: FlatButton.icon(
-                      // Prevent user from pressing this button randomly
-                      onPressed: this.showStartButton ? () {
-                        // Show a fullscreen dialog on both systems
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (context) => CountDownPage(), fullscreenDialog: true)
-                        );
+      ),
+    );
+  }
 
-                        // Update current habit
-                        local.updateCurrHabit(newHabit: Habit(inputController.text, this.howManyDays));
-                      } : null,
-                      icon: Icon(Icons.play_arrow), 
-                      label: Text('START NOW')
-                    ),
-                  ),
-                ),
-              ),
-            ],
+  Align buildStartButton(BuildContext context) {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: SizedBox(
+        width: double.infinity,
+        child: AnimatedOpacity(
+          opacity: this.showStartButton ? 1.0 : 0.0,
+          duration: Duration(milliseconds: 300),
+          child: FlatButton.icon(
+            // Prevent user from pressing this button randomly
+            onPressed: this.showStartButton ? () {
+              // Show a fullscreen dialog on both systems
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => CountDownPage(), fullscreenDialog: true)
+              );
+
+              // Update current habit
+              local.updateCurrHabit(newHabit: Habit(inputController.text, this.howManyDays));
+            } : null,
+            icon: Icon(Icons.play_arrow), 
+            label: Text('START NOW')
           ),
         ),
-      );
-    }
+      ),
+    );
+  }
+
+  Scaffold buildResult(BuildContext context) {
+    return Scaffold(
+      body: this.renderResult(MediaQuery.of(context).size),
+    );
   }
 
   IconButton buildInfoButton(BuildContext context) {
@@ -152,7 +155,8 @@ class _HomePageState extends State<HomePage> {
     if (!this.habit.stillOK()) {
       mode = ResultMode.failed;
       animated = true;
-    } else if (this.habit.completed) mode = ResultMode.ended;
+    } 
+    else if (this.habit.completed) mode = ResultMode.ended;
     else mode = ResultMode.completed;
 
     return ResultWidget(
@@ -179,10 +183,10 @@ class _HomePageState extends State<HomePage> {
 
   Text buildHabitText(double fontSizeHabit) {
     return Text(
-        habit.name,
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: fontSizeHabit, fontStyle: FontStyle.italic),
-      );
+      habit.name,
+      textAlign: TextAlign.center,
+      style: TextStyle(fontSize: fontSizeHabit, fontStyle: FontStyle.italic),
+    );
   }
 
   TextField buildTextInput(bool isDarkMode, double fontSizeHabit) {

@@ -55,7 +55,7 @@ class _TimerRingState extends State<TimerRing> with SingleTickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     // Get the width of the device
-    final deviceWidth = Utils.getBestWidth(context);
+    final deviceWidth = Utils.of(context).getBestWidth();
     final time = smoothPercentage.value;
 
     return Stack(
@@ -127,7 +127,7 @@ class TimerPainter extends CustomPainter {
 
     // Setup the painter
     Paint painter = Paint()
-      ..color = Utils.isDarkTheme(this._context) ? Colors.white : Colors.black
+      ..color = Utils.of(_context).isDarkTheme() ? Colors.white : Colors.black
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
       ..isAntiAlias = true

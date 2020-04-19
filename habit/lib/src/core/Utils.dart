@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -5,32 +6,47 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 class Utils {
+  BuildContext context;
+  Utils(this.context);
+  static of(BuildContext context) => Utils(context);
+
   /// Get current system brightness
-  static Brightness getSystemBrightness(BuildContext context) {
+  Brightness getSystemBrightness() {
     return MediaQuery.of(context).platformBrightness;
   }
 
   /// Check if it is currently dark theme
-  static bool isDarkTheme(BuildContext context) {
-    return Utils.getSystemBrightness(context) == Brightness.dark;
+  bool isDarkTheme() {
+    return getSystemBrightness() == Brightness.dark;
   }
 
   /// Always return the short side
-  static double getBestWidth(BuildContext context) {
+  double getBestWidth() {
     final size = MediaQuery.of(context).size;
     return size.height < size.width ? size.height : size.width;
   }
 
   // Get the right colour based on mode
-  static Color getStatusBarColour(bool isDarkMode) {
+  Color getStatusBarColour(bool isDarkMode) {
     return isDarkMode ? Colors.grey[900] : Colors.grey[100];
   }
 
   /// Set adaptive status bar colour
-  static void setStatusBarColour(BuildContext context) {
-    final isDarkMode = Utils.isDarkTheme(context);
+  void setStatusBarColour() {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Utils.getStatusBarColour(isDarkMode)
+      statusBarColor: getStatusBarColour(isDarkTheme())
     ));
+  }
+
+    /// From https://stackoverflow.com/a/53912090
+  bool isTablet() {
+    var size = MediaQuery.of(context).size;
+    var diagonal = sqrt(
+      (size.width * size.width) + 
+      (size.height * size.height)
+    );
+
+    var isTablet = diagonal > 1100.0;
+    return isTablet;
   }
 }

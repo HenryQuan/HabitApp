@@ -10,7 +10,7 @@ class ThemedWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = Utils.isDarkTheme(context);
+    final isDarkMode = Utils.of(context).isDarkTheme();
     // Dark -> Light, Light -> Dark
     final adaptiveBrightnessIOS = isDarkMode ? Brightness.dark : Brightness.light;
     final adaptiveBrightnessAndroid = !isDarkMode ? Brightness.dark : Brightness.light;

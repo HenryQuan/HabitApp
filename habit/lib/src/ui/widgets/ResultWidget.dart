@@ -143,7 +143,7 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
 
   Widget renderIcon() {
     if (this.showIcon) {
-      final deviceWidth = Utils.getBestWidth(context);
+      final deviceWidth = Utils.of(context).getBestWidth();
   
       if (widget.animated) {
         // Update icon size
@@ -217,17 +217,20 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
   Align buildSettingButton() {
     return Align(
       alignment: Alignment.topRight,
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: AnimatedOpacity(
-          opacity: shareOpacity,
-          duration: Duration(milliseconds: 300),
-          child: IconButton(
-            icon: Icon(Icons.settings),
-            color: Colors.white,
-            onPressed: () {
-              Navigator.pushNamed(context, '/settings');
-            },
+      child: Material(
+        color: Colors.transparent,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: AnimatedOpacity(
+            opacity: shareOpacity,
+            duration: Duration(milliseconds: 300),
+            child: IconButton(
+              icon: Icon(Icons.settings),
+              color: Colors.white,
+              onPressed: () {
+                Navigator.pushNamed(context, '/settings');
+              },
+            ),
           ),
         ),
       )
