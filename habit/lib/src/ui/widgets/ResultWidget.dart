@@ -267,8 +267,8 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
         opacity: shareOpacity,
         child: Padding(
           padding: const EdgeInsets.all(32.0),
-          child: SizedBox(
-            width: double.infinity,
+          child: FractionallySizedBox(
+            widthFactor: 0.618,
             child: FlatButton.icon(
               onPressed: () {
                 if (shareOpacity >= 0.9) Share.share('Hello World');
@@ -279,7 +279,7 @@ class _ResultWidgetState extends State<ResultWidget> with TickerProviderStateMix
                 size: deviceWidth / LocalData.widthDivider * 1.2,
               ), 
               label: Text(
-                'Share with friends', 
+                'Share', 
                 style: TextStyle(color: Colors.white, fontSize: deviceWidth / LocalData.widthDivider / 1.2),
               )
             ),

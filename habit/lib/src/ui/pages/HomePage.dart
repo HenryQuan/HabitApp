@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
     bool renderResult = this.habit?.shouldRenderResult() ?? false;
     print('renderResult is $renderResult');
 
-    // if (renderResult && habit != null) return buildResult(context);
+    if (renderResult && habit != null) return buildResult(context);
     return Scaffold(
       appBar: AppBar(
         brightness: isDarkMode ? Brightness.dark : Brightness.light,
@@ -87,19 +87,22 @@ class _HomePageState extends State<HomePage> {
         child: AnimatedOpacity(
           opacity: this.showStartButton ? 1.0 : 0.0,
           duration: Duration(milliseconds: 300),
-          child: FlatButton.icon(
-            // Prevent user from pressing this button randomly
-            onPressed: this.showStartButton ? () {
-              // Show a fullscreen dialog on both systems
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => CountDownPage(), fullscreenDialog: true)
-              );
+          child: FractionallySizedBox(
+            widthFactor: 0.618,
+            child: FlatButton.icon(
+              // Prevent user from pressing this button randomly
+              onPressed: this.showStartButton ? () {
+                // Show a fullscreen dialog on both systems
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => CountDownPage(), fullscreenDialog: true)
+                );
 
-              // Update current habit
-              local.updateCurrHabit(newHabit: Habit(inputController.text, this.howManyDays));
-            } : null,
-            icon: Icon(Icons.play_arrow), 
-            label: Text('START NOW')
+                // Update current habit
+                local.updateCurrHabit(newHabit: Habit(inputController.text, this.howManyDays));
+              } : null,
+              icon: Icon(Icons.play_arrow), 
+              label: Text('START NOW')
+            ),
           ),
         ),
       ),
