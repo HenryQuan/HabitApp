@@ -1,7 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:habit/src/core/LocalData.dart';
 import 'package:habit/src/core/Utils.dart';
-import 'package:habit/src/ui/widgets/ThemedWidget.dart';
 import 'package:flutter/material.dart';
 
 /// IntroPage class
