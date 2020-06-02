@@ -15,16 +15,19 @@ class _HistoryTileState extends State<HistoryTile> {
   @override
   Widget build(BuildContext context) {
     final completed = widget.habit.completed;
-    return ListTile(
-      title: Text(widget.habit.name, maxLines: 2, overflow: TextOverflow.ellipsis),
-      subtitle: Text(widget.habit.getCompletedDateHumanString(), maxLines: 1),
-      leading: Icon(
-        completed ? Icons.check : Icons.close, 
-        size: 36,
-        color: completed ? Colors.green[500] : Colors.red[500],
+    return Tooltip(
+      message: widget.habit.name,
+      child: ListTile(
+        title: Text(widget.habit.name, maxLines: 2, overflow: TextOverflow.ellipsis),
+        subtitle: Text(widget.habit.getCompletedDateHumanString(), maxLines: 1),
+        leading: Icon(
+          completed ? Icons.check : Icons.close, 
+          size: 36,
+          color: completed ? Colors.green[500] : Colors.red[500],
+        ),
+        trailing: Text(widget.habit.getLengthHumanString()),
+        onTap: () {},
       ),
-      trailing: Text(widget.habit.getLengthHumanString()),
-      onTap: () {},
     );
   }
 }

@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
     print('renderResult is $renderResult');
 
     // failed or completed
-    if (renderResult && habit != null) return buildResult(context);
+    // if (renderResult && habit != null) return buildResult(context);
     return Scaffold(
       appBar: AppBar(
         brightness: isDarkMode ? Brightness.dark : Brightness.light,
