@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LocalData {
 
   // Constants
-  static const String appVersion = '0.0.5';
+  static const String appVersion = '0.0.6';
   static const String appName = "Henry's Habit App";
   static const String aboutApp = "This app aims to assist you to start new habits. The goal is to do it for one minute everyday. It seems short but it is better than not doing nothing at all. I hope this app could help you accomplish something.\n\nby Henry";
   static const String howToUse = ' - Enter your new habit\n- Choose a goal date (at least 5 days)\n- Press "START NOW" and do it for one minute until you see a complete screen\n- Set a reminder so that you don\'t forget about your new habit\n- Repeat until you complete your goal';

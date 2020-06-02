@@ -1,8 +1,5 @@
 import 'package:habit/src/core/LocalData.dart';
-import 'package:habit/src/core/Utils.dart';
-import 'package:habit/src/ui/widgets/ThemedWidget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:url_launcher/url_launcher.dart';
 

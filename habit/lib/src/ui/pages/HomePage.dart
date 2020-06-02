@@ -85,15 +85,6 @@ class _HomePageState extends State<HomePage> {
             this.buildStartButton(context),
           ],
         ),
-        body: ThemedWidget(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              this.renderNewHabit(isDarkMode, deviceWidth),
-              this.buildStartButton(context),
-            ],
-          ),
-        ),
       ),
     );
   }
