@@ -48,10 +48,13 @@ class LocalData {
   TimeOfDay _notificationTime;
   TimeOfDay getNotificationTime() => _notificationTime;
   void updateNotificationTime(TimeOfDay newTime) {
-    // Write it into loca storage
-    _notificationTime = newTime;
-    String saved = '${newTime.hour},${newTime.minute}';
-    _prefs.setString('notification', saved);
+    // If user cancels it, newTime will be null
+    if (newTime != null) {
+      // Write it into local storage
+      _notificationTime = newTime;
+      String saved = '${newTime.hour},${newTime.minute}';
+      _prefs.setString('notification', saved);
+    }
   }
 
   // Singleton pattern 

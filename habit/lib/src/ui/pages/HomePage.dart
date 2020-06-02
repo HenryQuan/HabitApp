@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
     print('renderResult is $renderResult');
 
     // failed or completed
-    // if (renderResult && habit != null) return buildResult(context);
+    if (renderResult && habit != null) return buildResult(context);
     return Scaffold(
       appBar: AppBar(
         brightness: isDarkMode ? Brightness.dark : Brightness.light,
@@ -82,39 +82,57 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             this.renderNewHabit(isDarkMode, deviceWidth),
-            this.buildStartButton(context),
+            Column(
+              children: <Widget>[
+                this.buildStartButton(context),
+                ...renderSkilOrComplete(),
+              ],
+            ),
           ],
         ),
       ),
     );
   }
 
-  Align buildStartButton(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: SizedBox(
-        width: double.infinity,
-        child: AnimatedOpacity(
-          opacity: this.showStartButton ? 1.0 : 0.0,
-          duration: Duration(milliseconds: 300),
-          child: FractionallySizedBox(
-            widthFactor: 0.618,
-            child: FlatButton.icon(
-              // Prevent user from pressing this button randomly
-              onPressed: this.showStartButton ? () {
-                // Show a fullscreen dialog on both systems
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => CountDownPage(), fullscreenDialog: true)
-                );
-
-                // Update current habit
-                local.updateCurrHabit(newHabit: Habit(inputController.text, this.howManyDays));
-              } : null,
-              icon: Icon(Icons.play_arrow), 
-              label: Text('START NOW')
-            ),
-          ),
+  List<Widget> renderSkilOrComplete() {
+    if (habit == null) return [];
+    return [
+      Divider(),
+      HabitIconButton(
+        display: showStartButton, 
+        child: FlatButton.icon(
+          onPressed: () => local.updateCurrHabit(), 
+          icon: Icon(Icons.check), 
+          label: Text('COMPLETED')
         ),
+      ),
+      HabitIconButton(
+        display: showStartButton, 
+        child: FlatButton.icon(
+          onPressed: () => local.updateCurrHabit(), 
+          icon: Icon(Icons.skip_next), 
+          label: Text('SKIP FOR TODAY')
+        ),
+      ),
+    ];
+  }
+
+  Widget buildStartButton(BuildContext context) {
+    return HabitIconButton(
+      display: showStartButton,
+      child: FlatButton.icon(
+        // Prevent user from pressing this button randomly
+        onPressed: this.showStartButton ? () {
+          // Show a fullscreen dialog on both systems
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => CountDownPage(), fullscreenDialog: true)
+          );
+
+          // Update current habit
+          local.updateCurrHabit(newHabit: Habit(inputController.text, this.howManyDays));
+        } : null,
+        icon: Icon(Icons.play_arrow), 
+        label: Text('START NOW')
       ),
     );
   }
@@ -287,5 +305,28 @@ class _HomePageState extends State<HomePage> {
   int convertDateToDays(DateTime date) {
     // Also include today so different + 1
     return date.difference(DateTime.now()).inDays + 1;
+  }
+}
+
+class HabitIconButton extends StatelessWidget {
+  final bool display;
+  final Widget child;
+
+  const HabitIconButton({
+    Key key,
+    @required this.display,
+    @required this.child
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedOpacity(
+      opacity: this.display ? 1.0 : 0.0,
+      duration: Duration(milliseconds: 300),
+      child: FractionallySizedBox(
+        widthFactor: 0.618,
+        child: child,
+      ),
+    );
   }
 }
