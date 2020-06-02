@@ -56,23 +56,33 @@ class _HomePageState extends State<HomePage> {
     util.setStatusBarColour();
 
     final deviceWidth = util.getBestWidth();
+    bool renderResult = this.habit?.shouldRenderResult() ?? false;
+    print('renderResult is $renderResult');
+
     // failed or completed
-    if (showResult && habit != null) return buildResult(context);
-    return ThemedWidget(
-      child: Scaffold(
-        appBar: AppBar(
-          brightness: isDarkMode ? Brightness.dark : Brightness.light,
-          title: Text(habit?.getProgressText() ?? 'Day 1' ),
-          leading: IconButton(
-            tooltip: 'History',
-            icon: Icon(Icons.history),
-            onPressed: () {
-              Navigator.pushNamed(context, '/list');
-            },
-          ),
-          actions: <Widget>[
-            buildInfoButton(context),
-            buildSettingsButton(context),
+    if (renderResult && habit != null) return buildResult(context);
+    return Scaffold(
+      appBar: AppBar(
+        brightness: isDarkMode ? Brightness.dark : Brightness.light,
+        title: Text(habit?.getProgressText() ?? 'Day 1' ),
+        leading: IconButton(
+          tooltip: 'History',
+          icon: Icon(Icons.history),
+          onPressed: () {
+            Navigator.pushNamed(context, '/list');
+          },
+        ),
+        actions: <Widget>[
+          buildInfoButton(context),
+          buildSettingsButton(context),
+        ],
+      ),
+      body: ThemedWidget(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            this.renderNewHabit(isDarkMode, deviceWidth),
+            this.buildStartButton(context),
           ],
         ),
         body: ThemedWidget(
