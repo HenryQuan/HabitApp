@@ -24,6 +24,7 @@ class _HomePageState extends State<HomePage> {
 
   Habit habit;
   bool showResult;
+  bool completedOrSkip = false;
 
   @override
   void initState() {
@@ -56,11 +57,11 @@ class _HomePageState extends State<HomePage> {
     util.setStatusBarColour();
 
     final deviceWidth = util.getBestWidth();
-    bool renderResult = this.habit?.shouldRenderResult() ?? false;
+    bool showResult = this.habit?.shouldRenderResult() ?? false;
     print('renderResult is $renderResult');
 
     // failed or completed
-    if (renderResult && habit != null) return buildResult(context);
+    if (showResult && habit != null) return renderResult(context, animated: completedOrSkip);
     return Scaffold(
       appBar: AppBar(
         brightness: isDarkMode ? Brightness.dark : Brightness.light,
@@ -96,12 +97,18 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> renderSkilOrComplete() {
     if (habit == null) return [];
+
+    final onPress = () {
+      local.updateCurrHabit();
+      completedOrSkip = true;
+    };
+
     return [
       Divider(),
       HabitIconButton(
         display: showStartButton, 
         child: FlatButton.icon(
-          onPressed: () => local.updateCurrHabit(), 
+          onPressed: onPress, 
           icon: Icon(Icons.check), 
           label: Text('COMPLETED')
         ),
@@ -109,9 +116,9 @@ class _HomePageState extends State<HomePage> {
       HabitIconButton(
         display: showStartButton, 
         child: FlatButton.icon(
-          onPressed: () => local.updateCurrHabit(), 
+          onPressed: onPress,
           icon: Icon(Icons.skip_next), 
-          label: Text('SKIP FOR TODAY')
+          label: Text('SKIP')
         ),
       ),
     ];
@@ -134,12 +141,6 @@ class _HomePageState extends State<HomePage> {
         icon: Icon(Icons.play_arrow), 
         label: Text('START NOW')
       ),
-    );
-  }
-
-  Scaffold buildResult(BuildContext context) {
-    return Scaffold(
-      body: this.renderResult(MediaQuery.of(context).size),
     );
   }
 
@@ -184,9 +185,8 @@ class _HomePageState extends State<HomePage> {
   /// - you did it today (completed)
   /// - the habit ends
   /// - you didn't do it yersterday
-  Widget renderResult(Size size) {
+  Widget renderResult(BuildContext context, {bool animated = false}) {
     ResultMode mode;
-    bool animated = false;
     if (!this.habit.stillOK()) {
       mode = ResultMode.failed;
       animated = true;
@@ -194,10 +194,15 @@ class _HomePageState extends State<HomePage> {
     else if (this.habit.completed) mode = ResultMode.ended;
     else mode = ResultMode.completed;
 
-    return ResultWidget(
-      mode: mode, 
-      deviceSize: size,
-      animated: animated
+    final size = MediaQuery.of(context).size;
+    return Scaffold(
+      body: Center(
+        child: ResultWidget(
+          mode: mode, 
+          deviceSize: size,
+          animated: animated
+        ),
+      ),
     );
   }
 
