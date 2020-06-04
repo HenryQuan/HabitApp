@@ -1,8 +1,11 @@
 # Henry's Diary
 ~~~
 template
-# /04/2020
+# /06/2020
 ~~~
+
+# 04/06/2020
+Now, it is June and I did some testing. It works but not there yet. I have added two more options to complete or skip. I think as long as you are still using the app and remember your habit. That's already way better than not doing it or even forget about it. I will do more refinement and will publish this onto the Google Play store soon. I want to polish the logo and maybe I don't know. I can do more on the notifications.
 
 # 19/04/2020
 The app works if you follow it but it is so hard for me to follow my own app. I just waste my time and escape from it. I wasn't like this. I guess I get more weaknesses when I grow up. It shouldn't be like this. You should be better than this. 

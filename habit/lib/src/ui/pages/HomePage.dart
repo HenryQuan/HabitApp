@@ -100,7 +100,11 @@ class _HomePageState extends State<HomePage> {
 
     final onPress = () {
       local.updateCurrHabit();
-      completedOrSkip = true;
+      setState(() {
+        // Update the UI and show the result screen with animation
+        completedOrSkip = true;
+        showResult = true;
+      });
     };
 
     return [
