@@ -24,7 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-# save some data locally
+  # save some data locally
   shared_preferences: ^0.5.6+3
   # Ask users to write a review
   url_launcher: ^5.4.1
