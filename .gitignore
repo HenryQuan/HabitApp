@@ -1,2 +1,2 @@
 .DS_Store
-HabitApp/android/app/release/
+**/android/app/release/*
